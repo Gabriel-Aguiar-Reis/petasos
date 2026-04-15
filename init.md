@@ -10,7 +10,7 @@ Primary goal: **maximize driver profitability and visibility over real income**.
 
 ---
 
-## 2. Tech Stack (Modern & Opinionated)
+## 2. Tech Stack (Modern & Opinionated - LTS and most recent stable versions)
 
 * **Frontend:** React Native (Expo)
 * **Language:** TypeScript (strict mode)
