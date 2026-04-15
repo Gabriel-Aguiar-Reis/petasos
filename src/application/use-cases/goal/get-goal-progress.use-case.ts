@@ -15,7 +15,7 @@ export class GetGoalProgress {
   constructor(
     private readonly goalRepository: IGoalRepository,
     private readonly tripRepository: ITripRepository
-  ) { }
+  ) {}
 
   async execute(): Promise<GoalProgress[]> {
     const allGoals = await this.goalRepository.findAll()

@@ -12,7 +12,7 @@ export class ExportDataAsJSON {
     private readonly fuelLogRepository: IFuelLogRepository,
     private readonly workSessionRepository: IWorkSessionRepository,
     private readonly goalRepository: IGoalRepository
-  ) { }
+  ) {}
 
   async execute(): Promise<ExportEnvelope> {
     const [trips, costs, fuelLogs, workSessions, goals] = await Promise.all([

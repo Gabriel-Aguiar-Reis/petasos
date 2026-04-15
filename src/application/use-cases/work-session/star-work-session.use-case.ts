@@ -4,7 +4,7 @@ import { ConflictError } from '@/src/lib/errors'
 import { v4 as uuidv4 } from 'uuid'
 
 export class StartWorkSession {
-  constructor(private readonly workSessionRepository: IWorkSessionRepository) { }
+  constructor(private readonly workSessionRepository: IWorkSessionRepository) {}
 
   async execute(): Promise<WorkSession> {
     const active = await this.workSessionRepository.findActive()

@@ -4,7 +4,7 @@ import type { CreateCostInput } from '@/src/domain/validations/cost'
 import { v4 as uuidv4 } from 'uuid'
 
 export class CreateCost {
-  constructor(private readonly costRepository: ICostRepository) { }
+  constructor(private readonly costRepository: ICostRepository) {}
 
   async execute(input: CreateCostInput): Promise<Cost> {
     const cost = Cost.create({ id: uuidv4(), ...input })

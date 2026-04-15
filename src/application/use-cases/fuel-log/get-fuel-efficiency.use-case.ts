@@ -8,7 +8,7 @@ export type FuelEfficiencyResult = {
 }
 
 export class GetFuelEfficiency {
-  constructor(private readonly fuelLogRepository: IFuelLogRepository) { }
+  constructor(private readonly fuelLogRepository: IFuelLogRepository) {}
 
   async execute(): Promise<FuelEfficiencyResult[]> {
     const allLogs = await this.fuelLogRepository.findAll()

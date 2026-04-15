@@ -10,7 +10,7 @@ import type { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite'
 type DB = ExpoSQLiteDatabase<typeof schema>
 
 export class DrizzleCostRepository implements ICostRepository {
-  constructor(private readonly db: DB) { }
+  constructor(private readonly db: DB) {}
 
   async create(cost: Cost): Promise<Cost> {
     try {
@@ -60,9 +60,9 @@ export class DrizzleCostRepository implements ICostRepository {
       const rows =
         conditions.length > 0
           ? await this.db
-            .select()
-            .from(costs)
-            .where(and(...conditions))
+              .select()
+              .from(costs)
+              .where(and(...conditions))
           : await this.db.select().from(costs)
       return rows.map((r) => this.toEntity(r))
     } catch (err) {

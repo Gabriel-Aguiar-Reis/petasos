@@ -5,7 +5,7 @@ import { ValidationError } from '@/src/lib/errors'
 import { v4 as uuidv4 } from 'uuid'
 
 export class CreateFuelLog {
-  constructor(private readonly fuelLogRepository: IFuelLogRepository) { }
+  constructor(private readonly fuelLogRepository: IFuelLogRepository) {}
 
   async execute(input: CreateFuelLogInput): Promise<FuelLog> {
     const log = FuelLog.create({ id: uuidv4(), ...input })

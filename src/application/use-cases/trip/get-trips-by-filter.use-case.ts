@@ -4,7 +4,7 @@ import { ValidationError } from '@/src/lib/errors'
 import type { DateRangeFilter, TripFilter } from '@/src/types/shared.types'
 
 export class GetTripsByFilter {
-  constructor(private readonly tripRepository: ITripRepository) { }
+  constructor(private readonly tripRepository: ITripRepository) {}
 
   async execute(filters: TripFilter): Promise<Trip[]> {
     if (filters.dateRange) {

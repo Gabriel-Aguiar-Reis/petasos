@@ -4,7 +4,7 @@ import { ValidationError } from '@/src/lib/errors'
 import type { CostFilter, DateRangeFilter } from '@/src/types/shared.types'
 
 export class GetCostsByFilter {
-  constructor(private readonly costRepository: ICostRepository) { }
+  constructor(private readonly costRepository: ICostRepository) {}
 
   async execute(filters: CostFilter): Promise<Cost[]> {
     if (filters.dateRange) {

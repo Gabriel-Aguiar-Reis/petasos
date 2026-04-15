@@ -3,7 +3,7 @@ import type { IWorkSessionRepository } from '@/src/domain/repositories/work-sess
 import { ConflictError } from '@/src/lib/errors'
 
 export class EndWorkSession {
-  constructor(private readonly workSessionRepository: IWorkSessionRepository) { }
+  constructor(private readonly workSessionRepository: IWorkSessionRepository) {}
 
   async execute(): Promise<WorkSession> {
     const active = await this.workSessionRepository.findActive()
