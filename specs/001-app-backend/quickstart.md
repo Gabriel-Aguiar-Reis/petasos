@@ -44,13 +44,13 @@ npm install zod@4.3.6
 Create `drizzle.config.ts` at repo root:
 
 ```typescript
-import type { Config } from 'drizzle-kit';
+import type { Config } from 'drizzle-kit'
 export default {
   schema: './src/infra/db/schema/*',
   out: './src/infra/db/migrations',
   dialect: 'sqlite',
   driver: 'expo',
-} satisfies Config;
+} satisfies Config
 ```
 
 ## 4. Generate and apply migrations
@@ -66,18 +66,18 @@ npx drizzle-kit generate
 
 ```typescript
 // src/infra/db/client.ts
-import * as SQLite from 'expo-sqlite';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { migrate } from 'drizzle-orm/expo-sqlite/migrator';
-import migrations from './migrations/migrations';
-import * as schema from './schema';
+import * as SQLite from 'expo-sqlite'
+import { drizzle } from 'drizzle-orm/expo-sqlite'
+import { migrate } from 'drizzle-orm/expo-sqlite/migrator'
+import migrations from './migrations/migrations'
+import * as schema from './schema'
 
-const expo = SQLite.openDatabaseSync('roadledger.db');
-export const db = drizzle(expo, { schema });
+const expo = SQLite.openDatabaseSync('roadledger.db')
+export const db = drizzle(expo, { schema })
 
 // Call once at app startup (e.g., in app/_layout.tsx)
 export async function initializeDatabase() {
-  await migrate(db, migrations);
+  await migrate(db, migrations)
 }
 ```
 
@@ -95,7 +95,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.ts'],
-};
+}
 ```
 
 ## 7. Run the test suite
@@ -111,17 +111,17 @@ npx jest tests/
 import { CreateTrip } from '@/application/use-cases/CreateTrip'
 import { InMemoryTripRepository } from '@/../tests/fakes/InMemoryTripRepository'
 
-const repo = new InMemoryTripRepository();
-const useCase = new CreateTrip(repo);
+const repo = new InMemoryTripRepository()
+const useCase = new CreateTrip(repo)
 
 const trip = await useCase.execute({
-  earnings: 18.50,
+  earnings: 18.5,
   platform: 'Uber',
   // date, origin, destination, distance, duration all optional (quick-entry)
-});
+})
 
-console.log(trip.id);       // UUID v4
-console.log(trip.earnings); // 18.5
+console.log(trip.id) // UUID v4
+console.log(trip.earnings) // 18.5
 ```
 
 ## 9. Example: get dashboard summary
@@ -131,9 +131,9 @@ import { GetDashboardSummary } from '@/application/use-cases/GetDashboardSummary
 
 const summary = await new GetDashboardSummary(tripRepo, costRepo).execute({
   dateRange: { from: new Date('2026-04-15'), to: new Date('2026-04-15') },
-});
+})
 
-console.log(summary.totalEarnings);       // sum of trip earnings
-console.log(summary.netProfit);           // earnings − costs
-console.log(summary.earningsByPlatform);  // [{ platform: 'Uber', earnings: 18.5 }]
+console.log(summary.totalEarnings) // sum of trip earnings
+console.log(summary.netProfit) // earnings − costs
+console.log(summary.earningsByPlatform) // [{ platform: 'Uber', earnings: 18.5 }]
 ```

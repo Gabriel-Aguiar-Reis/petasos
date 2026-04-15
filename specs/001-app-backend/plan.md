@@ -21,17 +21,17 @@ Build the domain and data layers for RoadLedger (MVP): typed domain entities, re
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|---|---|---|
-| I. Offline-First | ✅ PASS | All writes target local SQLite; no network calls in domain or data layers; `ExportDataAsJSON` returns a typed object — file I/O delegated to UI layer |
-| II. Driver-Centric UX | ✅ PASS | `CreateTrip` and `CreateCost` support quick-entry (≤ 2 required fields); FR-016 / US8 ensure ≤ 3 taps via persistent overlay button |
-| III. Spec-Driven Development | ✅ PASS | This plan derives directly from the approved `spec.md` |
-| IV. Clean Architecture & Domain Isolation | ✅ PASS | Domain entities and use cases import nothing from Expo/SQLite/React Native; repositories defined as interfaces; data layer implements those interfaces |
-| V. Platform Agnosticism | ✅ PASS | `platform` field on `Trip` is a free-form `string`; no platform names hard-coded in domain or schema |
-| VI. Data Ownership & Exportability | ✅ PASS | `ExportDataAsJSON` covers all entities; JSON export in MVP scope; XLSX deferred to Post-MVP |
-| VII. Simplicity & YAGNI | ✅ PASS | No sync abstractions; no GPS; no notification parsing; no cloud references; Repository pattern justified by testability (SC-001) and Constitution IV requirement |
+| Principle                                 | Status  | Notes                                                                                                                                                            |
+| ----------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| I. Offline-First                          | ✅ PASS | All writes target local SQLite; no network calls in domain or data layers; `ExportDataAsJSON` returns a typed object — file I/O delegated to UI layer            |
+| II. Driver-Centric UX                     | ✅ PASS | `CreateTrip` and `CreateCost` support quick-entry (≤ 2 required fields); FR-016 / US8 ensure ≤ 3 taps via persistent overlay button                              |
+| III. Spec-Driven Development              | ✅ PASS | This plan derives directly from the approved `spec.md`                                                                                                           |
+| IV. Clean Architecture & Domain Isolation | ✅ PASS | Domain entities and use cases import nothing from Expo/SQLite/React Native; repositories defined as interfaces; data layer implements those interfaces           |
+| V. Platform Agnosticism                   | ✅ PASS | `platform` field on `Trip` is a free-form `string`; no platform names hard-coded in domain or schema                                                             |
+| VI. Data Ownership & Exportability        | ✅ PASS | `ExportDataAsJSON` covers all entities; JSON export in MVP scope; XLSX deferred to Post-MVP                                                                      |
+| VII. Simplicity & YAGNI                   | ✅ PASS | No sync abstractions; no GPS; no notification parsing; no cloud references; Repository pattern justified by testability (SC-001) and Constitution IV requirement |
 
 **Post-design re-check**: All principles continue to pass. No violations to track.
 
@@ -55,18 +55,18 @@ specs/001-app-backend/
 ```text
 src/
 ├── app/                    # Screens (Expo Router)
-├── application/            
+├── application/
 │   ├── use-cases/          # Application logic
 │   ├── hooks/              # React Query hooks
 │   └── services/           # Application services
-├── domain/                
+├── domain/
 │   ├── entities/           # Business entities
 │   ├── repositories/       # Repository interfaces
 │   └── validations/        # Validation schemas (Zod)
-├── infra/                  
+├── infra/
 │   ├── db/                 # Database configuration
 │   └── repositories/       # Repository implementations (Drizzle)
-├── components/             
+├── components/
 │   └── ui/                 # UI components
 ├── lib/                    # Utilities and helpers
 └── types/                  # TypeScript type definitions

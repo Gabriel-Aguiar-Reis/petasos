@@ -1,5 +1,5 @@
 ---
-description: "Task list for 001-app-backend — Clean Architecture Domain & Data Layer"
+description: 'Task list for 001-app-backend — Clean Architecture Domain & Data Layer'
 ---
 
 # Tasks: App Backend — Clean Architecture Domain & Data Layer

@@ -23,7 +23,7 @@
 - Q: O que acontece com métricas calculadas (dashboard, goal progress, export) quando um registro é deletado? → A: Registros deletados são excluídos imediatamente de todos os cálculos; nenhuma operação de undo está no escopo do MVP.
 - Q: Os erros dos use cases são tipados ou genéricos? → A: 4 tipos distintos: `ValidationError` (entrada inválida), `StorageError` (falha de leitura/escrita SQLite), `NotFoundError` (entidade inexistente em findById/update/delete), `ConflictError` (ex: sessão de trabalho já ativa). Cada use case declara quais tipos pode emitir.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 — Record a Trip with Earnings (Priority: P1)
 
@@ -215,7 +215,7 @@ the record is persisted and the driver is returned to their previous screen with
 - What happens if the quick-entry overlay is open and the app is backgrounded then foregrounded?
   → The overlay state (entered data) MUST be preserved for the session duration; no partial record is auto-saved
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -263,7 +263,7 @@ the record is persisted and the driver is returned to their previous screen with
 - **WorkSession**: A driver's active shift — attributes: id, startTime, endTime (nullable while active)
 - **Goal**: A financial target — attributes: id, type (daily | weekly | monthly), targetAmount, periodStart; period end is derived (not stored) based on type
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
