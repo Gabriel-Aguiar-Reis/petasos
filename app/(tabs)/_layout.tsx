@@ -1,14 +1,21 @@
 import { Tabs } from 'expo-router'
 import { Car, Fuel, LayoutDashboard, Menu, Receipt } from 'lucide-react-native'
+import { useColorScheme } from 'react-native'
 
 export default function TabsLayout() {
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme === 'dark'
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#3b82f6',
-        tabBarInactiveTintColor: '#6b7280',
-        tabBarStyle: { borderTopColor: '#e5e7eb' },
+        tabBarInactiveTintColor: isDark ? '#9ca3af' : '#6b7280',
+        tabBarStyle: {
+          backgroundColor: isDark ? '#09090b' : '#ffffff',
+          borderTopColor: isDark ? '#27272a' : '#e5e7eb',
+        },
       }}
     >
       <Tabs.Screen
