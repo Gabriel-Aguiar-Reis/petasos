@@ -95,19 +95,19 @@ Post-MVP features are explicitly catalogued in `init.md` and MUST NOT leak into 
 
 The following stack is **mandatory and opinionated**. Deviations MUST be approved via a constitution amendment.
 
-| Layer | Technology |
-|---|---|
-| Runtime | React Native (Expo) — Android only (MVP) |
-| Language | TypeScript — strict mode, no `any` |
-| UI System | shadcn/ui via React Native Reusables |
-| State (client) | Zustand |
-| State (server/async) | TanStack Query (React Query) |
-| Local database | SQLite via Expo SQLite + Drizzle ORM |
-| Notifications | Expo Notifications |
-| Background tasks | Expo Task Manager + Background Fetch (Post-MVP) |
-| Charts | Victory Native |
-| File export | SheetJS (XLSX) — Post-MVP; JSON built-in for MVP |
-| Location/GPS | Expo Location (Post-MVP) |
+| Layer                | Technology                                       |
+| -------------------- | ------------------------------------------------ |
+| Runtime              | React Native (Expo) — Android only (MVP)         |
+| Language             | TypeScript — strict mode, no `any`               |
+| UI System            | shadcn/ui via React Native Reusables             |
+| State (client)       | Zustand                                          |
+| State (server/async) | TanStack Query (React Query)                     |
+| Local database       | SQLite via Expo SQLite + Drizzle ORM             |
+| Notifications        | Expo Notifications                               |
+| Background tasks     | Expo Task Manager + Background Fetch (Post-MVP)  |
+| Charts               | Victory Native                                   |
+| File export          | SheetJS (XLSX) — Post-MVP; JSON built-in for MVP |
+| Location/GPS         | Expo Location (Post-MVP)                         |
 
 All library upgrades MUST use the latest stable LTS version available at implementation time.
 Library additions require a spec-level justification referencing a concrete user story.
