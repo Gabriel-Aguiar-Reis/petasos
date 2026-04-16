@@ -1,12 +1,13 @@
+import { Button } from '@/src/components/ui/button'
 import { useQuickEntryStore } from '@/src/lib/stores/quick-entry.store'
 import { Plus } from 'lucide-react-native'
-import { Pressable } from 'react-native'
 
 export function QuickEntryFAB() {
   const { openTrip } = useQuickEntryStore()
 
   return (
-    <Pressable
+    <Button
+      label={(<Plus size={24} color="#fff" />) as unknown as string}
       onPress={openTrip}
       style={{
         position: 'absolute',
@@ -24,8 +25,6 @@ export function QuickEntryFAB() {
         shadowOpacity: 0.3,
         shadowRadius: 4,
       }}
-    >
-      <Plus size={24} color="#fff" />
-    </Pressable>
+    />
   )
 }
