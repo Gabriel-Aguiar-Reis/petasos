@@ -1,20 +1,26 @@
 import '@/global.css'
-import { initializeDatabase } from '@/src/infra/db/client'
+import { db } from '@/src/infra/db/client'
+import migrations from '@/src/infra/db/migrations/migrations'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import * as NavigationBar from 'expo-navigation-bar'
 import { Stack } from 'expo-router'
 import { useEffect } from 'react'
-import { Platform, StatusBar, useColorScheme, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Platform,
+  StatusBar,
+  useColorScheme,
+  View,
+} from 'react-native'
+import 'react-native-get-random-values'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
-
-  useEffect(() => {
-    initializeDatabase()
-  }, [])
+  const { success: dbReady } = useMigrations(db, migrations)
 
   useEffect(() => {
     StatusBar.setBarStyle(
@@ -27,6 +33,14 @@ export default function RootLayout() {
       NavigationBar.setStyle(colorScheme === 'dark' ? 'dark' : 'light')
     }
   }, [colorScheme])
+
+  if (!dbReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
