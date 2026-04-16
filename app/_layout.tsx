@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Platform,
   StatusBar,
+  StyleSheet,
   useColorScheme,
   View,
 } from 'react-native'
@@ -21,40 +22,26 @@ const queryClient = new QueryClient()
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   const { success: dbReady } = useMigrations(db, migrations)
+  const isDark = colorScheme === 'dark'
 
   useEffect(() => {
-    StatusBar.setBarStyle(
-      colorScheme === 'dark' ? 'light-content' : 'dark-content'
-    )
+    StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content')
     if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor(
-        colorScheme === 'dark' ? '#020817' : '#ffffff'
-      )
-      NavigationBar.setStyle(colorScheme === 'dark' ? 'dark' : 'light')
+      StatusBar.setBackgroundColor(isDark ? '#020817' : '#ffffff')
+      NavigationBar.setStyle(isDark ? 'dark' : 'light')
     }
-  }, [colorScheme])
-
-  if (!dbReady) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator />
-      </View>
-    )
-  }
+  }, [isDark])
 
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <View
-          className={`flex-1 ${colorScheme === 'dark' ? 'dark' : ''}`}
-          style={{ flex: 1 }}
-        >
+        <View className={`flex-1 ${isDark ? 'dark' : ''}`} style={{ flex: 1 }}>
           <Stack
             screenOptions={{
               headerShown: false,
-              headerTintColor: `${colorScheme === 'dark' ? '#ffffff' : '#000000'}`,
+              headerTintColor: isDark ? '#ffffff' : '#000000',
               headerStyle: {
-                backgroundColor: `${colorScheme === 'dark' ? '#020817' : '#ffffff'}`,
+                backgroundColor: isDark ? '#020817' : '#ffffff',
               },
               headerTitleStyle: { fontWeight: '600' },
             }}
@@ -73,8 +60,26 @@ export default function RootLayout() {
               options={{ headerShown: true, title: 'Exportar Dados' }}
             />
           </Stack>
+          {!dbReady && (
+            <View
+              style={[
+                StyleSheet.absoluteFill,
+                styles.loadingOverlay,
+                { backgroundColor: isDark ? '#020817' : '#ffffff' },
+              ]}
+            >
+              <ActivityIndicator />
+            </View>
+          )}
         </View>
       </SafeAreaProvider>
     </QueryClientProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
