@@ -9,6 +9,7 @@ import { Text } from '@/src/components/ui/text'
 import { formatCurrency } from '@/src/lib/format'
 import { useState } from 'react'
 import { ActivityIndicator, ScrollView, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Period = 'today' | 'week' | 'month'
 
@@ -47,7 +48,7 @@ export default function DashboardScreen() {
       data.earningsByPlatform.length === 0)
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1" contentContainerStyle={{ padding: 16 }}>
         <Text className="text-2xl font-bold text-foreground mb-4">
           Dashboard
@@ -107,6 +108,6 @@ export default function DashboardScreen() {
       </ScrollView>
       <QuickEntryFAB />
       <QuickEntryOverlay />
-    </View>
+    </SafeAreaView>
   )
 }

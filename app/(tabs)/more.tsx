@@ -1,7 +1,8 @@
 import { Text } from '@/src/components/ui/text'
 import { useRouter } from 'expo-router'
 import { ChevronRight, Clock, Share2, Target } from 'lucide-react-native'
-import { Pressable, ScrollView, View } from 'react-native'
+import { Pressable, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type MenuRowProps = {
   label: string
@@ -28,7 +29,7 @@ export default function MoreScreen() {
   const router = useRouter()
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2">
         <Text className="text-2xl font-bold text-foreground">Mais</Text>
       </View>
@@ -49,6 +50,6 @@ export default function MoreScreen() {
           onPress={() => router.push('/export')}
         />
       </View>
-    </ScrollView>
+    </SafeAreaView>
   )
 }

@@ -13,7 +13,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: '#3b82f6',
         tabBarInactiveTintColor: isDark ? '#9ca3af' : '#6b7280',
         tabBarStyle: {
-          backgroundColor: isDark ? '#09090b' : '#ffffff',
+          backgroundColor: isDark ? '#020817' : '#ffffff',
           borderTopColor: isDark ? '#27272a' : '#e5e7eb',
         },
       }}

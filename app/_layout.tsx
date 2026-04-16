@@ -1,9 +1,11 @@
 import '@/global.css'
 import { initializeDatabase } from '@/src/infra/db/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import * as NavigationBar from 'expo-navigation-bar'
 import { Stack } from 'expo-router'
 import { useEffect } from 'react'
-import { useColorScheme, View } from 'react-native'
+import { Platform, useColorScheme, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const queryClient = new QueryClient()
 
@@ -14,35 +16,45 @@ export default function RootLayout() {
     initializeDatabase()
   }, [])
 
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      NavigationBar.setStyle(colorScheme === 'dark' ? 'dark' : 'light')
+    }
+  }, [colorScheme])
+
   return (
     <QueryClientProvider client={queryClient}>
-      <View
-        className={`flex-1 ${colorScheme === 'dark' ? 'dark' : ''}`}
-        style={{ flex: 1 }}
-      >
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            headerStyle: { backgroundColor: '#ffffff' },
-            headerTintColor: '#111827',
-            headerTitleStyle: { fontWeight: '600' },
-          }}
+      <SafeAreaProvider>
+        <View
+          className={`flex-1 ${colorScheme === 'dark' ? 'dark' : ''}`}
+          style={{ flex: 1 }}
         >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="work-sessions"
-            options={{ headerShown: true, title: 'Sessões de Trabalho' }}
-          />
-          <Stack.Screen
-            name="goals"
-            options={{ headerShown: true, title: 'Metas' }}
-          />
-          <Stack.Screen
-            name="export"
-            options={{ headerShown: true, title: 'Exportar Dados' }}
-          />
-        </Stack>
-      </View>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              headerTintColor: `${colorScheme === 'dark' ? '#ffffff' : '#000000'}`,
+              headerStyle: {
+                backgroundColor: `${colorScheme === 'dark' ? '#020817' : '#ffffff'}`,
+              },
+              headerTitleStyle: { fontWeight: '600' },
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="work-sessions"
+              options={{ headerShown: true, title: 'Sessões de Trabalho' }}
+            />
+            <Stack.Screen
+              name="goals"
+              options={{ headerShown: true, title: 'Metas' }}
+            />
+            <Stack.Screen
+              name="export"
+              options={{ headerShown: true, title: 'Exportar Dados' }}
+            />
+          </Stack>
+        </View>
+      </SafeAreaProvider>
     </QueryClientProvider>
   )
 }

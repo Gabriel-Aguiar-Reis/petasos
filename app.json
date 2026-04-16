@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.gabriel_aguiar.petasos"
     },
     "plugins": [
       "expo-router",
@@ -30,7 +31,8 @@
           "useSQLCipher": false
         }
       ],
-      "expo-sharing"
+      "expo-sharing",
+      "expo-font"
     ],
     "scheme": "petasos",
     "experiments": {

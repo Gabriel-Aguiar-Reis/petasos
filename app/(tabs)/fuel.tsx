@@ -12,6 +12,7 @@ import { Text } from '@/src/components/ui/text'
 import { formatCurrency } from '@/src/lib/format'
 import { useState } from 'react'
 import { ActivityIndicator, Alert, FlatList, Modal, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function FuelScreen() {
   const { data: logs, isLoading, isError } = useFuelLogs()
@@ -35,7 +36,7 @@ export default function FuelScreen() {
   )
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2 flex-row items-center justify-between">
         <Text className="text-2xl font-bold text-foreground">Combustível</Text>
         <Button
@@ -106,6 +107,6 @@ export default function FuelScreen() {
       >
         <FuelForm onClose={() => setShowForm(false)} />
       </Modal>
-    </View>
+    </SafeAreaView>
   )
 }

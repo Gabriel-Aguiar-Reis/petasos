@@ -8,3 +8,20 @@ coverage
 expo-env.d.ts
 # @end expo-cli
 .expo
+
+# OSX
+#
+.DS_Store
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+
+# Bundle artifacts
+*.jsbundle

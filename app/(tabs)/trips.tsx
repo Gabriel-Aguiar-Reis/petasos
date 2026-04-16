@@ -8,6 +8,7 @@ import { Text } from '@/src/components/ui/text'
 import type { Trip } from '@/src/domain/entities/trip'
 import { useState } from 'react'
 import { ActivityIndicator, Alert, FlatList, Modal, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function TripsScreen() {
   const { data: trips, isLoading, isError } = useTrips()
@@ -30,7 +31,7 @@ export default function TripsScreen() {
   )
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2">
         <Text className="text-2xl font-bold text-foreground">Viagens</Text>
       </View>
@@ -72,6 +73,6 @@ export default function TripsScreen() {
           <TripForm trip={editingTrip} onClose={() => setEditingTrip(null)} />
         ) : null}
       </Modal>
-    </View>
+    </SafeAreaView>
   )
 }

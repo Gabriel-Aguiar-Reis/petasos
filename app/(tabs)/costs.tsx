@@ -8,6 +8,7 @@ import { Text } from '@/src/components/ui/text'
 import type { Cost } from '@/src/domain/entities/cost'
 import { useState } from 'react'
 import { ActivityIndicator, Alert, FlatList, Modal, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function CostsScreen() {
   const { data: costs, isLoading, isError } = useCosts()
@@ -30,7 +31,7 @@ export default function CostsScreen() {
   )
 
   return (
-    <View className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2">
         <Text className="text-2xl font-bold text-foreground">Custos</Text>
       </View>
@@ -72,6 +73,6 @@ export default function CostsScreen() {
           <CostForm cost={editingCost} onClose={() => setEditingCost(null)} />
         ) : null}
       </Modal>
-    </View>
+    </SafeAreaView>
   )
 }
