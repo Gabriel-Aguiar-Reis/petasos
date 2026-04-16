@@ -1,21 +1,89 @@
+import { cn } from '@/src/lib/utils'
 import * as ProgressPrimitive from '@rn-primitives/progress'
+import { Platform, View } from 'react-native'
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+  useDerivedValue,
+  withSpring,
+} from 'react-native-reanimated'
 
-type ProgressProps = {
-  value: number // 0–100
+function Progress({
+  className,
+  value,
+  indicatorClassName,
+  ...props
+}: React.ComponentProps<typeof ProgressPrimitive.Root> & {
+  indicatorClassName?: string
+}) {
+  return (
+    <ProgressPrimitive.Root
+      className={cn(
+        'bg-primary/20 relative h-2 w-full overflow-hidden rounded-full',
+        className
+      )}
+      {...props}
+    >
+      <Indicator value={value} className={indicatorClassName} />
+    </ProgressPrimitive.Root>
+  )
+}
+
+export { Progress }
+
+const Indicator = Platform.select({
+  web: WebIndicator,
+  native: NativeIndicator,
+  default: NullIndicator,
+})
+
+type IndicatorProps = {
+  value: number | undefined | null
   className?: string
 }
 
-export function Progress({ value, className }: ProgressProps) {
-  const clamped = Math.min(100, Math.max(0, value))
+function WebIndicator({ value, className }: IndicatorProps) {
+  if (Platform.OS !== 'web') {
+    return null
+  }
+
   return (
-    <ProgressPrimitive.Root
-      value={clamped}
-      className={`h-2 w-full overflow-hidden rounded-full bg-muted ${className ?? ''}`}
+    <View
+      className={cn('bg-primary h-full w-full flex-1 transition-all', className)}
+      style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}
     >
-      <ProgressPrimitive.Indicator
-        style={{ width: `${clamped}%` }}
-        className="h-full bg-primary"
-      />
-    </ProgressPrimitive.Root>
+      <ProgressPrimitive.Indicator className={cn('h-full w-full', className)} />
+    </View>
   )
+}
+
+function NativeIndicator({ value, className }: IndicatorProps) {
+  const progress = useDerivedValue(() => value ?? 0)
+
+  const indicator = useAnimatedStyle(() => {
+    return {
+      width: withSpring(
+        `${interpolate(progress.value, [0, 100], [1, 100], Extrapolation.CLAMP)}%`,
+        { overshootClamping: true }
+      ),
+    }
+  }, [value])
+
+  if (Platform.OS === 'web') {
+    return null
+  }
+
+  return (
+    <ProgressPrimitive.Indicator asChild>
+      <Animated.View
+        style={indicator}
+        className={cn('bg-foreground h-full', className)}
+      />
+    </ProgressPrimitive.Indicator>
+  )
+}
+
+function NullIndicator(_props: IndicatorProps) {
+  return null
 }

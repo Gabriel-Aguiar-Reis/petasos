@@ -15,8 +15,10 @@
   "dependencies": {
     "@expo/log-box": "^55.0.10",
     "@expo/metro-runtime": "~55.0.9",
+    "@rn-primitives/dropdown-menu": "^1.4.0",
     "@rn-primitives/progress": "^1.4.0",
     "@rn-primitives/select": "^1.4.0",
+    "@rn-primitives/separator": "^1.4.0",
     "@rn-primitives/slot": "^1.4.0",
     "@rn-primitives/tabs": "^1.4.0",
     "@tanstack/react-query": "5.99.0",

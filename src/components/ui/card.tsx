@@ -1,40 +1,64 @@
+import { Text, TextClassContext } from '@/src/components/ui/text'
 import { cn } from '@/src/lib/utils'
-import { View, type ViewProps } from 'react-native'
-import { Text } from './text'
+import { View } from 'react-native'
 
-type CardProps = ViewProps & { className?: string }
-
-export function Card({ className, ...props }: CardProps) {
+function Card({ className, ...props }: React.ComponentProps<typeof View>) {
   return (
-    <View
-      className={cn('rounded-lg border border-border bg-card p-4', className)}
+    <TextClassContext.Provider value="text-card-foreground">
+      <View
+        className={cn(
+          'bg-card border-border flex flex-col gap-6 rounded-xl border py-6 shadow-sm shadow-black/5',
+          className
+        )}
+        {...props}
+      />
+    </TextClassContext.Provider>
+  )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps<typeof View>) {
+  return (
+    <View className={cn('flex flex-col gap-1.5 px-6', className)} {...props} />
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps<typeof Text>) {
+  return (
+    <Text
+      role="heading"
+      aria-level={3}
+      className={cn('font-semibold leading-none', className)}
       {...props}
     />
   )
 }
 
-export function CardHeader({ className, ...props }: CardProps) {
-  return <View className={cn('mb-2', className)} {...props} />
-}
-
-type CardTitleProps = { children: React.ReactNode; className?: string }
-
-export function CardTitle({ children, className }: CardTitleProps) {
+function CardDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof Text>) {
   return (
     <Text
-      className={cn('text-base font-semibold text-card-foreground', className)}
-    >
-      {children}
-    </Text>
+      className={cn('text-muted-foreground text-sm', className)}
+      {...props}
+    />
   )
 }
 
-export function CardContent({ className, ...props }: CardProps) {
-  return <View className={cn('', className)} {...props} />
+function CardContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof View>) {
+  return <View className={cn('px-6', className)} {...props} />
 }
 
-export function CardFooter({ className, ...props }: CardProps) {
+function CardFooter({ className, ...props }: React.ComponentProps<typeof View>) {
   return (
-    <View className={cn('mt-2 flex-row items-center', className)} {...props} />
+    <View
+      className={cn('flex flex-row items-center px-6', className)}
+      {...props}
+    />
   )
 }
+
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
