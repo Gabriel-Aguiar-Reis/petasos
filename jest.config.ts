@@ -7,7 +7,7 @@ const config: JestConfigWithTsJest = {
   collectCoverageFrom: [
     'src/application/**/*.ts',
     'src/domain/**/*.ts',
-    'src/lib/errors/**/*.ts',
+    'src/lib/**/*.ts',
     'tests/fakes/**/*.ts',
     // Barrel re-export files have no executable logic — exclude from coverage
     '!src/**/index.ts',
