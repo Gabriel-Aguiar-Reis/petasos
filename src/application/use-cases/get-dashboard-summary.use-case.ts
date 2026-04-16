@@ -11,7 +11,7 @@ export class GetDashboardSummary {
   constructor(
     private readonly tripRepository: ITripRepository,
     private readonly costRepository: ICostRepository
-  ) {}
+  ) { }
 
   async execute(dateRange: DateRangeFilter): Promise<DashboardSummary> {
     if (dateRange.from > dateRange.to) {
@@ -49,10 +49,7 @@ export class GetDashboardSummary {
 
     // Cost per km — exclude trips with null distance
     const tripsWithDistance = trips.filter((t) => t.distance !== null)
-    const totalKm = tripsWithDistance.reduce(
-      (sum, t) => sum + (t.distance ?? 0),
-      0
-    )
+    const totalKm = tripsWithDistance.reduce((sum, t) => sum + t.distance!, 0)
     const costPerKm =
       totalKm > 0 ? Math.round((totalCosts / totalKm) * 100) / 100 : null
 
