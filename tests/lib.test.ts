@@ -1,7 +1,9 @@
 import { FUEL_TYPES } from '@/src/lib/constants/fuel-types'
 import { formatCurrency, formatDuration } from '@/src/lib/format'
+import { getDateRange } from '@/src/lib/getters'
 import { useActiveSessionStore } from '@/src/lib/stores/active-session.store'
 import { useQuickEntryStore } from '@/src/lib/stores/quick-entry.store'
+import { NAV_THEME, THEME } from '@/src/lib/theme'
 import { cn } from '@/src/lib/utils'
 
 // ---------------------------------------------------------------------------
@@ -181,5 +183,115 @@ describe('useActiveSessionStore', () => {
     const { activeSessionId, startedAt } = useActiveSessionStore.getState()
     expect(activeSessionId).toBeNull()
     expect(startedAt).toBeNull()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// THEME / NAV_THEME
+// ---------------------------------------------------------------------------
+
+describe('THEME', () => {
+  it('has light and dark variants', () => {
+    expect(THEME).toHaveProperty('light')
+    expect(THEME).toHaveProperty('dark')
+  })
+
+  it('light variant contains required color keys', () => {
+    const keys = ['background', 'foreground', 'primary', 'destructive', 'border']
+    for (const key of keys) {
+      expect(THEME.light).toHaveProperty(key)
+    }
+  })
+
+  it('dark variant contains required color keys', () => {
+    const keys = ['background', 'foreground', 'primary', 'destructive', 'border']
+    for (const key of keys) {
+      expect(THEME.dark).toHaveProperty(key)
+    }
+  })
+
+  it('light and dark backgrounds differ', () => {
+    expect(THEME.light.background).not.toBe(THEME.dark.background)
+  })
+})
+
+describe('NAV_THEME', () => {
+  it('has light and dark variants', () => {
+    expect(NAV_THEME).toHaveProperty('light')
+    expect(NAV_THEME).toHaveProperty('dark')
+  })
+
+  it('light colors reference THEME.light values', () => {
+    expect(NAV_THEME.light.colors.background).toBe(THEME.light.background)
+    expect(NAV_THEME.light.colors.primary).toBe(THEME.light.primary)
+  })
+
+  it('dark colors reference THEME.dark values', () => {
+    expect(NAV_THEME.dark.colors.background).toBe(THEME.dark.background)
+    expect(NAV_THEME.dark.colors.primary).toBe(THEME.dark.primary)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// getDateRange()
+// ---------------------------------------------------------------------------
+
+describe('getDateRange()', () => {
+  it('"today" returns from=start-of-day and to=end-of-day', () => {
+    const { from, to } = getDateRange('today')
+    expect(from.getHours()).toBe(0)
+    expect(from.getMinutes()).toBe(0)
+    expect(from.getSeconds()).toBe(0)
+    expect(from.getMilliseconds()).toBe(0)
+    expect(to.getHours()).toBe(23)
+    expect(to.getMinutes()).toBe(59)
+    expect(to.getSeconds()).toBe(59)
+    expect(to.getMilliseconds()).toBe(999)
+  })
+
+  it('"today" from and to share the same date', () => {
+    const { from, to } = getDateRange('today')
+    expect(from.getFullYear()).toBe(to.getFullYear())
+    expect(from.getMonth()).toBe(to.getMonth())
+    expect(from.getDate()).toBe(to.getDate())
+  })
+
+  it('"week" from is Sunday (day 0) of the current week', () => {
+    const { from } = getDateRange('week')
+    expect(from.getDay()).toBe(0)
+    expect(from.getHours()).toBe(0)
+    expect(from.getMinutes()).toBe(0)
+  })
+
+  it('"week" to is end of current day', () => {
+    const { to } = getDateRange('week')
+    expect(to.getHours()).toBe(23)
+    expect(to.getMinutes()).toBe(59)
+    expect(to.getSeconds()).toBe(59)
+    expect(to.getMilliseconds()).toBe(999)
+  })
+
+  it('"month" from is first day of current month at midnight', () => {
+    const { from } = getDateRange('month')
+    expect(from.getDate()).toBe(1)
+    expect(from.getHours()).toBe(0)
+    expect(from.getMinutes()).toBe(0)
+  })
+
+  it('"month" to is last day of current month at end-of-day', () => {
+    const now = new Date()
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+    const { to } = getDateRange('month')
+    expect(to.getDate()).toBe(lastDay)
+    expect(to.getHours()).toBe(23)
+    expect(to.getMinutes()).toBe(59)
+    expect(to.getSeconds()).toBe(59)
+    expect(to.getMilliseconds()).toBe(999)
+  })
+
+  it('"month" from and to are in the same month', () => {
+    const { from, to } = getDateRange('month')
+    expect(from.getFullYear()).toBe(to.getFullYear())
+    expect(from.getMonth()).toBe(to.getMonth())
   })
 })

@@ -16,6 +16,9 @@ const config: JestConfigWithTsJest = {
     '^@/(.*)$': '<rootDir>/$1',
     // uuid v13 is ESM-only; redirect to CJS-compatible stub for Jest
     '^uuid$': '<rootDir>/tests/__mocks__/uuid.ts',
+    // @react-navigation/native requires React Native env; use a minimal stub
+    '^@react-navigation/native$':
+      '<rootDir>/tests/__mocks__/@react-navigation/native.ts',
   },
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: { strict: true } }],
