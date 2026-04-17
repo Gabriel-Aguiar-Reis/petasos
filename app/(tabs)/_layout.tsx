@@ -27,6 +27,7 @@ export default function TabsLayout() {
         options={{
           title: 'Dashboard',
           tabBarIcon: ({ color }) => <LayoutDashboard size={20} color={color} />,
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -34,6 +35,7 @@ export default function TabsLayout() {
         options={{
           title: 'Viagens',
           tabBarIcon: ({ color }) => <Car size={20} color={color} />,
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -41,6 +43,7 @@ export default function TabsLayout() {
         options={{
           title: 'Custos',
           tabBarIcon: ({ color }) => <Receipt size={20} color={color} />,
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -48,6 +51,7 @@ export default function TabsLayout() {
         options={{
           title: 'Combustível',
           tabBarIcon: ({ color }) => <Fuel size={20} color={color} />,
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -55,6 +59,7 @@ export default function TabsLayout() {
         options={{
           title: 'Mais',
           tabBarIcon: ({ color }) => <Menu size={20} color={color} />,
+          animation: 'shift',
         }}
       />
     </Tabs>
