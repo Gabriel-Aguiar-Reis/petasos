@@ -27,7 +27,7 @@ export function CostCard({ cost, onEdit, onDelete }: CostCardProps) {
     <Card className="mb-3">
       <CardHeader>
         <View className="flex-row items-center justify-between">
-          <Badge label={categoryLabel} variant="secondary" />
+          <Badge variant="secondary">{categoryLabel}</Badge>
           <Text className="text-sm text-muted-foreground">
             {cost.date.toLocaleDateString('pt-BR')}
           </Text>

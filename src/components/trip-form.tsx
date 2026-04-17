@@ -77,57 +77,37 @@ export function TripForm({ trip, onClose }: TripFormProps) {
       </Text>
       <View className="gap-4">
         <Input
-          label="Valor recebido (R$) *"
           value={earnings}
           onChangeText={setEarnings}
           keyboardType="decimal-pad"
-          error={errors.earnings}
           placeholder="0,00"
         />
         <Input
-          label="Plataforma *"
           value={platform}
           onChangeText={setPlatform}
-          error={errors.platform}
           placeholder="Ex: Uber, 99, InDriver"
         />
+        <Input value={origin} onChangeText={setOrigin} placeholder="Opcional" />
         <Input
-          label="Origem"
-          value={origin}
-          onChangeText={setOrigin}
-          placeholder="Opcional"
-        />
-        <Input
-          label="Destino"
           value={destination}
           onChangeText={setDestination}
           placeholder="Opcional"
         />
         <Input
-          label="Distância (km)"
           value={distance}
           onChangeText={setDistance}
           keyboardType="decimal-pad"
-          error={errors.distance}
           placeholder="Opcional"
         />
         <Input
-          label="Duração (minutos)"
           value={duration}
           onChangeText={setDuration}
           keyboardType="decimal-pad"
-          error={errors.duration}
           placeholder="Opcional"
         />
         <View className="flex-row gap-3 mt-2">
+          <Button variant="outline" onPress={onClose} className="flex-1" />
           <Button
-            label="Cancelar"
-            variant="outline"
-            onPress={onClose}
-            className="flex-1"
-          />
-          <Button
-            label={isPending ? 'Salvando...' : 'Salvar'}
             onPress={handleSubmit}
             disabled={isPending}
             className="flex-1"

@@ -1,9 +1,9 @@
 import { useDashboardSummary } from '@/src/application/hooks/use-dashboard-summary'
 import { DashboardMetricCard } from '@/src/components/dashboard-metric-card'
 import { EmptyState } from '@/src/components/empty-state'
+import { FloatingActionButton } from '@/src/components/floating-action-button'
 import { PeriodSelector } from '@/src/components/period-selector'
 import { PlatformEarningsRow } from '@/src/components/platform-earnings-row'
-import { QuickEntryFAB } from '@/src/components/quick-entry-fab'
 import { QuickEntryOverlay } from '@/src/components/quick-entry-overlay'
 import { Text } from '@/src/components/ui/text'
 import { formatCurrency } from '@/src/lib/format'
@@ -106,7 +106,7 @@ export default function DashboardScreen() {
           </>
         )}
       </ScrollView>
-      <QuickEntryFAB />
+      <FloatingActionButton onPress={() => {}} />
       <QuickEntryOverlay />
     </SafeAreaView>
   )

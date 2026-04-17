@@ -83,26 +83,22 @@ export function GoalForm({ onClose }: GoalFormProps) {
           </View>
         </View>
         <Input
-          label="Meta de ganhos (R$) *"
           value={targetAmount}
           onChangeText={setTargetAmount}
           keyboardType="decimal-pad"
-          error={errors.targetAmount}
           placeholder="Ex: 500,00"
         />
         <View className="flex-row gap-3 mt-2">
+          <Button variant="outline" onPress={onClose} className="flex-1">
+            Cancelar
+          </Button>
           <Button
-            label="Cancelar"
-            variant="outline"
-            onPress={onClose}
-            className="flex-1"
-          />
-          <Button
-            label={createMutation.isPending ? 'Salvando...' : 'Salvar'}
             onPress={handleSubmit}
             disabled={createMutation.isPending}
             className="flex-1"
-          />
+          >
+            {createMutation.isPending ? 'Salvando...' : 'Salvar'}
+          </Button>
         </View>
       </View>
     </ScrollView>

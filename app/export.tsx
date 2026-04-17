@@ -40,7 +40,8 @@ export default function ExportScreen() {
   return (
     <ScrollView
       className="flex-1 bg-background"
-      contentContainerStyle={{ padding: 16 }}
+      contentInsetAdjustmentBehavior="automatic"
+      style={{ padding: 16 }}
     >
       <Text className="text-2xl font-bold text-foreground mb-2">
         Exportar Dados
@@ -55,25 +56,18 @@ export default function ExportScreen() {
           Filtro por data (opcional)
         </Text>
         <Input
-          label="Data inicial (AAAA-MM-DD)"
           value={fromDate}
           onChangeText={setFromDate}
           placeholder="Ex: 2026-01-01"
-          error={dateError || undefined}
         />
         <Input
-          label="Data final (AAAA-MM-DD)"
           value={toDate}
           onChangeText={setToDate}
           placeholder="Ex: 2026-12-31"
         />
       </View>
 
-      <Button
-        label={exportMutation.isPending ? 'Exportando...' : 'Exportar JSON'}
-        onPress={handleExport}
-        disabled={exportMutation.isPending}
-      />
+      <Button onPress={handleExport} disabled={exportMutation.isPending} />
 
       {exportMutation.isError ? (
         <Text className="text-destructive text-sm mt-3">

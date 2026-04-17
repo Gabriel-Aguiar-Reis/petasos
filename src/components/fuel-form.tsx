@@ -94,49 +94,40 @@ export function FuelForm({ onClose }: FuelFormProps) {
         </View>
         {!FUEL_TYPES.includes(fuelType) || fuelType === 'Outro' ? (
           <Input
-            label="Tipo de combustível"
             value={customFuel}
             onChangeText={setCustomFuel}
             placeholder="Ex: Gasolina Aditivada"
           />
         ) : null}
         <Input
-          label="Litros *"
           value={liters}
           onChangeText={setLiters}
           keyboardType="decimal-pad"
-          error={errors.liters}
           placeholder="Ex: 40.5"
         />
         <Input
-          label="Valor total (R$) *"
           value={totalPrice}
           onChangeText={setTotalPrice}
           keyboardType="decimal-pad"
-          error={errors.totalPrice}
           placeholder="0,00"
         />
         <Input
-          label="Hodômetro (km) *"
           value={odometer}
           onChangeText={setOdometer}
           keyboardType="decimal-pad"
-          error={errors.odometer}
           placeholder="Ex: 45230"
         />
         <View className="flex-row gap-3 mt-2">
+          <Button variant="outline" onPress={onClose} className="flex-1">
+            Cancelar
+          </Button>
           <Button
-            label="Cancelar"
-            variant="outline"
-            onPress={onClose}
-            className="flex-1"
-          />
-          <Button
-            label={createMutation.isPending ? 'Salvando...' : 'Salvar'}
             onPress={handleSubmit}
             disabled={createMutation.isPending}
             className="flex-1"
-          />
+          >
+            {createMutation.isPending ? 'Salvando...' : 'Salvar'}
+          </Button>
         </View>
       </View>
     </ScrollView>

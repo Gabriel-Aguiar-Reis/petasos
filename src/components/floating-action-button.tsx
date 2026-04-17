@@ -1,14 +1,10 @@
 import { Button } from '@/src/components/ui/button'
-import { useQuickEntryStore } from '@/src/lib/stores/quick-entry.store'
 import { Plus } from 'lucide-react-native'
 
-export function QuickEntryFAB() {
-  const { openTrip } = useQuickEntryStore()
-
+export function FloatingActionButton({ onPress }: { onPress: () => void }) {
   return (
     <Button
-      label={(<Plus size={24} color="#fff" />) as unknown as string}
-      onPress={openTrip}
+      onPress={onPress}
       style={{
         position: 'absolute',
         bottom: 24,
@@ -25,6 +21,8 @@ export function QuickEntryFAB() {
         shadowOpacity: 0.3,
         shadowRadius: 4,
       }}
-    />
+    >
+      <Plus size={24} color="#fff" />
+    </Button>
   )
 }

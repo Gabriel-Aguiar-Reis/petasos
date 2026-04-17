@@ -17,7 +17,7 @@ export function TripCard({ trip, onEdit, onDelete }: TripCardProps) {
     <Card className="mb-3">
       <CardHeader>
         <View className="flex-row items-center justify-between">
-          <Badge label={trip.platform} variant="default" />
+          <Badge variant="default">{trip.platform}</Badge>
           <Text className="text-sm text-muted-foreground">
             {trip.date.toLocaleDateString('pt-BR')}
           </Text>

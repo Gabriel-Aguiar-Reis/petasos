@@ -1,6 +1,6 @@
 import { useDeleteTrip, useTrips } from '@/src/application/hooks/use-trips'
 import { EmptyState } from '@/src/components/empty-state'
-import { QuickEntryFAB } from '@/src/components/quick-entry-fab'
+import { FloatingActionButton } from '@/src/components/floating-action-button'
 import { QuickEntryOverlay } from '@/src/components/quick-entry-overlay'
 import { TripCard } from '@/src/components/trip-card'
 import { TripForm } from '@/src/components/trip-form'
@@ -14,6 +14,7 @@ export default function TripsScreen() {
   const { data: trips, isLoading, isError } = useTrips()
   const deleteTrip = useDeleteTrip()
   const [editingTrip, setEditingTrip] = useState<Trip | null>(null)
+  const [dropdownVisible, setDropdownVisible] = useState(false)
 
   function handleDelete(trip: Trip) {
     Alert.alert('Excluir viagem', 'Deseja excluir esta viagem?', [
@@ -61,7 +62,7 @@ export default function TripsScreen() {
         />
       )}
 
-      <QuickEntryFAB />
+      <FloatingActionButton onPress={() => setDropdownVisible(true)} />
       <QuickEntryOverlay />
 
       <Modal

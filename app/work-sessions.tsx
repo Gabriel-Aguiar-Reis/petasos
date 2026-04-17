@@ -60,18 +60,20 @@ export default function WorkSessionsScreen() {
           <View className="gap-3">
             <ActiveSessionTimer startedAt={startedAt} />
             <Button
-              label={endMutation.isPending ? 'Encerrando...' : 'Encerrar Sessão'}
               variant="destructive"
               onPress={() => endMutation.mutate()}
               disabled={endMutation.isPending}
-            />
+            >
+              {endMutation.isPending ? 'Encerrando...' : 'Encerrar Sessão'}
+            </Button>
           </View>
         ) : (
           <Button
-            label={startMutation.isPending ? 'Iniciando...' : 'Iniciar Sessão'}
             onPress={() => startMutation.mutate()}
             disabled={startMutation.isPending}
-          />
+          >
+            {startMutation.isPending ? 'Iniciando...' : 'Iniciar Sessão'}
+          </Button>
         )}
         {startMutation.isError || endMutation.isError ? (
           <Text className="text-destructive text-sm mt-2">

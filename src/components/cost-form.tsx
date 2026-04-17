@@ -78,11 +78,9 @@ export function CostForm({ cost, onClose }: CostFormProps) {
       </Text>
       <View className="gap-4">
         <Input
-          label="Valor (R$) *"
           value={amount}
           onChangeText={setAmount}
           keyboardType="decimal-pad"
-          error={errors.amount}
           placeholder="0,00"
         />
         <View className="gap-1">
@@ -120,26 +118,18 @@ export function CostForm({ cost, onClose }: CostFormProps) {
         </View>
         {category === 'custom' ? (
           <Input
-            label="Descrição *"
             value={customLabel}
             onChangeText={setCustomLabel}
-            error={errors.customLabel}
             placeholder="Ex: Multa, Licenciamento..."
           />
         ) : null}
         <View className="flex-row gap-3 mt-2">
-          <Button
-            label="Cancelar"
-            variant="outline"
-            onPress={onClose}
-            className="flex-1"
-          />
-          <Button
-            label={isPending ? 'Salvando...' : 'Salvar'}
-            onPress={handleSubmit}
-            disabled={isPending}
-            className="flex-1"
-          />
+          <Button variant="outline" onPress={onClose} className="flex-1">
+            Cancelar
+          </Button>
+          <Button onPress={handleSubmit} disabled={isPending} className="flex-1">
+            {isPending ? 'Salvando...' : 'Salvar'}
+          </Button>
         </View>
       </View>
     </ScrollView>

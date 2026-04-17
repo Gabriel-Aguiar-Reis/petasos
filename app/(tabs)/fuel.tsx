@@ -39,11 +39,9 @@ export default function FuelScreen() {
     <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2 flex-row items-center justify-between">
         <Text className="text-2xl font-bold text-foreground">Combustível</Text>
-        <Button
-          label="Abastecer"
-          onPress={() => setShowForm(true)}
-          className="px-3"
-        />
+        <Button onPress={() => setShowForm(true)} className="px-3">
+          Abastecer
+        </Button>
       </View>
 
       {isLoading ? (

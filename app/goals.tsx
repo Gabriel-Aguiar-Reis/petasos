@@ -27,11 +27,9 @@ export default function GoalsScreen() {
     <View className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2 flex-row items-center justify-between">
         <Text className="text-2xl font-bold text-foreground">Metas</Text>
-        <Button
-          label="Nova Meta"
-          onPress={() => setShowForm(true)}
-          className="px-3"
-        />
+        <Button onPress={() => setShowForm(true)} className="px-3">
+          Nova Meta
+        </Button>
       </View>
 
       {isLoading ? (

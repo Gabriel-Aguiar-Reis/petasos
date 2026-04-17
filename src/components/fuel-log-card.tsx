@@ -18,7 +18,7 @@ export function FuelLogCard({ log, onDelete }: FuelLogCardProps) {
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center gap-2">
             <Droplets size={16} color="#6b7280" />
-            <Badge label={log.fuelType} variant="secondary" />
+            <Badge variant="secondary">{log.fuelType}</Badge>
           </View>
           <Text className="text-sm text-muted-foreground">
             {log.date.toLocaleDateString('pt-BR')}

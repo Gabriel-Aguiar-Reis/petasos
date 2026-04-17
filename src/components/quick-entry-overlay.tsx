@@ -79,34 +79,32 @@ export function QuickEntryOverlay() {
               Nova Viagem (Rápida)
             </Text>
             <Input
-              label="Valor recebido (R$) *"
               value={earnings}
               onChangeText={setEarnings}
               keyboardType="decimal-pad"
-              error={earningsError}
               placeholder="0,00"
               autoFocus
             />
             <Input
-              label="Plataforma *"
               value={platform}
               onChangeText={setPlatform}
-              error={platformError}
               placeholder="Ex: Uber, 99"
             />
             <View className="flex-row gap-3">
               <Button
-                label="Mais detalhes"
                 variant="outline"
                 onPress={() => setExpanded(true)}
                 className="flex-1"
-              />
+              >
+                Mais Detalhes
+              </Button>
               <Button
-                label={createTrip.isPending ? 'Salvando...' : 'Salvar'}
                 onPress={handleQuickSave}
                 disabled={createTrip.isPending}
                 className="flex-1"
-              />
+              >
+                {createTrip.isPending ? 'Salvando...' : 'Salvar'}
+              </Button>
             </View>
           </View>
         )}

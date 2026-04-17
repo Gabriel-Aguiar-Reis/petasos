@@ -21,7 +21,9 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
         {description}
       </Text>
       {action ? (
-        <Button label={action.label} onPress={action.onPress} className="mt-2" />
+        <Button onPress={action.onPress} className="mt-2">
+          {action.label}
+        </Button>
       ) : null}
     </View>
   )
