@@ -10,11 +10,15 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#3b82f6',
-        tabBarInactiveTintColor: isDark ? '#9ca3af' : '#6b7280',
+        tabBarActiveTintColor: 'hsl(83.9 100% 40.5%)',
+        tabBarInactiveTintColor: isDark
+          ? 'hsl(192 8% 64.1%)'
+          : 'hsl(191.4 9.2% 44.5%)',
         tabBarStyle: {
-          backgroundColor: isDark ? '#020817' : '#ffffff',
-          borderTopColor: isDark ? '#27272a' : '#e5e7eb',
+          backgroundColor: isDark ? 'hsl(200 14.1% 4.1%)' : 'hsl(0 0% 100%)',
+          borderTopColor: isDark
+            ? 'hsl(193.4 12.2% 15.1%)'
+            : 'hsl(192 10.8% 89.9%)',
         },
       }}
     >

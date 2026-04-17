@@ -1,6 +1,5 @@
 import { useDeleteTrip, useTrips } from '@/src/application/hooks/use-trips'
 import { EmptyState } from '@/src/components/empty-state'
-import { FloatingActionButton } from '@/src/components/floating-action-button'
 import { QuickEntryOverlay } from '@/src/components/quick-entry-overlay'
 import { TripCard } from '@/src/components/trip-card'
 import { TripForm } from '@/src/components/trip-form'
@@ -62,7 +61,6 @@ export default function TripsScreen() {
         />
       )}
 
-      <FloatingActionButton onPress={() => setDropdownVisible(true)} />
       <QuickEntryOverlay />
 
       <Modal

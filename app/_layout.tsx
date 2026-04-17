@@ -28,7 +28,9 @@ export default function RootLayout() {
   useEffect(() => {
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content')
     if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor(isDark ? '#020817' : '#ffffff')
+      StatusBar.setBackgroundColor(
+        isDark ? 'hsl(200 14.1% 4.1%)' : 'hsl(0 0% 100%)'
+      )
       NavigationBar.setStyle(isDark ? 'dark' : 'light')
     }
   }, [isDark])
@@ -41,9 +43,13 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: false,
-              headerTintColor: isDark ? '#ffffff' : '#000000',
+              headerTintColor: isDark
+                ? 'hsl(180 19.5% 98.1%)'
+                : 'hsl(200 14.1% 4.1%)',
               headerStyle: {
-                backgroundColor: isDark ? '#020817' : '#ffffff',
+                backgroundColor: isDark
+                  ? 'hsl(200 14.1% 4.1%)'
+                  : 'hsl(0 0% 100%)',
               },
               headerTitleStyle: { fontWeight: '600' },
             }}
@@ -67,7 +73,11 @@ export default function RootLayout() {
               style={[
                 StyleSheet.absoluteFill,
                 styles.loadingOverlay,
-                { backgroundColor: isDark ? '#020817' : '#ffffff' },
+                {
+                  backgroundColor: isDark
+                    ? 'hsl(200 14.1% 4.1%)'
+                    : 'hsl(0 0% 100%)',
+                },
               ]}
             >
               <ActivityIndicator />
