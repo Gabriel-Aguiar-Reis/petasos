@@ -15,10 +15,8 @@ export default function TabsLayout() {
           ? 'hsl(192 8% 64.1%)'
           : 'hsl(191.4 9.2% 44.5%)',
         tabBarStyle: {
-          backgroundColor: isDark ? 'hsl(200 14.1% 4.1%)' : 'hsl(0 0% 100%)',
-          borderTopColor: isDark
-            ? 'hsl(193.4 12.2% 15.1%)'
-            : 'hsl(192 10.8% 89.9%)',
+          backgroundColor: isDark ? 'hsl(193.4 12.2% 15.1%)' : 'hsl(0 0% 100%)',
+          borderTopColor: isDark ? 'hsl(192 8% 64.1%)' : 'hsl(192 10.8% 89.9%)',
         },
       }}
     >

@@ -40,7 +40,7 @@ export default function FuelScreen() {
       <View className="px-4 pt-4 pb-2 flex-row items-center justify-between">
         <Text className="text-2xl font-bold text-foreground">Combustível</Text>
         <Button onPress={() => setShowForm(true)} className="px-3">
-          Abastecer
+          <Text>Abastecer</Text>
         </Button>
       </View>
 
