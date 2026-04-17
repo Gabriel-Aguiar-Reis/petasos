@@ -1,6 +1,7 @@
 import '@/global.css'
 import { db } from '@/src/infra/db/client'
 import migrations from '@/src/infra/db/migrations/migrations'
+import { PortalHost } from '@rn-primitives/portal'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import * as NavigationBar from 'expo-navigation-bar'
@@ -35,6 +36,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
+        <PortalHost />
         <View className={`flex-1 ${isDark ? 'dark' : ''}`} style={{ flex: 1 }}>
           <Stack
             screenOptions={{

@@ -1,7 +1,6 @@
 import { useDashboardSummary } from '@/src/application/hooks/use-dashboard-summary'
 import { DashboardMetricCard } from '@/src/components/dashboard-metric-card'
 import { EmptyState } from '@/src/components/empty-state'
-import { FloatingActionButton } from '@/src/components/floating-action-button'
 import { PeriodSelector } from '@/src/components/period-selector'
 import { PlatformEarningsRow } from '@/src/components/platform-earnings-row'
 import { QuickEntryOverlay } from '@/src/components/quick-entry-overlay'
@@ -106,7 +105,6 @@ export default function DashboardScreen() {
           </>
         )}
       </ScrollView>
-      <FloatingActionButton onPress={() => {}} />
       <QuickEntryOverlay />
     </SafeAreaView>
   )

@@ -2,7 +2,6 @@ import { useCosts, useDeleteCost } from '@/src/application/hooks/use-costs'
 import { CostCard } from '@/src/components/cost-card'
 import { CostForm } from '@/src/components/cost-form'
 import { EmptyState } from '@/src/components/empty-state'
-import { FloatingActionButton } from '@/src/components/floating-action-button'
 import { QuickEntryOverlay } from '@/src/components/quick-entry-overlay'
 import { Text } from '@/src/components/ui/text'
 import type { Cost } from '@/src/domain/entities/cost'
@@ -60,8 +59,6 @@ export default function CostsScreen() {
           )}
         />
       )}
-
-      <FloatingActionButton onPress={() => {}} />
       <QuickEntryOverlay />
 
       <Modal
