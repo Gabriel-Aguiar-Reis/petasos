@@ -1,3 +1,4 @@
+import { USE_MOCK } from '@/src/lib/config'
 import { FUEL_TYPES } from '@/src/lib/constants/fuel-types'
 import { formatCurrency, formatDuration } from '@/src/lib/format'
 import { getDateRange } from '@/src/lib/getters'
@@ -5,6 +6,16 @@ import { useActiveSessionStore } from '@/src/lib/stores/active-session.store'
 import { useQuickEntryStore } from '@/src/lib/stores/quick-entry.store'
 import { NAV_THEME, THEME } from '@/src/lib/theme'
 import { cn } from '@/src/lib/utils'
+
+// ---------------------------------------------------------------------------
+// config — USE_MOCK flag
+// ---------------------------------------------------------------------------
+
+describe('USE_MOCK', () => {
+  it('is a boolean', () => {
+    expect(typeof USE_MOCK).toBe('boolean')
+  })
+})
 
 // ---------------------------------------------------------------------------
 // FUEL_TYPES constant

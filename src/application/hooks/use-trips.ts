@@ -8,6 +8,8 @@ import type {
 } from '@/src/domain/validations/trip'
 import { db } from '@/src/infra/db/client'
 import { DrizzleTripRepository } from '@/src/infra/repositories/trip.drizzle-repository'
+import { USE_MOCK } from '@/src/lib/config'
+import { MOCK_TRIPS } from '@/src/lib/mock-data'
 import type { TripFilter } from '@/src/types/shared.types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -20,14 +22,16 @@ const getUC = new GetTripsByFilter(tripRepo)
 export function useTrips(filter?: TripFilter) {
   return useQuery({
     queryKey: ['trips', filter],
-    queryFn: () => getUC.execute(filter ?? {}),
+    queryFn: () =>
+      USE_MOCK ? Promise.resolve(MOCK_TRIPS) : getUC.execute(filter ?? {}),
   })
 }
 
 export function useCreateTrip() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (input: CreateTripInput) => createUC.execute(input),
+    mutationFn: (input: CreateTripInput) =>
+      USE_MOCK ? Promise.resolve(MOCK_TRIPS[0]) : createUC.execute(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard'] })
@@ -39,7 +43,7 @@ export function useUpdateTrip() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, ...input }: UpdateTripInput & { id: string }) =>
-      updateUC.execute(id, input),
+      USE_MOCK ? Promise.resolve(MOCK_TRIPS[0]) : updateUC.execute(id, input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard'] })
@@ -50,7 +54,8 @@ export function useUpdateTrip() {
 export function useDeleteTrip() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (id: string) => deleteUC.execute(id),
+    mutationFn: (id: string) =>
+      USE_MOCK ? Promise.resolve() : deleteUC.execute(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard'] })

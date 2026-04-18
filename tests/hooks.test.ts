@@ -2,6 +2,8 @@
 // Infrastructure mocks — must come before any imports that use them
 // ---------------------------------------------------------------------------
 
+jest.mock('@/src/lib/config', () => ({ USE_MOCK: false }))
+
 jest.mock('@/src/infra/db/client', () => ({ db: {} }))
 
 // --- Drizzle repositories ---------------------------------------------------

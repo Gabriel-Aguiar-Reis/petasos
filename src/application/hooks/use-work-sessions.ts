@@ -3,6 +3,8 @@ import { EndWorkSession } from '@/src/application/use-cases/work-session/end-wor
 import { StartWorkSession } from '@/src/application/use-cases/work-session/star-work-session.use-case'
 import { db } from '@/src/infra/db/client'
 import { DrizzleWorkSessionRepository } from '@/src/infra/repositories/work-session.drizzle-repository'
+import { USE_MOCK } from '@/src/lib/config'
+import { MOCK_WORK_SESSIONS } from '@/src/lib/mock-data'
 import { useActiveSessionStore } from '@/src/lib/stores/active-session.store'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -14,7 +16,8 @@ const deleteUC = new DeleteWorkSession(sessionRepo)
 export function useWorkSessions() {
   return useQuery({
     queryKey: ['work-sessions'],
-    queryFn: () => sessionRepo.findAll(),
+    queryFn: () =>
+      USE_MOCK ? Promise.resolve(MOCK_WORK_SESSIONS) : sessionRepo.findAll(),
   })
 }
 
@@ -22,7 +25,8 @@ export function useStartWorkSession() {
   const queryClient = useQueryClient()
   const { startSession } = useActiveSessionStore()
   return useMutation({
-    mutationFn: () => startUC.execute(),
+    mutationFn: () =>
+      USE_MOCK ? Promise.resolve(MOCK_WORK_SESSIONS[2]) : startUC.execute(),
     onSuccess: (session) => {
       startSession(session.id, session.startTime.getTime())
       queryClient.invalidateQueries({ queryKey: ['work-sessions'] })
@@ -34,7 +38,8 @@ export function useEndWorkSession() {
   const queryClient = useQueryClient()
   const { endSession } = useActiveSessionStore()
   return useMutation({
-    mutationFn: () => endUC.execute(),
+    mutationFn: () =>
+      USE_MOCK ? Promise.resolve(MOCK_WORK_SESSIONS[0]) : endUC.execute(),
     onSuccess: () => {
       endSession()
       queryClient.invalidateQueries({ queryKey: ['work-sessions'] })
@@ -45,7 +50,8 @@ export function useEndWorkSession() {
 export function useDeleteWorkSession() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (id: string) => deleteUC.execute(id),
+    mutationFn: (id: string) =>
+      USE_MOCK ? Promise.resolve() : deleteUC.execute(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['work-sessions'] })
     },
