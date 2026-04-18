@@ -13,3 +13,5 @@ export type DashboardSummary = {
   earningsByPlatform: PlatformEarnings[]
   costPerKm: number | null // null if no trips with distance
 }
+
+export type Period = 'today' | 'week' | 'month'
