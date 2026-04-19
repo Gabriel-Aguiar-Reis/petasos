@@ -49,6 +49,13 @@ export default function MoreScreen() {
           icon={<Share2 size={20} color="#6b7280" />}
           onPress={() => router.push('/export')}
         />
+        <MenuRow
+          label="Bubble Flutuante"
+          icon={
+            <View className="h-5 w-5 rounded-full border-2 border-primary" />
+          }
+          onPress={() => router.push('../floating-bubble')}
+        />
       </View>
     </SafeAreaView>
   )
