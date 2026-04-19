@@ -226,8 +226,8 @@ const todayRange: DateRangeFilter = {
 export const MOCK_DASHBOARD: DashboardSummary = {
   dateRange: todayRange,
   totalEarnings: 45.2,
-  totalCosts: 0,
-  netProfit: 45.2,
+  totalCosts: 10,
+  netProfit: 35.2,
   earningsByPlatform: [{ platform: 'Uber', earnings: 45.2 }],
   costPerKm: 1.29,
 }
