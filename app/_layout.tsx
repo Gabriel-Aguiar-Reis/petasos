@@ -1,6 +1,7 @@
 import '@/global.css'
 import { db } from '@/src/infra/db/client'
 import migrations from '@/src/infra/db/migrations/migrations'
+import { initializeNotifications } from '@/src/lib/notifications'
 import { PortalHost } from '@rn-primitives/portal'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
@@ -24,6 +25,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme()
   const { success: dbReady } = useMigrations(db, migrations)
   const isDark = colorScheme === 'dark'
+
+  useEffect(() => {
+    void initializeNotifications()
+  }, [])
 
   useEffect(() => {
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content')

@@ -10,6 +10,7 @@
 ### Session 2026-04-19
 
 - Q: When the driver taps the bubble outside Petasos, does quick-entry open over the current app or bring Petasos to the foreground? → A: Quick-entry opens as a compact overlay over the current app without foregrounding Petasos.
+- Q: Qual abordagem de implementação usar para manter o bubble/overlay no Android quando possível? → A: Opção A — Usar Android Bubbles API (Android 11+) com fallback para overlay (`SYSTEM_ALERT_WINDOW`) em dispositivos mais antigos; isso aproveita suporte nativo quando disponível e garante cobertura com fallback.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -137,3 +138,4 @@ the edges, and confirm it remains visible and still opens quick-entry from the n
 - Bubble quick-entry is delivered as an overlay on top of the current app context rather than a Petasos foreground navigation flow
 - Drivers may need to leave Petasos temporarily to grant device access in system settings before first use
 - Newly created records continue to appear in dashboard and list views without a separate bubble-specific history
+- Implementation note: Use Android Bubbles API (Android 11+) when available; fallback to overlay (`SYSTEM_ALERT_WINDOW`) on older Android devices. Foreground service is not required for MVP; evaluate if needed for persistent background behavior later.
