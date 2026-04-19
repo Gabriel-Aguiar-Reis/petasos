@@ -13,13 +13,18 @@ export function QuickEntryOverlay() {
   const { isOpen, entryType, close } = useQuickEntryStore()
   const [expanded, setExpanded] = useState(false)
 
-  // Quick-entry state for trips
   const [earnings, setEarnings] = useState('')
   const [platform, setPlatform] = useState('')
   const [earningsError, setEarningsError] = useState('')
   const [platformError, setPlatformError] = useState('')
+  const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('')
+  const [amountError, setAmountError] = useState('')
+  const [categoryError, setCategoryError] = useState('')
   const createTrip = useCreateTrip()
   const createCost = useCreateCost()
+  const isSaving =
+    entryType === 'trip' ? createTrip.isPending : createCost.isPending
 
   function handleClose() {
     setExpanded(false)
@@ -27,32 +32,73 @@ export function QuickEntryOverlay() {
     setPlatform('')
     setEarningsError('')
     setPlatformError('')
+    setAmount('')
+    setCategory('')
+    setAmountError('')
+    setCategoryError('')
     close()
   }
 
   async function handleQuickSave() {
+    if (entryType === 'trip') {
+      let valid = true
+
+      if (!earnings || isNaN(parseFloat(earnings)) || parseFloat(earnings) < 0) {
+        setEarningsError('Informe um valor válido')
+        valid = false
+      } else {
+        setEarningsError('')
+      }
+
+      if (!platform.trim()) {
+        setPlatformError('Informe a plataforma')
+        valid = false
+      } else {
+        setPlatformError('')
+      }
+
+      if (!valid) return
+
+      try {
+        await createTrip.mutateAsync({
+          earnings: parseFloat(earnings),
+          platform: platform.trim(),
+        })
+        handleClose()
+      } catch {
+        Alert.alert('Erro', 'Não foi possível salvar a viagem.')
+      }
+
+      return
+    }
+
     let valid = true
-    if (!earnings || isNaN(parseFloat(earnings)) || parseFloat(earnings) < 0) {
-      setEarningsError('Informe um valor válido')
+
+    if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+      setAmountError('Informe um valor válido')
       valid = false
     } else {
-      setEarningsError('')
+      setAmountError('')
     }
-    if (!platform.trim()) {
-      setPlatformError('Informe a plataforma')
+
+    if (!category.trim()) {
+      setCategoryError('Informe a categoria')
       valid = false
     } else {
-      setPlatformError('')
+      setCategoryError('')
     }
+
     if (!valid) return
+
     try {
-      await createTrip.mutateAsync({
-        earnings: parseFloat(earnings),
-        platform: platform.trim(),
+      await createCost.mutateAsync({
+        amount: parseFloat(amount),
+        category: category.trim(),
+        date: new Date(),
       })
       handleClose()
     } catch {
-      Alert.alert('Erro', 'Não foi possível salvar a viagem.')
+      Alert.alert('Erro', 'Não foi possível salvar o custo.')
     }
   }
 
@@ -76,20 +122,69 @@ export function QuickEntryOverlay() {
         ) : (
           <View className="gap-4">
             <Text className="text-lg font-semibold text-foreground">
-              Nova Viagem (Rápida)
+              {entryType === 'trip'
+                ? 'Nova Viagem (Rápida)'
+                : 'Novo Custo (Rápido)'}
             </Text>
-            <Input
-              value={earnings}
-              onChangeText={setEarnings}
-              keyboardType="decimal-pad"
-              placeholder="0,00"
-              autoFocus
-            />
-            <Input
-              value={platform}
-              onChangeText={setPlatform}
-              placeholder="Ex: Uber, 99"
-            />
+            {entryType === 'trip' ? (
+              <>
+                <View className="gap-1">
+                  <Input
+                    value={earnings}
+                    onChangeText={setEarnings}
+                    keyboardType="decimal-pad"
+                    placeholder="0,00"
+                    autoFocus
+                  />
+                  {earningsError ? (
+                    <Text className="text-xs text-destructive">
+                      {earningsError}
+                    </Text>
+                  ) : null}
+                </View>
+                <View className="gap-1">
+                  <Input
+                    value={platform}
+                    onChangeText={setPlatform}
+                    placeholder="Ex: Uber, 99"
+                  />
+                  {platformError ? (
+                    <Text className="text-xs text-destructive">
+                      {platformError}
+                    </Text>
+                  ) : null}
+                </View>
+              </>
+            ) : (
+              <>
+                <View className="gap-1">
+                  <Input
+                    value={amount}
+                    onChangeText={setAmount}
+                    keyboardType="decimal-pad"
+                    placeholder="0,00"
+                    autoFocus
+                  />
+                  {amountError ? (
+                    <Text className="text-xs text-destructive">
+                      {amountError}
+                    </Text>
+                  ) : null}
+                </View>
+                <View className="gap-1">
+                  <Input
+                    value={category}
+                    onChangeText={setCategory}
+                    placeholder="Ex: Combustível, Pedágio"
+                  />
+                  {categoryError ? (
+                    <Text className="text-xs text-destructive">
+                      {categoryError}
+                    </Text>
+                  ) : null}
+                </View>
+              </>
+            )}
             <View className="flex-row gap-3">
               <Button
                 variant="outline"
@@ -100,10 +195,10 @@ export function QuickEntryOverlay() {
               </Button>
               <Button
                 onPress={handleQuickSave}
-                disabled={createTrip.isPending}
+                disabled={isSaving}
                 className="flex-1"
               >
-                {createTrip.isPending ? 'Salvando...' : 'Salvar'}
+                {isSaving ? 'Salvando...' : 'Salvar'}
               </Button>
             </View>
           </View>
