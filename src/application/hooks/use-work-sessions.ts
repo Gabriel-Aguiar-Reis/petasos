@@ -5,6 +5,10 @@ import { db } from '@/src/infra/db/client'
 import { DrizzleWorkSessionRepository } from '@/src/infra/repositories/work-session.drizzle-repository'
 import { USE_MOCK } from '@/src/lib/config'
 import { MOCK_WORK_SESSIONS } from '@/src/lib/mock-data'
+import {
+  hideOngoingNotification,
+  showOngoingNotification,
+} from '@/src/lib/notifications'
 import { useActiveSessionStore } from '@/src/lib/stores/active-session.store'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -30,6 +34,16 @@ export function useStartWorkSession() {
     onSuccess: (session) => {
       startSession(session.id, session.startTime.getTime())
       queryClient.invalidateQueries({ queryKey: ['work-sessions'] })
+      // Exibir notificação contínua enquanto a sessão estiver ativa
+      void showOngoingNotification()
+        .then((id) => {
+          // eslint-disable-next-line no-console
+          console.log('showOngoingNotification id', id)
+        })
+        .catch((e) => {
+          // eslint-disable-next-line no-console
+          console.log('showOngoingNotification error', e)
+        })
     },
   })
 }
@@ -43,6 +57,8 @@ export function useEndWorkSession() {
     onSuccess: () => {
       endSession()
       queryClient.invalidateQueries({ queryKey: ['work-sessions'] })
+      // Remover notificação quando a sessão terminar
+      void hideOngoingNotification()
     },
   })
 }
