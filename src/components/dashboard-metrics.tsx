@@ -20,6 +20,7 @@ export function DashboardMetrics({
         <DashboardMetricCard
           label="Custos"
           value={formatCurrency(data.totalCosts)}
+          badgeVariant={'destructive'}
         />
       </View>
       <DashboardMetricCard
@@ -30,6 +31,7 @@ export function DashboardMetrics({
             ? `${formatCurrency(data.costPerKm)}/km`
             : undefined
         }
+        badgeVariant={data.netProfit < 0 ? 'destructive' : 'default'}
       />
       {data.earningsByPlatform.length > 0 && (
         <View className="mt-2">
