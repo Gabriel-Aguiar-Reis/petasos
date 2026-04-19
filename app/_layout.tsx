@@ -67,6 +67,14 @@ export default function RootLayout() {
               name="export"
               options={{ headerShown: true, title: 'Exportar Dados' }}
             />
+            <Stack.Screen
+              name="floating-bubble"
+              options={{ headerShown: true, title: 'Bubble Flutuante' }}
+            />
+            <Stack.Screen
+              name="bubble-entry"
+              options={{ headerShown: true, title: 'Acesso Rápido' }}
+            />
           </Stack>
           {!dbReady && (
             <View
