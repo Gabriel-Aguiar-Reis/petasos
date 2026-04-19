@@ -61,7 +61,7 @@ export default function DashboardScreen() {
           onValueChange={(val) => setPeriod(val as Period)}
           className="w-full"
         >
-          <TabsList className="rounded-lg border border-border overflow-hidden">
+          <TabsList className="rounded-lg border border-border overflow-hidden bg-card">
             {OPTIONS.map((opt) => (
               <TabsTrigger
                 key={opt.value}
