@@ -304,6 +304,7 @@ import {
   useStartWorkSession,
   useWorkSessions,
 } from '@/src/application/hooks/use-work-sessions'
+import * as notifications from '@/src/lib/notifications'
 import { useActiveSessionStore } from '@/src/lib/stores/active-session.store'
 import * as Sharing from 'expo-sharing'
 
@@ -623,6 +624,18 @@ describe('useStartWorkSession', () => {
     expect(mockInvalidateQueries).toHaveBeenCalledWith({
       queryKey: ['work-sessions'],
     })
+  })
+
+  it('onSuccess handles showOngoingNotification rejection gracefully', async () => {
+    jest
+      .spyOn(notifications, 'showOngoingNotification')
+      .mockRejectedValueOnce(new Error('native error'))
+    const config = useStartWorkSession() as unknown as MutationConfig
+    config.onSuccess!(mockSession)
+    // Wait for the fire-and-forget promise chain to settle
+    await new Promise((r) => setTimeout(r, 0))
+    expect(mockStartSession).toHaveBeenCalled()
+    jest.restoreAllMocks()
   })
 })
 
