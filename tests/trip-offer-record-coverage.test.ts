@@ -1,4 +1,4 @@
-import { resolveRatingColor } from '@/src/domain/entities/trip-offer-record'
+import { resolveRatingColor, evaluateTripOfferPill } from '@/src/domain/entities/trip-offer-record'
 
 describe('resolveRatingColor coverage', () => {
   it('returns neutral for null rating', () => {
@@ -21,3 +21,27 @@ describe('resolveRatingColor coverage', () => {
     expect(resolveRatingColor(3.5)).toBe('red')
   })
 })
+
+describe('evaluateTripOfferPill branch coverage', () => {
+  it('handles averageConsumption <= 0 (fuelLiters -> 0) branch', () => {
+    const state = evaluateTripOfferPill({
+      offer: {
+        id: 'o1',
+        platformId: 'p1',
+        vehicleId: 'v1',
+        date: new Date(),
+        offeredFare: 20,
+        estimatedDistance: 10,
+        deadheadDistance: 2,
+        estimatedDuration: 15,
+        deadheadDuration: 5,
+      },
+      averageConsumption: 0,
+      fuelPrice: 5,
+    } as any)
+
+    expect(state.estimatedProfit).toBe(20)
+    expect(state.color).toBe('neutral')
+  })
+})
+

@@ -1,4 +1,7 @@
-import { CreateTripPlatformSchema, UpdateTripPlatformSchema } from '@/src/domain/validations/trip-platform'
+import {
+  CreateTripPlatformSchema,
+  UpdateTripPlatformSchema,
+} from '@/src/domain/validations/trip-platform'
 
 describe('TripPlatform validation', () => {
   it('create accepts name', () => {

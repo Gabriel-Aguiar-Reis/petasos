@@ -2,8 +2,8 @@ import { Cost } from '@/src/domain/entities/cost'
 import { calculateAverageConsumption } from '@/src/domain/entities/fuel-consumption-record'
 import { Maintenance } from '@/src/domain/entities/maintenance'
 import { PlannedAbsence } from '@/src/domain/entities/planned-absence'
-import { ValidationError } from '@/src/lib/errors'
 import { calculateProfit } from '@/src/domain/entities/profit-calculator'
+import { ValidationError } from '@/src/lib/errors'
 
 describe('Coverage fixes for edge branches', () => {
   it('Cost.update removes optional fields when null is provided', () => {

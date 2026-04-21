@@ -1,4 +1,7 @@
-import { CreateFuelTypeSchema, UpdateFuelTypeSchema } from '@/src/domain/validations/fuel-type'
+import {
+  CreateFuelTypeSchema,
+  UpdateFuelTypeSchema,
+} from '@/src/domain/validations/fuel-type'
 
 describe('CreateFuelTypeSchema', () => {
   it('accepts valid input', () => {

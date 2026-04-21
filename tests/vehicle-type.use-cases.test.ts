@@ -1,7 +1,7 @@
 import { CreateVehicleType } from '@/src/application/use-cases/vehicle-type/create-vehicle-type.use-case'
+import { DeleteVehicleType } from '@/src/application/use-cases/vehicle-type/delete-vehicle-type.use-case'
 import { GetAllVehicleTypes } from '@/src/application/use-cases/vehicle-type/get-all-vehicle-types.use-case'
 import { UpdateVehicleType } from '@/src/application/use-cases/vehicle-type/update-vehicle-type.use-case'
-import { DeleteVehicleType } from '@/src/application/use-cases/vehicle-type/delete-vehicle-type.use-case'
 import type { VehicleType } from '@/src/domain/entities/vehicle-type'
 
 class FakeRepo {
@@ -37,7 +37,9 @@ describe('VehicleType use-cases', () => {
     expect(list.length).toBeGreaterThanOrEqual(1)
 
     const update = new UpdateVehicleType(repo as any)
-    const updated = await update.execute(item.id, { description: '4 doors' } as any)
+    const updated = await update.execute(item.id, {
+      description: '4 doors',
+    } as any)
     expect(updated.description).toBe('4 doors')
 
     const del = new DeleteVehicleType(repo as any)

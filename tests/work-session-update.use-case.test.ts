@@ -4,7 +4,7 @@ import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 class FakeRepo {
   public updated: any = null
-  constructor(private existing: any) {}
+  constructor(private existing: any) { }
   async findById(id: string) {
     return this.existing ?? null
   }
@@ -42,7 +42,9 @@ describe('UpdateWorkSession use-case', () => {
     })
     const repo = new FakeRepo(existing)
     const uc = new UpdateWorkSession(repo as any)
-    const res = await uc.execute('s1', { endTime: new Date('2023-01-01T12:00:00Z') })
+    const res = await uc.execute('s1', {
+      endTime: new Date('2023-01-01T12:00:00Z'),
+    })
     expect(res.endTime).toEqual(new Date('2023-01-01T12:00:00Z'))
     expect(repo.updated).toBeDefined()
   })

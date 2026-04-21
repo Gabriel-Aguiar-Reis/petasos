@@ -1,7 +1,7 @@
 import { CreateTripPlatform } from '@/src/application/use-cases/trip-platform/create-trip-platform.use-case'
+import { DeleteTripPlatform } from '@/src/application/use-cases/trip-platform/delete-trip-platform.use-case'
 import { GetAllTripPlatforms } from '@/src/application/use-cases/trip-platform/get-all-trip-platforms.use-case'
 import { UpdateTripPlatform } from '@/src/application/use-cases/trip-platform/update-trip-platform.use-case'
-import { DeleteTripPlatform } from '@/src/application/use-cases/trip-platform/delete-trip-platform.use-case'
 import type { TripPlatform } from '@/src/domain/entities/trip-platform'
 
 class FakeRepo {
@@ -42,7 +42,9 @@ describe('TripPlatform use-cases', () => {
     expect(list.length).toBeGreaterThanOrEqual(1)
 
     const update = new UpdateTripPlatform(repo as any)
-    const updated = await update.execute(item.id, { description: 'Rideshare' } as any)
+    const updated = await update.execute(item.id, {
+      description: 'Rideshare',
+    } as any)
     expect(updated.description).toBe('Rideshare')
 
     const del = new DeleteTripPlatform(repo as any)

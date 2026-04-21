@@ -1,7 +1,7 @@
 import { CreateFuelType } from '@/src/application/use-cases/fuel-type/create-fuel-type.use-case'
+import { DeleteFuelType } from '@/src/application/use-cases/fuel-type/delete-fuel-type.use-case'
 import { GetAllFuelTypes } from '@/src/application/use-cases/fuel-type/get-all-fuel-types.use-case'
 import { UpdateFuelType } from '@/src/application/use-cases/fuel-type/update-fuel-type.use-case'
-import { DeleteFuelType } from '@/src/application/use-cases/fuel-type/delete-fuel-type.use-case'
 import type { FuelType } from '@/src/domain/entities/fuel-type'
 
 class FakeFuelTypeRepo {

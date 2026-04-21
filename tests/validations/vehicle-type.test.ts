@@ -1,4 +1,7 @@
-import { CreateVehicleTypeSchema, UpdateVehicleTypeSchema } from '@/src/domain/validations/vehicle-type'
+import {
+  CreateVehicleTypeSchema,
+  UpdateVehicleTypeSchema,
+} from '@/src/domain/validations/vehicle-type'
 
 describe('VehicleType validation', () => {
   it('create accepts name', () => {
