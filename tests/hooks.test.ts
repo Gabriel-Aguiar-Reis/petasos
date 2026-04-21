@@ -85,7 +85,7 @@ jest.mock('@/src/application/use-cases/trip/create-trip.use-case', () => ({
     execute: jest.fn().mockResolvedValue({
       id: 'trip-1',
       earnings: 50,
-      platform: 'Uber',
+      platformId: 'Uber',
       date: new Date(),
     }),
   })),
@@ -96,7 +96,7 @@ jest.mock('@/src/application/use-cases/trip/update-trip.use-case', () => ({
     execute: jest.fn().mockResolvedValue({
       id: 'trip-1',
       earnings: 80,
-      platform: 'Uber',
+      platformId: 'Uber',
       date: new Date(),
     }),
   })),
@@ -393,7 +393,7 @@ describe('useCreateTrip', () => {
   it('mutationFn resolves', async () => {
     const config = useCreateTrip() as unknown as MutationConfig
     await expect(
-      config.mutationFn({ earnings: 50, platform: 'Uber' })
+      config.mutationFn({ earnings: 50, platformId: 'Uber' })
     ).resolves.not.toThrow()
   })
 

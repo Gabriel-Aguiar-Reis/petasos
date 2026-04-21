@@ -44,7 +44,7 @@ describe('ExportDataAsJSON', () => {
   })
 
   it('includes all entities in the export', async () => {
-    await new CreateTrip(tripRepo).execute({ earnings: 50, platform: 'Uber' })
+    await new CreateTrip(tripRepo).execute({ earnings: 50, platformId: 'Uber' })
     await new CreateCost(costRepo).execute({ amount: 20, category: 'fuel' })
     await new CreateFuelLog(fuelLogRepo).execute({
       fuelType: 'Gasolina',

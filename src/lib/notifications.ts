@@ -14,7 +14,7 @@ let ongoingNotificationId: string | null = null
 notifee.registerForegroundService(() => {
   // Retorna uma Promise que nunca resolve — o serviço permanece ativo
   // até ser explicitamente parado com stopForegroundService().
-  return new Promise(() => { })
+  return new Promise(() => {})
 })
 
 export async function initializeNotifications() {

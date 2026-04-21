@@ -248,7 +248,7 @@ describe('hooks with USE_MOCK = true', () => {
   it('useCreateTrip mutationFn resolves', async () => {
     const cfg = useCreateTrip() as unknown as MutationConfig
     await expect(
-      cfg.mutationFn({ earnings: 50, platform: 'Uber' })
+      cfg.mutationFn({ earnings: 50, platformId: 'Uber' })
     ).resolves.toBeDefined()
   })
 

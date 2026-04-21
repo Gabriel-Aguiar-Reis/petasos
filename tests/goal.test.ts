@@ -62,7 +62,7 @@ describe('Goal use cases', () => {
       })
       await new CreateTrip(tripRepo).execute({
         earnings: 80,
-        platform: 'Uber',
+        platformId: 'Uber',
         date: new Date(2024, 0, 15, 10, 0, 0),
       })
 
@@ -82,7 +82,7 @@ describe('Goal use cases', () => {
       })
       await new CreateTrip(tripRepo).execute({
         earnings: 80,
-        platform: 'Uber',
+        platformId: 'Uber',
         date: new Date(2024, 0, 15, 10, 0, 0),
       })
 

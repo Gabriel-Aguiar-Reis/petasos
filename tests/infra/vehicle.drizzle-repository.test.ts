@@ -3,8 +3,17 @@ import { DrizzleVehicleRepository } from '@/src/infra/repositories/vehicle.drizz
 import { NotFoundError, StorageError } from '@/src/lib/errors'
 import { createTestDb } from './helpers/db'
 
-function makeVehicle(id: string, name: string, plate: string | null = null) {
-  return Vehicle.reconstitute({ id, name, plate })
+function makeVehicle(id: string, name: string, plate: string = '') {
+  return Vehicle.reconstitute({
+    id,
+    name,
+    plate,
+    brand: 'Honda',
+    model: 'Civic',
+    year: 2020,
+    fuelTypeId: 'ft1',
+    typeId: 'vt1',
+  })
 }
 
 describe('DrizzleVehicleRepository (integration)', () => {
@@ -29,10 +38,10 @@ describe('DrizzleVehicleRepository (integration)', () => {
     expect(found.plate).toBe('ABC-1234')
   })
 
-  it('findById — returns vehicle with null plate', async () => {
-    await repo.create(makeVehicle('v1', 'Moto', null))
+  it('findById — returns vehicle with empty plate', async () => {
+    await repo.create(makeVehicle('v1', 'Moto'))
     const found = await repo.findById('v1')
-    expect(found.plate).toBeNull()
+    expect(found.plate).toBe('')
   })
 
   it('findById — throws NotFoundError when vehicle does not exist', async () => {
