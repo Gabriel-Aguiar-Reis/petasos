@@ -1,6 +1,8 @@
+import { RecurrenceService } from '@/src/application/services/recurrence.service'
 import { CreateCost } from '@/src/application/use-cases/cost/create-cost.use-case'
 import { DeleteCost } from '@/src/application/use-cases/cost/delete-cost.use-case'
 import { GetCostsByFilter } from '@/src/application/use-cases/cost/get-cost-by-filter.use-case'
+import { GetCostsByDateRange } from '@/src/application/use-cases/cost/get-costs-by-date-range.use-case'
 import { UpdateCost } from '@/src/application/use-cases/cost/update-cost.use-case'
 import { Cost } from '@/src/domain/entities/cost'
 import { NotFoundError, StorageError, ValidationError } from '@/src/lib/errors'
@@ -281,5 +283,93 @@ describe('Error classes', () => {
   it('StorageError without cause has undefined cause', () => {
     const err = new StorageError('Failed')
     expect(err.cause).toBeUndefined()
+  })
+})
+
+describe('Cost recurrence', () => {
+  let repo: InMemoryCostRepository
+  let createUc: CreateCost
+  let updateUc: UpdateCost
+  let recurrenceService: RecurrenceService
+  let getRangeUc: GetCostsByDateRange
+
+  beforeEach(() => {
+    repo = new InMemoryCostRepository()
+    createUc = new CreateCost(repo)
+    updateUc = new UpdateCost(repo)
+    recurrenceService = new RecurrenceService()
+    getRangeUc = new GetCostsByDateRange(repo, recurrenceService)
+  })
+
+  it('creates a cost with recurrence rule', async () => {
+    const cost = await createUc.execute({
+      amount: 100,
+      category: 'maintenance',
+      date: new Date('2025-01-01'),
+      recurrence: { rule: 'FREQ=MONTHLY;COUNT=3' },
+    })
+    expect(cost.recurrence?.rule).toBe('FREQ=MONTHLY;COUNT=3')
+  })
+
+  it('updates a cost adding recurrence', async () => {
+    const cost = await createUc.execute({
+      amount: 50,
+      category: 'fuel',
+      date: new Date('2025-01-01'),
+    })
+    const updated = await updateUc.execute(cost.id, {
+      recurrence: { rule: 'FREQ=WEEKLY;COUNT=4' },
+    })
+    expect(updated.recurrence?.rule).toBe('FREQ=WEEKLY;COUNT=4')
+  })
+
+  it('GetCostsByDateRange returns one-time and recurring costs', async () => {
+    // One-time cost in range
+    await createUc.execute({
+      amount: 30,
+      category: 'parking_tolls',
+      date: new Date('2025-03-15'),
+    })
+    // Recurring cost starting before range — generates monthly occurrences
+    await createUc.execute({
+      amount: 200,
+      category: 'maintenance',
+      date: new Date('2025-01-10'),
+      recurrence: { rule: 'FREQ=MONTHLY;COUNT=12' },
+    })
+    const results = await getRangeUc.execute(
+      new Date('2025-03-01'),
+      new Date('2025-04-30')
+    )
+    // Should include the one-time cost (Mar 15) + monthly occurrences in range (Mar 10, Apr 10)
+    expect(results.length).toBeGreaterThanOrEqual(2)
+    const amounts = results.map((c) => c.amount)
+    expect(amounts).toContain(30)
+    expect(amounts).toContain(200)
+  })
+
+  it('exception date is excluded from recurring occurrences', async () => {
+    const exceptionDate = new Date('2025-03-01T00:00:00.000Z')
+    await createUc.execute({
+      amount: 100,
+      category: 'fuel',
+      date: new Date('2025-01-01T00:00:00.000Z'),
+      recurrence: {
+        rule: 'FREQ=MONTHLY;COUNT=6',
+        exceptions: [exceptionDate],
+      },
+    })
+    const results = await getRangeUc.execute(
+      new Date('2025-02-28T00:00:00.000Z'),
+      new Date('2025-03-31T23:59:59.000Z')
+    )
+    // The March occurrence should be excluded by exdate
+    const marchOccurrences = results.filter(
+      (c) =>
+        c.amount === 100 &&
+        c.date >= new Date('2025-03-01') &&
+        c.date <= new Date('2025-03-31')
+    )
+    expect(marchOccurrences.length).toBe(0)
   })
 })

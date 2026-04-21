@@ -5,6 +5,7 @@ import {
   type CreateCostInput,
   type UpdateCostInput,
 } from '../validations/cost'
+import type { Recurrence } from './recurrence'
 
 export type CostCategory =
   | 'fuel'
@@ -12,6 +13,20 @@ export type CostCategory =
   | 'food'
   | 'parking_tolls'
   | 'custom'
+
+export const COST_CATEGORIES = [
+  'Combustível',
+  'Manutenção',
+  'Pedágio',
+  'IPVA',
+  'Seguro',
+  'Depreciação',
+  'Financiamento',
+  'Estacionamento',
+  'Lavagem',
+  'Outros',
+] as const
+export type KnownCostCategory = (typeof COST_CATEGORIES)[number]
 
 const KNOWN_CATEGORIES: readonly CostCategory[] = [
   'fuel',
@@ -26,6 +41,9 @@ type CostProps = {
   date: Date
   amount: number
   category: string
+  description?: string
+  recurrence?: Recurrence
+  tags?: string[]
 }
 
 export class Cost {
@@ -33,12 +51,18 @@ export class Cost {
   readonly date: Date
   readonly amount: number
   readonly category: string
+  readonly description?: string
+  readonly recurrence?: Recurrence
+  readonly tags?: string[]
 
   private constructor(props: CostProps) {
     this.id = props.id
     this.date = props.date
     this.amount = props.amount
     this.category = props.category
+    this.description = props.description
+    this.recurrence = props.recurrence
+    this.tags = props.tags
   }
 
   /** Validates input and constructs a new Cost. Throws ValidationError on invalid data. */
@@ -52,6 +76,9 @@ export class Cost {
       date: d.date ?? new Date(),
       amount: d.amount,
       category: d.category,
+      description: d.description,
+      recurrence: d.recurrence,
+      tags: d.tags,
     })
   }
 
@@ -78,6 +105,15 @@ export class Cost {
       date: d.date ?? this.date,
       amount: d.amount !== undefined ? d.amount : this.amount,
       category: d.category ?? this.category,
+      description:
+        d.description !== undefined
+          ? (d.description ?? undefined)
+          : this.description,
+      recurrence:
+        d.recurrence !== undefined
+          ? (d.recurrence ?? undefined)
+          : this.recurrence,
+      tags: d.tags !== undefined ? (d.tags ?? undefined) : this.tags,
     })
   }
 }
