@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const CreateTripSchema = z.object({
   earnings: z.number().min(0, 'earnings must be ≥ 0'),
-  platform: z.string().min(1, 'platform must not be empty'),
+  platformId: z.string().min(1, 'platformId must not be empty'),
   date: z.date().optional(),
   origin: z.string().optional(),
   destination: z.string().optional(),
@@ -13,7 +13,7 @@ export const CreateTripSchema = z.object({
 
 export const UpdateTripSchema = z.object({
   earnings: z.number().min(0, 'earnings must be ≥ 0').optional(),
-  platform: z.string().min(1, 'platform must not be empty').optional(),
+  platformId: z.string().min(1, 'platformId must not be empty').optional(),
   date: z.date().optional(),
   origin: z.string().nullable().optional(),
   destination: z.string().nullable().optional(),

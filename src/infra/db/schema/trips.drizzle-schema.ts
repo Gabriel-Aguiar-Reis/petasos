@@ -5,7 +5,7 @@ export const trips = sqliteTable('trips', {
   id: text('id').primaryKey(),
   date: integer('date', { mode: 'timestamp' }).notNull(),
   earnings: real('earnings').notNull(), // ≥ 0
-  platform: text('platform').notNull(),
+  platformId: text('platform_id').notNull(),
   distance: real('distance'), // nullable
   duration: integer('duration'), // nullable, minutes
   origin: text('origin'), // nullable

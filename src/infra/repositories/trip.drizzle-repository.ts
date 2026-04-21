@@ -10,7 +10,7 @@ import type { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite'
 type DB = ExpoSQLiteDatabase<typeof schema>
 
 export class DrizzleTripRepository implements ITripRepository {
-  constructor(private readonly db: DB) {}
+  constructor(private readonly db: DB) { }
 
   async create(trip: Trip): Promise<Trip> {
     try {
@@ -18,7 +18,7 @@ export class DrizzleTripRepository implements ITripRepository {
         id: trip.id,
         date: trip.date,
         earnings: trip.earnings,
-        platform: trip.platform,
+        platformId: trip.platformId,
         distance: trip.distance,
         duration: trip.duration,
         origin: trip.origin,
@@ -60,7 +60,7 @@ export class DrizzleTripRepository implements ITripRepository {
         )
       }
       if (filters.platform) {
-        conditions.push(eq(trips.platform, filters.platform))
+        conditions.push(eq(trips.platformId, filters.platform))
       }
       if (filters.vehicleId) {
         conditions.push(eq(trips.vehicleId, filters.vehicleId))
@@ -68,9 +68,9 @@ export class DrizzleTripRepository implements ITripRepository {
       const rows =
         conditions.length > 0
           ? await this.db
-              .select()
-              .from(trips)
-              .where(and(...conditions))
+            .select()
+            .from(trips)
+            .where(and(...conditions))
           : await this.db.select().from(trips)
       return rows.map((r) => this.toEntity(r))
     } catch (err) {
@@ -86,7 +86,7 @@ export class DrizzleTripRepository implements ITripRepository {
         .set({
           date: trip.date,
           earnings: trip.earnings,
-          platform: trip.platform,
+          platformId: trip.platformId,
           distance: trip.distance,
           duration: trip.duration,
           origin: trip.origin,
@@ -116,7 +116,7 @@ export class DrizzleTripRepository implements ITripRepository {
       id: row.id,
       date: row.date,
       earnings: row.earnings,
-      platform: row.platform,
+      platformId: row.platformId,
       distance: row.distance ?? null,
       duration: row.duration ?? null,
       origin: row.origin ?? null,

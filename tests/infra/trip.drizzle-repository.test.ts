@@ -14,7 +14,7 @@ function makeTrip(
   overrides: Partial<{
     date: Date
     earnings: number
-    platform: string
+    platformId: string
     distance: number | null
     duration: number | null
     origin: string | null
@@ -26,7 +26,7 @@ function makeTrip(
     id,
     date: overrides.date ?? D(2024, 1, 1),
     earnings: overrides.earnings ?? 100,
-    platform: overrides.platform ?? 'Uber',
+    platformId: overrides.platformId ?? 'Uber',
     distance: overrides.distance ?? null,
     duration: overrides.duration ?? null,
     origin: overrides.origin ?? null,
@@ -52,11 +52,11 @@ describe('DrizzleTripRepository (integration)', () => {
   })
 
   it('findById — returns the stored trip', async () => {
-    await repo.create(makeTrip('t1', { earnings: 55.5, platform: '99' }))
+    await repo.create(makeTrip('t1', { earnings: 55.5, platformId: '99' }))
     const found = await repo.findById('t1')
     expect(found.id).toBe('t1')
     expect(found.earnings).toBe(55.5)
-    expect(found.platform).toBe('99')
+    expect(found.platformId).toBe('99')
   })
 
   it('findById — maps nullable fields correctly', async () => {
@@ -106,19 +106,37 @@ describe('DrizzleTripRepository (integration)', () => {
   })
 
   it('findByFilter — platform filters correctly', async () => {
-    await repo.create(makeTrip('t1', { platform: 'Uber' }))
-    await repo.create(makeTrip('t2', { platform: '99' }))
+    await repo.create(makeTrip('t1', { platformId: 'Uber' }))
+    await repo.create(makeTrip('t2', { platformId: '99' }))
     const result = await repo.findByFilter({ platform: 'Uber' })
     expect(result).toHaveLength(1)
-    expect(result[0].platform).toBe('Uber')
+    expect(result[0].platformId).toBe('Uber')
   })
 
   it('findByFilter — vehicleId filters correctly', async () => {
     await vehicleRepo.create(
-      Vehicle.reconstitute({ id: 'v1', name: 'Car', plate: null })
+      Vehicle.reconstitute({
+        id: 'v1',
+        name: 'Car',
+        plate: '',
+        brand: 'Toyota',
+        model: 'Corolla',
+        year: 2020,
+        fuelTypeId: 'ft1',
+        typeId: 'vt1',
+      })
     )
     await vehicleRepo.create(
-      Vehicle.reconstitute({ id: 'v2', name: 'Moto', plate: null })
+      Vehicle.reconstitute({
+        id: 'v2',
+        name: 'Moto',
+        plate: '',
+        brand: 'Honda',
+        model: 'CG',
+        year: 2021,
+        fuelTypeId: 'ft1',
+        typeId: 'vt2',
+      })
     )
     await repo.create(makeTrip('t1', { vehicleId: 'v1' }))
     await repo.create(makeTrip('t2', { vehicleId: 'v2' }))
@@ -131,7 +149,7 @@ describe('DrizzleTripRepository (integration)', () => {
     await repo.create(makeTrip('t1'))
     const updated = makeTrip('t1', {
       earnings: 200,
-      platform: 'InDriver',
+      platformId: 'InDriver',
       distance: 50,
       duration: 60,
       origin: 'X',
@@ -140,7 +158,7 @@ describe('DrizzleTripRepository (integration)', () => {
     await repo.update(updated)
     const fetched = await repo.findById('t1')
     expect(fetched.earnings).toBe(200)
-    expect(fetched.platform).toBe('InDriver')
+    expect(fetched.platformId).toBe('InDriver')
     expect(fetched.distance).toBe(50)
     expect(fetched.destination).toBe('Y')
   })
