@@ -17,6 +17,13 @@ export class DrizzleVehicleRepository implements IVehicleRepository {
         id: vehicle.id,
         name: vehicle.name,
         plate: vehicle.plate,
+        brand: vehicle.brand,
+        model: vehicle.model,
+        year: vehicle.year,
+        fuelTypeId: vehicle.fuelTypeId,
+        typeId: vehicle.typeId,
+        color: vehicle.color ?? null,
+        notes: vehicle.notes ?? null,
       })
       return vehicle
     } catch (err) {
@@ -52,7 +59,17 @@ export class DrizzleVehicleRepository implements IVehicleRepository {
       await this.findById(vehicle.id)
       await this.db
         .update(vehicles)
-        .set({ name: vehicle.name, plate: vehicle.plate })
+        .set({
+          name: vehicle.name,
+          plate: vehicle.plate,
+          brand: vehicle.brand,
+          model: vehicle.model,
+          year: vehicle.year,
+          fuelTypeId: vehicle.fuelTypeId,
+          typeId: vehicle.typeId,
+          color: vehicle.color ?? null,
+          notes: vehicle.notes ?? null,
+        })
         .where(eq(vehicles.id, vehicle.id))
       return vehicle
     } catch (err) {
@@ -75,7 +92,14 @@ export class DrizzleVehicleRepository implements IVehicleRepository {
     return Vehicle.reconstitute({
       id: row.id,
       name: row.name,
-      plate: row.plate ?? null,
+      plate: row.plate,
+      brand: row.brand,
+      model: row.model,
+      year: row.year,
+      fuelTypeId: row.fuelTypeId,
+      typeId: row.typeId,
+      color: row.color ?? undefined,
+      notes: row.notes ?? undefined,
     })
   }
 }
