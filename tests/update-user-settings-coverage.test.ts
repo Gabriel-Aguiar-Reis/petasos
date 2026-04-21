@@ -50,7 +50,9 @@ describe('UpdateUserSettings coverage', () => {
 
     const repo: any = { get: async () => current, upsert: async (u: any) => u }
     const uc = new UpdateUserSettings(repo)
-    const res = await uc.execute({ displayPreferences: { showCosts: undefined } as any })
+    const res = await uc.execute({
+      displayPreferences: { showCosts: undefined } as any,
+    })
     expect(res.displayPreferences.showCosts).toBe(false)
   })
 
@@ -60,7 +62,12 @@ describe('UpdateUserSettings coverage', () => {
       userId: 'user-2',
       preferredUnits: 'km',
       currency: 'EUR',
-      displayPreferences: { showCosts: true, showProfits: false, showMaintenance: false, showReminders: false },
+      displayPreferences: {
+        showCosts: true,
+        showProfits: false,
+        showMaintenance: false,
+        showReminders: false,
+      },
       starredTool: null,
       tripOfferPill: null,
       createdAt: new Date('2025-01-01'),

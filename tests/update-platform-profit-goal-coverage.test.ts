@@ -1,5 +1,5 @@
 import { UpdatePlatformProfitGoal } from '@/src/application/use-cases/platform-profit-goal/update-platform-profit-goal.use-case'
-import { NotFoundError, ValidationError } from '@/src/lib/errors'
+import { NotFoundError } from '@/src/lib/errors'
 
 describe('UpdatePlatformProfitGoal coverage', () => {
   it('updates targetAmount (rounded) and converts null tags/notes to undefined', async () => {
@@ -19,7 +19,11 @@ describe('UpdatePlatformProfitGoal coverage', () => {
     }
 
     const uc = new UpdatePlatformProfitGoal(repo)
-    const res = await uc.execute('p1', { targetAmount: 123.456, tags: null, notes: null })
+    const res = await uc.execute('p1', {
+      targetAmount: 123.456,
+      tags: null,
+      notes: null,
+    })
     expect(res.targetAmount).toBe(123.46)
     expect(res.tags).toBeUndefined()
     expect(res.notes).toBeUndefined()
@@ -42,7 +46,10 @@ describe('UpdatePlatformProfitGoal coverage', () => {
       updatedAt: new Date('2025-01-01'),
     }
 
-    const repo: any = { findById: async () => existing, update: async (u: any) => u }
+    const repo: any = {
+      findById: async () => existing,
+      update: async (u: any) => u,
+    }
     const uc = new UpdatePlatformProfitGoal(repo)
     const res = await uc.execute('p2', {})
     expect(res.targetAmount).toBe(50)

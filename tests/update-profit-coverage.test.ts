@@ -39,7 +39,10 @@ describe('UpdateProfit coverage', () => {
       tags: ['t1'],
     }
 
-    const repo: any = { findById: async () => existing, update: async (u: any) => u }
+    const repo: any = {
+      findById: async () => existing,
+      update: async (u: any) => u,
+    }
     const uc = new UpdateProfit(repo)
     const res = await uc.execute('pr2', {})
     expect(res.amount).toBe(77.77)
@@ -56,7 +59,10 @@ describe('UpdateProfit coverage', () => {
       tags: ['t'],
     }
 
-    const repo: any = { findById: async () => existing, update: async (u: any) => u }
+    const repo: any = {
+      findById: async () => existing,
+      update: async (u: any) => u,
+    }
     const uc = new UpdateProfit(repo)
     const res = await uc.execute('pr3', { tags: null })
     expect(res.tags).toBeUndefined()

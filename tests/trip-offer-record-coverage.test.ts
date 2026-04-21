@@ -1,4 +1,7 @@
-import { resolveRatingColor, evaluateTripOfferPill } from '@/src/domain/entities/trip-offer-record'
+import {
+  evaluateTripOfferPill,
+  resolveRatingColor,
+} from '@/src/domain/entities/trip-offer-record'
 
 describe('resolveRatingColor coverage', () => {
   it('returns neutral for null rating', () => {
@@ -44,4 +47,3 @@ describe('evaluateTripOfferPill branch coverage', () => {
     expect(state.color).toBe('neutral')
   })
 })
-

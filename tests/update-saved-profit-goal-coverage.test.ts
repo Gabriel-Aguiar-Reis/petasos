@@ -20,7 +20,12 @@ describe('UpdateSavedProfitGoal coverage', () => {
     }
 
     const uc = new UpdateSavedProfitGoal(repo)
-    const res = await uc.execute('s1', { targetAmount: 77.777, period: null, tags: null, notes: null })
+    const res = await uc.execute('s1', {
+      targetAmount: 77.777,
+      period: null,
+      tags: null,
+      notes: null,
+    })
     expect(res.targetAmount).toBe(77.78)
     expect(res.period).toBeUndefined()
     expect(res.tags).toBeUndefined()
