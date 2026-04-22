@@ -14,16 +14,23 @@ export function createTestDb(): ExpoSQLiteDatabase<typeof schema> {
 
   sqlite.exec(`
     CREATE TABLE vehicles (
-      id   TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      plate TEXT
+      id           TEXT PRIMARY KEY,
+      name         TEXT NOT NULL,
+      plate        TEXT NOT NULL DEFAULT '',
+      brand        TEXT NOT NULL DEFAULT '',
+      model        TEXT NOT NULL DEFAULT '',
+      year         INTEGER NOT NULL DEFAULT 2020,
+      fuel_type_id TEXT NOT NULL DEFAULT '',
+      type_id      TEXT NOT NULL DEFAULT '',
+      color        TEXT,
+      notes        TEXT
     );
 
     CREATE TABLE trips (
       id          TEXT PRIMARY KEY,
       date        INTEGER NOT NULL,
       earnings    REAL    NOT NULL,
-      platform    TEXT    NOT NULL,
+      platform_id TEXT    NOT NULL,
       distance    REAL,
       duration    INTEGER,
       origin      TEXT,
@@ -32,10 +39,15 @@ export function createTestDb(): ExpoSQLiteDatabase<typeof schema> {
     );
 
     CREATE TABLE costs (
-      id       TEXT PRIMARY KEY,
-      date     INTEGER NOT NULL,
-      amount   REAL    NOT NULL,
-      category TEXT    NOT NULL
+      id                    TEXT PRIMARY KEY,
+      date                  INTEGER NOT NULL,
+      amount                REAL    NOT NULL,
+      category              TEXT    NOT NULL,
+      description           TEXT,
+      recurrence_rule       TEXT,
+      recurrence_end_date   INTEGER,
+      recurrence_exceptions TEXT,
+      tags                  TEXT
     );
 
     CREATE TABLE fuel_logs (

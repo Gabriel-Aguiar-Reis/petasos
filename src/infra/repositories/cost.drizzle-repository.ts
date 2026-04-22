@@ -4,7 +4,7 @@ import type * as schema from '@/src/infra/db/schema'
 import { costs } from '@/src/infra/db/schema/costs.drizzle-schema'
 import { NotFoundError, StorageError } from '@/src/lib/errors'
 import type { CostFilter } from '@/src/types/shared.types'
-import { and, between, eq } from 'drizzle-orm'
+import { and, between, eq, gte, lte } from 'drizzle-orm'
 import type { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite'
 
 type DB = ExpoSQLiteDatabase<typeof schema>
@@ -19,6 +19,13 @@ export class DrizzleCostRepository implements ICostRepository {
         date: cost.date,
         amount: cost.amount,
         category: cost.category,
+        description: cost.description ?? null,
+        recurrenceRule: cost.recurrence?.rule ?? null,
+        recurrenceEndDate: cost.recurrence?.endDate ?? null,
+        recurrenceExceptions: cost.recurrence?.exceptions
+          ? JSON.stringify(cost.recurrence.exceptions.map((d) => d.getTime()))
+          : null,
+        tags: cost.tags ? JSON.stringify(cost.tags) : null,
       })
       return cost
     } catch (err) {
@@ -75,7 +82,18 @@ export class DrizzleCostRepository implements ICostRepository {
       await this.findById(cost.id)
       await this.db
         .update(costs)
-        .set({ date: cost.date, amount: cost.amount, category: cost.category })
+        .set({
+          date: cost.date,
+          amount: cost.amount,
+          category: cost.category,
+          description: cost.description ?? null,
+          recurrenceRule: cost.recurrence?.rule ?? null,
+          recurrenceEndDate: cost.recurrence?.endDate ?? null,
+          recurrenceExceptions: cost.recurrence?.exceptions
+            ? JSON.stringify(cost.recurrence.exceptions.map((d) => d.getTime()))
+            : null,
+          tags: cost.tags ? JSON.stringify(cost.tags) : null,
+        })
         .where(eq(costs.id, cost.id))
       return cost
     } catch (err) {
@@ -94,12 +112,38 @@ export class DrizzleCostRepository implements ICostRepository {
     }
   }
 
+  async findByDateRange(from: Date, to: Date): Promise<Cost[]> {
+    try {
+      const rows = await this.db
+        .select()
+        .from(costs)
+        .where(and(gte(costs.date, from), lte(costs.date, to)))
+      return rows.map((r) => this.toEntity(r))
+    } catch (err) {
+      throw new StorageError('Failed to filter costs by date range', err)
+    }
+  }
+
   private toEntity(row: typeof costs.$inferSelect): Cost {
     return Cost.reconstitute({
       id: row.id,
       date: row.date,
       amount: row.amount,
       category: row.category,
+      description: row.description ?? undefined,
+      recurrence:
+        row.recurrenceRule != null
+          ? {
+              rule: row.recurrenceRule,
+              endDate: row.recurrenceEndDate ?? undefined,
+              exceptions: row.recurrenceExceptions
+                ? (JSON.parse(row.recurrenceExceptions) as number[]).map(
+                    (t) => new Date(t)
+                  )
+                : undefined,
+            }
+          : undefined,
+      tags: row.tags ? (JSON.parse(row.tags) as string[]) : undefined,
     })
   }
 }

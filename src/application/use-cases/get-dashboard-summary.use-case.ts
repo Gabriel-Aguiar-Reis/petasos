@@ -37,8 +37,8 @@ export class GetDashboardSummary {
     // Earnings by platform
     const platformMap = new Map<string, number>()
     for (const trip of trips) {
-      const prev = platformMap.get(trip.platform) ?? 0
-      platformMap.set(trip.platform, prev + trip.earnings)
+      const prev = platformMap.get(trip.platformId) ?? 0
+      platformMap.set(trip.platformId, prev + trip.earnings)
     }
     const earningsByPlatform: PlatformEarnings[] = Array.from(
       platformMap.entries()

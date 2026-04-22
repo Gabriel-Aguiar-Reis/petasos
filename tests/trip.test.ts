@@ -16,24 +16,24 @@ describe('Trip use cases', () => {
   describe('CreateTrip', () => {
     it('creates a trip with valid input', async () => {
       const uc = new CreateTrip(repo)
-      const trip = await uc.execute({ earnings: 50, platform: 'Uber' })
+      const trip = await uc.execute({ earnings: 50, platformId: 'Uber' })
       expect(trip.id).toBeTruthy()
       expect(trip.earnings).toBe(50)
-      expect(trip.platform).toBe('Uber')
+      expect(trip.platformId).toBe('Uber')
       expect(trip.date).toBeInstanceOf(Date)
     })
 
     it('throws ValidationError when earnings is negative', async () => {
       const uc = new CreateTrip(repo)
       await expect(
-        uc.execute({ earnings: -1, platform: 'Uber' })
+        uc.execute({ earnings: -1, platformId: 'Uber' })
       ).rejects.toBeInstanceOf(ValidationError)
     })
 
-    it('throws ValidationError when platform is empty', async () => {
+    it('throws ValidationError when platformId is empty', async () => {
       const uc = new CreateTrip(repo)
       await expect(
-        uc.execute({ earnings: 10, platform: '' })
+        uc.execute({ earnings: 10, platformId: '' })
       ).rejects.toBeInstanceOf(ValidationError)
     })
   })
@@ -41,7 +41,7 @@ describe('Trip use cases', () => {
   describe('UpdateTrip', () => {
     it('updates earnings on an existing trip', async () => {
       const createUc = new CreateTrip(repo)
-      const trip = await createUc.execute({ earnings: 30, platform: 'iFood' })
+      const trip = await createUc.execute({ earnings: 30, platformId: 'iFood' })
 
       const updateUc = new UpdateTrip(repo)
       const updated = await updateUc.execute(trip.id, { earnings: 60 })
@@ -54,12 +54,12 @@ describe('Trip use cases', () => {
       const createUc = new CreateTrip(repo)
       await createUc.execute({
         earnings: 10,
-        platform: 'A',
+        platformId: 'A',
         date: new Date('2024-01-05'),
       })
       await createUc.execute({
         earnings: 20,
-        platform: 'B',
+        platformId: 'B',
         date: new Date('2024-02-05'),
       })
 
@@ -68,7 +68,7 @@ describe('Trip use cases', () => {
         dateRange: { from: new Date('2024-01-01'), to: new Date('2024-01-31') },
       })
       expect(results).toHaveLength(1)
-      expect(results[0].platform).toBe('A')
+      expect(results[0].platformId).toBe('A')
     })
 
     it('throws ValidationError when from > to', async () => {
@@ -87,7 +87,7 @@ describe('Trip use cases', () => {
   describe('DeleteTrip', () => {
     it('deletes an existing trip', async () => {
       const createUc = new CreateTrip(repo)
-      const trip = await createUc.execute({ earnings: 10, platform: 'Uber' })
+      const trip = await createUc.execute({ earnings: 10, platformId: 'Uber' })
       const deleteUc = new DeleteTrip(repo)
       await expect(deleteUc.execute(trip.id)).resolves.toBeUndefined()
     })
@@ -103,7 +103,7 @@ describe('Trip use cases', () => {
   describe('UpdateTrip — validation', () => {
     it('throws ValidationError when updating with negative earnings', async () => {
       const createUc = new CreateTrip(repo)
-      const trip = await createUc.execute({ earnings: 30, platform: 'iFood' })
+      const trip = await createUc.execute({ earnings: 30, platformId: 'iFood' })
       const updateUc = new UpdateTrip(repo)
       await expect(
         updateUc.execute(trip.id, { earnings: -5 })
@@ -117,7 +117,7 @@ describe('Trip entity', () => {
     id: '1',
     date: new Date(2024, 0, 15),
     earnings: 50,
-    platform: 'Uber',
+    platformId: 'Uber',
     distance: null as number | null,
     duration: null as number | null,
     origin: null as string | null,
@@ -198,14 +198,14 @@ describe('InMemoryTripRepository', () => {
 
   const makeTrip = (
     id: string,
-    platform = 'Uber',
+    platformId = 'Uber',
     vehicleId: string | null = null
   ) =>
     Trip.reconstitute({
       id,
       date: new Date(),
       earnings: 10,
-      platform,
+      platformId,
       distance: null,
       duration: null,
       origin: null,
@@ -224,7 +224,7 @@ describe('InMemoryTripRepository', () => {
     await repo.create(makeTrip('2', '99'))
     const results = await repo.findByFilter({ platform: 'Uber' })
     expect(results).toHaveLength(1)
-    expect(results[0].platform).toBe('Uber')
+    expect(results[0].platformId).toBe('Uber')
   })
 
   it('findByFilter filters by vehicleId', async () => {

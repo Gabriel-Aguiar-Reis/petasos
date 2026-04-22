@@ -29,7 +29,7 @@ export class InMemoryTripRepository implements ITripRepository {
       )
     }
     if (filter.platform) {
-      results = results.filter((t) => t.platform === filter.platform)
+      results = results.filter((t) => t.platformId === filter.platform)
     }
     if (filter.vehicleId) {
       results = results.filter((t) => t.vehicleId === filter.vehicleId)

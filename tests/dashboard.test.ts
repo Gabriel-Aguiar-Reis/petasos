@@ -31,13 +31,13 @@ describe('GetDashboardSummary', () => {
     const date = new Date(2024, 0, 15)
     await new CreateTrip(tripRepo).execute({
       earnings: 50,
-      platform: 'Uber',
+      platformId: 'Uber',
       distance: 10,
       date,
     })
     await new CreateTrip(tripRepo).execute({
       earnings: 30,
-      platform: '99',
+      platformId: '99',
       distance: 5,
       date,
     })
@@ -69,7 +69,7 @@ describe('GetDashboardSummary', () => {
     const date = new Date(2024, 0, 15)
     await new CreateTrip(tripRepo).execute({
       earnings: 50,
-      platform: 'Uber',
+      platformId: 'Uber',
       date,
     }) // distance null
     await new CreateCost(costRepo).execute({
@@ -90,12 +90,12 @@ describe('GetDashboardSummary', () => {
     const date = new Date(2024, 0, 15)
     await new CreateTrip(tripRepo).execute({
       earnings: 50,
-      platform: 'Uber',
+      platformId: 'Uber',
       date,
     })
     await new CreateTrip(tripRepo).execute({
       earnings: 30,
-      platform: 'Uber',
+      platformId: 'Uber',
       date,
     })
 

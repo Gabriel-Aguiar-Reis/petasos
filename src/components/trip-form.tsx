@@ -13,7 +13,7 @@ type TripFormProps = {
 
 export function TripForm({ trip, onClose }: TripFormProps) {
   const [earnings, setEarnings] = useState(trip ? String(trip.earnings) : '')
-  const [platform, setPlatform] = useState(trip?.platform ?? '')
+  const [platform, setPlatform] = useState(trip?.platformId ?? '')
   const [origin, setOrigin] = useState(trip?.origin ?? '')
   const [destination, setDestination] = useState(trip?.destination ?? '')
   const [distance, setDistance] = useState(
@@ -51,7 +51,7 @@ export function TripForm({ trip, onClose }: TripFormProps) {
     if (!validate()) return
     const input = {
       earnings: parseFloat(earnings),
-      platform: platform.trim(),
+      platformId: platform.trim(),
       date: trip?.date ?? new Date(),
       origin: origin.trim() || undefined,
       destination: destination.trim() || undefined,

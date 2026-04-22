@@ -10,7 +10,7 @@ type TripProps = {
   id: string
   date: Date
   earnings: number
-  platform: string
+  platformId: string
   distance: number | null
   duration: number | null
   origin: string | null
@@ -22,7 +22,7 @@ export class Trip {
   readonly id: string
   readonly date: Date
   readonly earnings: number
-  readonly platform: string
+  readonly platformId: string
   readonly distance: number | null
   readonly duration: number | null
   readonly origin: string | null
@@ -33,7 +33,7 @@ export class Trip {
     this.id = props.id
     this.date = props.date
     this.earnings = props.earnings
-    this.platform = props.platform
+    this.platformId = props.platformId
     this.distance = props.distance
     this.duration = props.duration
     this.origin = props.origin
@@ -51,7 +51,7 @@ export class Trip {
       id: input.id,
       date: d.date ?? new Date(),
       earnings: d.earnings,
-      platform: d.platform,
+      platformId: d.platformId,
       distance: d.distance ?? null,
       duration: d.duration ?? null,
       origin: d.origin ?? null,
@@ -104,7 +104,7 @@ export class Trip {
       id: this.id,
       date: d.date ?? this.date,
       earnings: d.earnings !== undefined ? d.earnings : this.earnings,
-      platform: d.platform ?? this.platform,
+      platformId: d.platformId ?? this.platformId,
       distance: d.distance !== undefined ? d.distance : this.distance,
       duration: d.duration !== undefined ? d.duration : this.duration,
       origin: d.origin !== undefined ? d.origin : this.origin,

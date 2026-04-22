@@ -44,4 +44,9 @@ export class InMemoryCostRepository implements ICostRepository {
     await this.findById(id)
     this.store.delete(id)
   }
+  async findByDateRange(from: Date, to: Date): Promise<Cost[]> {
+    return Array.from(this.store.values()).filter(
+      (c) => c.date >= from && c.date <= to
+    )
+  }
 }

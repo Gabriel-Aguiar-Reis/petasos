@@ -62,7 +62,7 @@ export function QuickEntryOverlay() {
       try {
         await createTrip.mutateAsync({
           earnings: parseFloat(earnings),
-          platform: platform.trim(),
+          platformId: platform.trim(),
         })
         handleClose()
       } catch {

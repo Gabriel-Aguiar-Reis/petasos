@@ -21,6 +21,7 @@ const config: JestConfigWithTsJest = {
     // which are ESM-only native packages — replace with a no-op stub for Jest
     // Must come before the generic @/ mapper so it takes precedence
     '^@/src/lib/notifications$': '<rootDir>/tests/__mocks__/notifications.ts',
+    '^expo-notifications$': '<rootDir>/tests/__mocks__/expo-notifications.ts',
     '^@/(.*)$': '<rootDir>/$1',
     // uuid v13 is ESM-only; redirect to CJS-compatible stub for Jest
     '^uuid$': '<rootDir>/tests/__mocks__/uuid.ts',
