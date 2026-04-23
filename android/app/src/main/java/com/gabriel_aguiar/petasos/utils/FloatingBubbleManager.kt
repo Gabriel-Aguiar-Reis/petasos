@@ -15,8 +15,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.TextView
 import com.gabriel_aguiar.petasos.MainActivity
+import com.gabriel_aguiar.petasos.R
 import com.gabriel_aguiar.petasos.service.FloatingBubbleService
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -42,18 +44,15 @@ class FloatingBubbleManager(private val context: Context) {
     val bubbleSize = dp(BUBBLE_SIZE_DP)
     val params = createLayoutParams(bubbleSize)
 
-    val bubble = TextView(context).apply {
-      text = "+"
-      setTextColor(Color.WHITE)
-      textSize = 32f
-      gravity = Gravity.CENTER
-      typeface = Typeface.DEFAULT_BOLD
+    val bubble = ImageView(context).apply {
+      setImageResource(R.mipmap.ic_launcher)
+      scaleType = ImageView.ScaleType.CENTER_CROP
       contentDescription = "Abrir acesso rapido do Petasos"
       background = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
-        setColor(Color.parseColor("#22292b"))
         setStroke(dp(2), Color.parseColor("#7ccf00"))
       }
+      clipToOutline = true
       elevation = dp(10).toFloat()
       setOnTouchListener(createTouchListener())
     }
