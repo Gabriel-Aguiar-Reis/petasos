@@ -1,4 +1,4 @@
-import type { UserSettings } from '../entities/user-settings'
+import type { UserSettings } from '@/src/domain/entities/user-settings'
 
 export interface IUserSettingsRepository {
   get(): Promise<UserSettings>

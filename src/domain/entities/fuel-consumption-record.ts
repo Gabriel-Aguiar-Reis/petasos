@@ -1,5 +1,5 @@
+import type { FuelGaugeMeasurement } from '@/src/domain/entities/fuel-price-record'
 import { ValidationError } from '@/src/lib/errors'
-import type { FuelGaugeMeasurement } from './fuel-price-record'
 
 export type FuelConsumptionRecord = {
   id: string

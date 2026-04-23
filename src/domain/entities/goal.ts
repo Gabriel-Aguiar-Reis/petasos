@@ -1,5 +1,8 @@
+import {
+  CreateGoalSchema,
+  type CreateGoalInput,
+} from '@/src/domain/validations/goal'
 import { ValidationError } from '@/src/lib/errors'
-import { CreateGoalSchema, type CreateGoalInput } from '../validations/goal'
 
 export type GoalType = 'daily' | 'weekly' | 'monthly'
 

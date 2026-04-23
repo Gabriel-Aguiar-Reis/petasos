@@ -1,11 +1,11 @@
-import { ValidationError } from '@/src/lib/errors'
+import type { Recurrence } from '@/src/domain/entities/recurrence'
 import {
   CreateCostSchema,
   UpdateCostSchema,
   type CreateCostInput,
   type UpdateCostInput,
-} from '../validations/cost'
-import type { Recurrence } from './recurrence'
+} from '@/src/domain/validations/cost'
+import { ValidationError } from '@/src/lib/errors'
 
 export type CostCategory =
   | 'fuel'

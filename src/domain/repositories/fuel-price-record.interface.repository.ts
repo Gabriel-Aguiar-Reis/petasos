@@ -1,4 +1,4 @@
-import type { FuelPriceRecord } from '../entities/fuel-price-record'
+import type { FuelPriceRecord } from '@/src/domain/entities/fuel-price-record'
 
 export interface IFuelPriceRecordRepository {
   create(record: FuelPriceRecord): Promise<FuelPriceRecord>

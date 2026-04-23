@@ -1,9 +1,9 @@
-import { ValidationError } from '@/src/lib/errors'
 import {
   CreateVehicleSchema,
   type CreateVehicleInput,
   type UpdateVehicleInput,
-} from '../validations/vehicle'
+} from '@/src/domain/validations/vehicle'
+import { ValidationError } from '@/src/lib/errors'
 
 type VehicleProps = {
   id: string

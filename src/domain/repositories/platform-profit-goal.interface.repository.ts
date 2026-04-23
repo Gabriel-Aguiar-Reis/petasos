@@ -1,4 +1,4 @@
-import type { PlatformProfitGoal } from '../entities/platform-profit-goal'
+import type { PlatformProfitGoal } from '@/src/domain/entities/platform-profit-goal'
 
 export interface IPlatformProfitGoalRepository {
   create(goal: PlatformProfitGoal): Promise<PlatformProfitGoal>

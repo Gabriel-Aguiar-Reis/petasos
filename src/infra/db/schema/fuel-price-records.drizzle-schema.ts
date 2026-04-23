@@ -1,5 +1,5 @@
+import { fuelTypes } from '@/src/infra/db/schema/fuel-types.drizzle-schema'
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { fuelTypes } from './fuel-types.drizzle-schema'
 
 export const fuelPriceRecords = sqliteTable('fuel_price_records', {
   id: text('id').primaryKey(),

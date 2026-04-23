@@ -1,4 +1,4 @@
-import type { SpecialDay } from '../entities/special-day'
+import type { SpecialDay } from '@/src/domain/entities/special-day'
 
 export interface ISpecialDayRepository {
   create(specialDay: SpecialDay): Promise<SpecialDay>

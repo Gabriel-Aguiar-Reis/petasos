@@ -1,6 +1,6 @@
+import { fuelTypes } from '@/src/infra/db/schema/fuel-types.drizzle-schema'
+import { vehicleTypes } from '@/src/infra/db/schema/vehicle-types.drizzle-schema'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { fuelTypes } from './fuel-types.drizzle-schema'
-import { vehicleTypes } from './vehicle-types.drizzle-schema'
 
 export const vehicles = sqliteTable('vehicles', {
   id: text('id').primaryKey(),

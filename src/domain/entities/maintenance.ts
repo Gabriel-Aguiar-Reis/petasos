@@ -1,10 +1,10 @@
-import { ValidationError } from '@/src/lib/errors'
 import {
   CreateMaintenanceSchema,
   UpdateMaintenanceSchema,
   type CreateMaintenanceInput,
   type UpdateMaintenanceInput,
-} from '../validations/maintenance'
+} from '@/src/domain/validations/maintenance'
+import { ValidationError } from '@/src/lib/errors'
 
 export type MaintenanceTrigger =
   | { type: 'date'; date: Date }

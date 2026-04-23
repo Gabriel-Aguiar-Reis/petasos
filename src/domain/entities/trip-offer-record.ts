@@ -1,4 +1,4 @@
-import { Trip } from './trip'
+import { Trip } from '@/src/domain/entities/trip'
 
 export type TripOfferRecord = {
   id: string

@@ -1,4 +1,4 @@
-import type { Profit } from '../entities/profit'
+import type { Profit } from '@/src/domain/entities/profit'
 
 export interface IProfitRepository {
   create(profit: Profit): Promise<Profit>

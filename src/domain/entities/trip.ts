@@ -1,10 +1,10 @@
-import { ValidationError } from '@/src/lib/errors'
 import {
   CreateTripSchema,
   UpdateTripSchema,
   type CreateTripInput,
   type UpdateTripInput,
-} from '../validations/trip'
+} from '@/src/domain/validations/trip'
+import { ValidationError } from '@/src/lib/errors'
 
 type TripProps = {
   id: string

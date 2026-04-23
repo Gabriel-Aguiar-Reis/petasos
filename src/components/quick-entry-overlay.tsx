@@ -1,13 +1,13 @@
 import { useCreateCost } from '@/src/application/hooks/use-costs'
 import { useCreateTrip } from '@/src/application/hooks/use-trips'
+import { CostForm } from '@/src/components/cost-form'
+import { TripForm } from '@/src/components/trip-form'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { Text } from '@/src/components/ui/text'
 import { useQuickEntryStore } from '@/src/lib/stores/quick-entry.store'
 import { useState } from 'react'
 import { Alert, Modal, Pressable, View } from 'react-native'
-import { CostForm } from './cost-form'
-import { TripForm } from './trip-form'
 
 export function QuickEntryOverlay() {
   const { isOpen, entryType, close } = useQuickEntryStore()

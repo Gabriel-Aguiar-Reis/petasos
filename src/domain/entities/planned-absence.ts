@@ -1,10 +1,10 @@
-import { ValidationError } from '@/src/lib/errors'
 import {
   CreatePlannedAbsenceSchema,
   UpdatePlannedAbsenceSchema,
   type CreatePlannedAbsenceInput,
   type UpdatePlannedAbsenceInput,
-} from '../validations/planned-absence'
+} from '@/src/domain/validations/planned-absence'
+import { ValidationError } from '@/src/lib/errors'
 
 export type PlannedAbsenceType = 'day_off' | 'vacation'
 

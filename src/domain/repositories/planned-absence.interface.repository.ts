@@ -1,4 +1,4 @@
-import type { PlannedAbsence } from '../entities/planned-absence'
+import type { PlannedAbsence } from '@/src/domain/entities/planned-absence'
 
 export interface IPlannedAbsenceRepository {
   create(absence: PlannedAbsence): Promise<PlannedAbsence>

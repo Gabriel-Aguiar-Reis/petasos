@@ -1,4 +1,4 @@
-import type { SavedProfitGoal } from '../entities/saved-profit-goal'
+import type { SavedProfitGoal } from '@/src/domain/entities/saved-profit-goal'
 
 export interface ISavedProfitGoalRepository {
   create(goal: SavedProfitGoal): Promise<SavedProfitGoal>

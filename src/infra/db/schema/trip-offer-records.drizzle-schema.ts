@@ -1,6 +1,6 @@
+import { tripPlatforms } from '@/src/infra/db/schema/trip-platforms.drizzle-schema'
+import { vehicles } from '@/src/infra/db/schema/vehicles.drizzle-schema'
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { tripPlatforms } from './trip-platforms.drizzle-schema'
-import { vehicles } from './vehicles.drizzle-schema'
 
 export const tripOfferRecords = sqliteTable('trip_offer_records', {
   id: text('id').primaryKey(),

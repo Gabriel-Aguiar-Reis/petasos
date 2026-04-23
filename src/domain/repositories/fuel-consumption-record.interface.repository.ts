@@ -1,4 +1,4 @@
-import type { FuelConsumptionRecord } from '../entities/fuel-consumption-record'
+import type { FuelConsumptionRecord } from '@/src/domain/entities/fuel-consumption-record'
 
 export interface IFuelConsumptionRecordRepository {
   create(record: FuelConsumptionRecord): Promise<FuelConsumptionRecord>

@@ -1,8 +1,8 @@
-import { ValidationError } from '@/src/lib/errors'
 import {
   CreateFuelLogSchema,
   type CreateFuelLogInput,
-} from '../validations/fuel-log'
+} from '@/src/domain/validations/fuel-log'
+import { ValidationError } from '@/src/lib/errors'
 
 type FuelLogProps = {
   id: string

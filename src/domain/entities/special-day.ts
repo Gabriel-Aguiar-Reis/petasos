@@ -1,8 +1,8 @@
-import { ConflictError, ValidationError } from '@/src/lib/errors'
 import {
   CreateSpecialDaySchema,
   type CreateSpecialDayInput,
-} from '../validations/special-day'
+} from '@/src/domain/validations/special-day'
+import { ConflictError, ValidationError } from '@/src/lib/errors'
 
 export type SpecialDaySource = 'custom' | 'official'
 

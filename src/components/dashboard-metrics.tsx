@@ -1,9 +1,9 @@
 import { useDashboardSummary } from '@/src/application/hooks/use-dashboard-summary'
+import { DashboardMetricCard } from '@/src/components/dashboard-metric-card'
+import { PlatformEarningsRow } from '@/src/components/platform-earnings-row'
 import { Text } from '@/src/components/ui/text'
 import { formatCurrency } from '@/src/lib/format'
 import { View } from 'react-native'
-import { DashboardMetricCard } from './dashboard-metric-card'
-import { PlatformEarningsRow } from './platform-earnings-row'
 
 export function DashboardMetrics({
   data,

@@ -1,11 +1,11 @@
-import { ValidationError } from '@/src/lib/errors'
+import type { Recurrence } from '@/src/domain/entities/recurrence'
 import {
   CreateReminderSchema,
   UpdateReminderSchema,
   type CreateReminderInput,
   type UpdateReminderInput,
-} from '../validations/reminder'
-import type { Recurrence } from './recurrence'
+} from '@/src/domain/validations/reminder'
+import { ValidationError } from '@/src/lib/errors'
 
 export type ReminderProps = {
   id: string

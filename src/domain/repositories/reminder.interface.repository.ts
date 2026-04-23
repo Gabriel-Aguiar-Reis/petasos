@@ -1,4 +1,4 @@
-import type { Reminder } from '../entities/reminder'
+import type { Reminder } from '@/src/domain/entities/reminder'
 
 export interface IReminderRepository {
   create(reminder: Reminder): Promise<Reminder>

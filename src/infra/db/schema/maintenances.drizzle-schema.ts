@@ -1,5 +1,5 @@
+import { vehicles } from '@/src/infra/db/schema/vehicles.drizzle-schema'
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { vehicles } from './vehicles.drizzle-schema'
 
 export const maintenances = sqliteTable('maintenances', {
   id: text('id').primaryKey(),

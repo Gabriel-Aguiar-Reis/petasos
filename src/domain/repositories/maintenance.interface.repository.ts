@@ -1,4 +1,4 @@
-import type { Maintenance } from '../entities/maintenance'
+import type { Maintenance } from '@/src/domain/entities/maintenance'
 
 export interface IMaintenanceRepository {
   create(maintenance: Maintenance): Promise<Maintenance>
