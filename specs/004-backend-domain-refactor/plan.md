@@ -22,17 +22,17 @@ Extend the domain and data layers built in `001-app-backend` with 14 new/updated
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-| ----------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| I. Offline-First | ✅ PASS | All writes target local SQLite. BrasilAPI sync is non-blocking — failure silently retried; app continues with cached data. No domain or data layer network calls. |
-| II. Driver-Centric UX | ✅ PASS | `GetLastMileageRecord` pre-fills forms. `EvaluateTripOffer` delivers instant profit signal. `GetUserSettings` defaults ensure zero-config startup. |
-| III. Spec-Driven Development | ✅ PASS | This plan derives directly from the approved `spec.md` for `004-backend-domain-refactor`. |
+| Principle                                 | Status  | Notes                                                                                                                                                               |
+| ----------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| I. Offline-First                          | ✅ PASS | All writes target local SQLite. BrasilAPI sync is non-blocking — failure silently retried; app continues with cached data. No domain or data layer network calls.   |
+| II. Driver-Centric UX                     | ✅ PASS | `GetLastMileageRecord` pre-fills forms. `EvaluateTripOffer` delivers instant profit signal. `GetUserSettings` defaults ensure zero-config startup.                  |
+| III. Spec-Driven Development              | ✅ PASS | This plan derives directly from the approved `spec.md` for `004-backend-domain-refactor`.                                                                           |
 | IV. Clean Architecture & Domain Isolation | ✅ PASS | Domain entities + pure functions import nothing from Expo/SQLite/React Native/rrule. `RecurrenceService` isolates rrule.js. ESLint rule (FR-031) enforces boundary. |
-| V. Platform Agnosticism | ✅ PASS | `TripPlatform` is a first-class entity; no platform names hard-coded in domain. `PlatformProfitGoal` references by FK. Open/Closed for new platforms. |
-| VI. Data Ownership & Exportability | ✅ PASS | All new entities are included in the existing `ExportDataAsJSON` scope. Export spec (001) will be updated in a subsequent tasks pass. |
-| VII. Simplicity & YAGNI | ✅ PASS | No sync abstractions, no GPS, no cloud. `FuelLog` kept for backward compat (not removed). Repository pattern already justified in 001. |
+| V. Platform Agnosticism                   | ✅ PASS | `TripPlatform` is a first-class entity; no platform names hard-coded in domain. `PlatformProfitGoal` references by FK. Open/Closed for new platforms.               |
+| VI. Data Ownership & Exportability        | ✅ PASS | All new entities are included in the existing `ExportDataAsJSON` scope. Export spec (001) will be updated in a subsequent tasks pass.                               |
+| VII. Simplicity & YAGNI                   | ✅ PASS | No sync abstractions, no GPS, no cloud. `FuelLog` kept for backward compat (not removed). Repository pattern already justified in 001.                              |
 
 **Post-design re-check**: All principles continue to pass. No violations to track.
 
@@ -59,62 +59,62 @@ specs/004-backend-domain-refactor/
 `text
 src/
 ├── domain/
-  ├── entities/
-  │   ├── recurrence.ts              NEW — RecurrenceRule, Recurrence types
-  │   ├── fuel-type.ts               NEW
-  │   ├── vehicle-type.ts            NEW
-  │   ├── trip-platform.ts           NEW
-  │   ├── vehicle.ts                 UPDATED — brand/model/year/fuelTypeId/typeId/color/notes
-  │   ├── trip.ts                    UPDATED — platformId replaces platform
-  │   ├── cost.ts                    UPDATED — recurrence/tags/description + COST_CATEGORIES
-  │   ├── fuel-price-record.ts       NEW — FuelPriceRecord, FuelGaugeMeasurement
-  │   ├── fuel-consumption-record.ts NEW — FuelConsumptionRecord + calculateAverageConsumption
-  │   ├── mileage-record.ts          NEW
-  │   ├── profit.ts                  NEW
-  │   ├── reminder.ts                NEW
-  │   ├── maintenance.ts             NEW — MaintenanceTrigger, Maintenance
-  │   ├── special-day.ts             NEW
-  │   ├── planned-absence.ts         NEW
-  │   ├── trip-offer-record.ts       NEW — TripOfferRecord + evaluateTripOfferPill + createTripFromOffer
-  │   ├── saved-profit-goal.ts       NEW
-  │   ├── platform-profit-goal.ts    NEW
-  │   ├── user-settings.ts           NEW — UserSettings + DEFAULT_USER_SETTINGS
-  │   └── profit-calculator.ts       NEW — calculateProfit + calculateFuelLiters
-  ├── repositories/
-  │   ├── fuel-type.interface.repository.ts          NEW
-  │   ├── vehicle-type.interface.repository.ts       NEW
-  │   ├── trip-platform.interface.repository.ts      NEW
-  │   ├── vehicle.interface.repository.ts            UPDATED — add update()
-  │   ├── trip.interface.repository.ts               UPDATED — platformId in filter
-  │   ├── cost.interface.repository.ts               UPDATED — add findByDateRange()
-  │   ├── fuel-price-record.interface.repository.ts  NEW
-  │   ├── fuel-consumption-record.interface.repository.ts NEW
-  │   ├── mileage-record.interface.repository.ts     NEW
-  │   ├── profit.interface.repository.ts             NEW
-  │   ├── work-session.interface.repository.ts       UPDATED — add update()
-  │   ├── reminder.interface.repository.ts           NEW
-  │   ├── maintenance.interface.repository.ts        NEW
-  │   ├── special-day.interface.repository.ts        NEW
-  │   ├── planned-absence.interface.repository.ts    NEW
-  │   ├── trip-offer-record.interface.repository.ts  NEW
-  │   ├── saved-profit-goal.interface.repository.ts  NEW
-  │   ├── platform-profit-goal.interface.repository.ts NEW
-  │   └── user-settings.interface.repository.ts      NEW
-  └── validations/
-      └── [16 new schema files — see data-model.md]
+├── entities/
+│ ├── recurrence.ts NEW — RecurrenceRule, Recurrence types
+│ ├── fuel-type.ts NEW
+│ ├── vehicle-type.ts NEW
+│ ├── trip-platform.ts NEW
+│ ├── vehicle.ts UPDATED — brand/model/year/fuelTypeId/typeId/color/notes
+│ ├── trip.ts UPDATED — platformId replaces platform
+│ ├── cost.ts UPDATED — recurrence/tags/description + COST_CATEGORIES
+│ ├── fuel-price-record.ts NEW — FuelPriceRecord, FuelGaugeMeasurement
+│ ├── fuel-consumption-record.ts NEW — FuelConsumptionRecord + calculateAverageConsumption
+│ ├── mileage-record.ts NEW
+│ ├── profit.ts NEW
+│ ├── reminder.ts NEW
+│ ├── maintenance.ts NEW — MaintenanceTrigger, Maintenance
+│ ├── special-day.ts NEW
+│ ├── planned-absence.ts NEW
+│ ├── trip-offer-record.ts NEW — TripOfferRecord + evaluateTripOfferPill + createTripFromOffer
+│ ├── saved-profit-goal.ts NEW
+│ ├── platform-profit-goal.ts NEW
+│ ├── user-settings.ts NEW — UserSettings + DEFAULT_USER_SETTINGS
+│ └── profit-calculator.ts NEW — calculateProfit + calculateFuelLiters
+├── repositories/
+│ ├── fuel-type.interface.repository.ts NEW
+│ ├── vehicle-type.interface.repository.ts NEW
+│ ├── trip-platform.interface.repository.ts NEW
+│ ├── vehicle.interface.repository.ts UPDATED — add update()
+│ ├── trip.interface.repository.ts UPDATED — platformId in filter
+│ ├── cost.interface.repository.ts UPDATED — add findByDateRange()
+│ ├── fuel-price-record.interface.repository.ts NEW
+│ ├── fuel-consumption-record.interface.repository.ts NEW
+│ ├── mileage-record.interface.repository.ts NEW
+│ ├── profit.interface.repository.ts NEW
+│ ├── work-session.interface.repository.ts UPDATED — add update()
+│ ├── reminder.interface.repository.ts NEW
+│ ├── maintenance.interface.repository.ts NEW
+│ ├── special-day.interface.repository.ts NEW
+│ ├── planned-absence.interface.repository.ts NEW
+│ ├── trip-offer-record.interface.repository.ts NEW
+│ ├── saved-profit-goal.interface.repository.ts NEW
+│ ├── platform-profit-goal.interface.repository.ts NEW
+│ └── user-settings.interface.repository.ts NEW
+└── validations/
+└── [16 new schema files — see data-model.md]
 ├── application/
-  ├── services/
-  │   ├── recurrence.service.ts      NEW — wraps rrule.js
-  │   ├── holiday-sync.service.ts    NEW — BrasilAPI fetch + SpecialDay upsert
-  │   └── trip-offer-eval.service.ts NEW — resolves context for evaluateTripOfferPill
-  └── use-cases/
-      └── [~40 new use case files — see data-model.md use cases table]
+├── services/
+│ ├── recurrence.service.ts NEW — wraps rrule.js
+│ ├── holiday-sync.service.ts NEW — BrasilAPI fetch + SpecialDay upsert
+│ └── trip-offer-eval.service.ts NEW — resolves context for evaluateTripOfferPill
+└── use-cases/
+└── [~40 new use case files — see data-model.md use cases table]
 └── infra/
-    ├── db/
-  └── schema/
-      └── [15 new + 3 updated schema files — see data-model.md]
-    └── repositories/
-        └── [16 new Drizzle repository implementations]
+├── db/
+└── schema/
+└── [15 new + 3 updated schema files — see data-model.md]
+└── repositories/
+└── [16 new Drizzle repository implementations]
 
 tests/
 └── [~20 new test files]

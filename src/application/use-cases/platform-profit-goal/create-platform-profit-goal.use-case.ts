@@ -8,7 +8,7 @@ import { ValidationError } from '@/src/lib/errors'
 import { v4 as uuidv4 } from 'uuid'
 
 export class CreatePlatformProfitGoal {
-  constructor(private readonly repo: IPlatformProfitGoalRepository) { }
+  constructor(private readonly repo: IPlatformProfitGoalRepository) {}
 
   async execute(
     input: CreatePlatformProfitGoalInput

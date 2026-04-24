@@ -9,7 +9,7 @@ import type { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite'
 type DB = ExpoSQLiteDatabase<typeof schema>
 
 export class DrizzleProfitRepository implements IProfitRepository {
-  constructor(private readonly db: DB) { }
+  constructor(private readonly db: DB) {}
 
   async create(profit: Profit): Promise<Profit> {
     try {

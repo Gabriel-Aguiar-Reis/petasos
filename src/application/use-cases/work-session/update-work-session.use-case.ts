@@ -3,7 +3,7 @@ import type { IWorkSessionRepository } from '@/src/domain/repositories/work-sess
 import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 export class UpdateWorkSession {
-  constructor(private readonly repo: IWorkSessionRepository) { }
+  constructor(private readonly repo: IWorkSessionRepository) {}
 
   async execute(
     id: string,

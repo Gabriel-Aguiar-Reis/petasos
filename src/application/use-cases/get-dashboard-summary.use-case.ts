@@ -11,7 +11,7 @@ export class GetDashboardSummary {
   constructor(
     private readonly tripRepository: ITripRepository,
     private readonly costRepository: ICostRepository
-  ) { }
+  ) {}
 
   async execute(dateRange: DateRangeFilter): Promise<DashboardSummary> {
     if (dateRange.from > dateRange.to) {

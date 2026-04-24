@@ -7,7 +7,7 @@ import {
 import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 export class UpdateSavedProfitGoal {
-  constructor(private readonly repo: ISavedProfitGoalRepository) { }
+  constructor(private readonly repo: ISavedProfitGoalRepository) {}
 
   async execute(
     id: string,

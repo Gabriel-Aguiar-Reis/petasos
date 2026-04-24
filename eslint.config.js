@@ -1,6 +1,7 @@
 // @ts-check
 const tseslint = require('@typescript-eslint/eslint-plugin')
 const tsParser = require('@typescript-eslint/parser')
+const prettierConfig = require('eslint-config-prettier')
 
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = [
@@ -32,6 +33,7 @@ module.exports = [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      ...prettierConfig.rules,
       // Treat Prettier formatting issues as ESLint errors. Install
       // `eslint-plugin-prettier` and (optionally) `eslint-config-prettier`.
       'prettier/prettier': 'error',

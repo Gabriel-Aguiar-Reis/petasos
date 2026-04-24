@@ -36,13 +36,13 @@ let capturedEffect: (() => (() => void) | void) | undefined
 beforeEach(() => {
   mockSetState.mockClear()
   capturedEffect = undefined
-    ; (useState as jest.Mock).mockReturnValue([null, mockSetState])
-    ; (useEffect as jest.Mock).mockImplementation(
-      (fn: () => (() => void) | void) => {
-        capturedEffect = fn
-      }
-    )
-    ; (useUserSettings as jest.Mock).mockReturnValue({ data: undefined })
+  ;(useState as jest.Mock).mockReturnValue([null, mockSetState])
+  ;(useEffect as jest.Mock).mockImplementation(
+    (fn: () => (() => void) | void) => {
+      capturedEffect = fn
+    }
+  )
+  ;(useUserSettings as jest.Mock).mockReturnValue({ data: undefined })
 })
 
 // ---------------------------------------------------------------------------
@@ -51,13 +51,13 @@ beforeEach(() => {
 
 describe('useSecondTab', () => {
   it('returns null as initial state before effect resolves', () => {
-    ; (PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(false)
+    ;(PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(false)
     const result = useSecondTab()
     expect(result).toBeNull()
   })
 
   it('sets "premium" when user has not paid', async () => {
-    ; (PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(false)
+    ;(PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(false)
     useSecondTab()
     capturedEffect!()
     await new Promise<void>((resolve) => setImmediate(resolve))
@@ -65,10 +65,10 @@ describe('useSecondTab', () => {
   })
 
   it('sets "trips" when user is premium and has no starredScreen', async () => {
-    ; (PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(true)
-      ; (useUserSettings as jest.Mock).mockReturnValue({
-        data: { starredScreen: undefined },
-      })
+    ;(PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(true)
+    ;(useUserSettings as jest.Mock).mockReturnValue({
+      data: { starredScreen: undefined },
+    })
     useSecondTab()
     capturedEffect!()
     await new Promise<void>((resolve) => setImmediate(resolve))
@@ -76,10 +76,10 @@ describe('useSecondTab', () => {
   })
 
   it('sets the starredScreen value when user is premium and has a preference', async () => {
-    ; (PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(true)
-      ; (useUserSettings as jest.Mock).mockReturnValue({
-        data: { starredScreen: 'fuel' },
-      })
+    ;(PremiumValidatorService.isPremium as jest.Mock).mockResolvedValue(true)
+    ;(useUserSettings as jest.Mock).mockReturnValue({
+      data: { starredScreen: 'fuel' },
+    })
     useSecondTab()
     capturedEffect!()
     await new Promise<void>((resolve) => setImmediate(resolve))
@@ -91,7 +91,7 @@ describe('useSecondTab', () => {
     const pending = new Promise<boolean>((resolve) => {
       resolveIsPremium = resolve
     })
-      ; (PremiumValidatorService.isPremium as jest.Mock).mockReturnValue(pending)
+    ;(PremiumValidatorService.isPremium as jest.Mock).mockReturnValue(pending)
     useSecondTab()
     const cleanup = capturedEffect!() as () => void
     // Simulate component unmount before the async call resolves

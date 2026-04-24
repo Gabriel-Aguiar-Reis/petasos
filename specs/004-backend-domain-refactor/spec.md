@@ -1,12 +1,9 @@
 # Feature Specification: Backend Domain Refactor — Extended Domain Model & Pure Functions
 
-
-
 **Feature Branch**: `004-backend-domain-refactor`
 **Created**: 2026-04-20
 **Status**: Draft
 **Input**: User description: "veja que fiz um arquivos com mudanças para a codebase, muito direcionadas ao backend que foi construído usando o 001-app-backend, quero que crie uma spec 004 e promova as mudanças"
-
 
 ## Overview
 
@@ -117,7 +114,7 @@ A driver marks a week as vacation. The app knows not to count those days as miss
 
 1. **Given** a vacation period, **When** the driver records a trip on a day within that period without adding it to `workedDays`, **Then** the day is still counted as an absence for stats purposes
 2. **Given** a vacation period with a specific day in `workedDays`, **When** stats are calculated, **Then** that day is counted as worked
-3. **Given** a `day_off` absence, **When** `endDate` is provided, **Then** a validation error is returned (day*off must be a single day)
+3. **Given** a `day_off` absence, **When** `endDate` is provided, **Then** a validation error is returned (day\*off must be a single day)
 4. **Given** a cancelled absence (`cancelledAt` filled), **When** absence list is queried, **Then** the absence is visible but marked as cancelled
 
 ---
@@ -183,7 +180,7 @@ A driver sets their preferred unit (km/L or L/100km), currency, and trip offer p
 
 ---
 
-## Requirements *(mandatory)_
+## Requirements \*(mandatory)\_
 
 ### Functional Requirements
 
@@ -280,7 +277,7 @@ A driver sets their preferred unit (km/L or L/100km), currency, and trip offer p
 
 ---
 
-## Success Criteria _(mandatory)\_
+## Success Criteria \_(mandatory)\_
 
 ### Measurable Outcomes
 

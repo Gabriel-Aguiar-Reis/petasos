@@ -4,7 +4,7 @@ import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 class FakeRepo {
   public updated: any = null
-  constructor(private existing: any) { }
+  constructor(private existing: any) {}
   async findById(id: string) {
     return this.existing ?? null
   }

@@ -7,7 +7,7 @@ import {
 import { ValidationError } from '@/src/lib/errors'
 
 export class UpdateUserSettings {
-  constructor(private readonly repo: IUserSettingsRepository) { }
+  constructor(private readonly repo: IUserSettingsRepository) {}
 
   async execute(input: UpdateUserSettingsInput): Promise<UserSettings> {
     const parsed = UpdateUserSettingsSchema.safeParse(input)
@@ -25,19 +25,19 @@ export class UpdateUserSettings {
       currency: data.currency ?? current.currency,
       displayPreferences: data.displayPreferences
         ? {
-          showCosts:
-            data.displayPreferences.showCosts ??
-            current.displayPreferences.showCosts,
-          showProfits:
-            data.displayPreferences.showProfits ??
-            current.displayPreferences.showProfits,
-          showMaintenance:
-            data.displayPreferences.showMaintenance ??
-            current.displayPreferences.showMaintenance,
-          showReminders:
-            data.displayPreferences.showReminders ??
-            current.displayPreferences.showReminders,
-        }
+            showCosts:
+              data.displayPreferences.showCosts ??
+              current.displayPreferences.showCosts,
+            showProfits:
+              data.displayPreferences.showProfits ??
+              current.displayPreferences.showProfits,
+            showMaintenance:
+              data.displayPreferences.showMaintenance ??
+              current.displayPreferences.showMaintenance,
+            showReminders:
+              data.displayPreferences.showReminders ??
+              current.displayPreferences.showReminders,
+          }
         : current.displayPreferences,
       starredScreen:
         data.starredScreen !== undefined

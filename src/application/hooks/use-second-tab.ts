@@ -8,13 +8,13 @@ export function useSecondTab(): string | null {
 
   useEffect(() => {
     let mounted = true
-      ; (async () => {
-        const hasPaid = await PremiumValidatorService.isPremium()
-        const chosen = !hasPaid
-          ? 'premium'
-          : (userSettings?.starredScreen ?? 'trips')
-        if (mounted) setSecondTab(chosen)
-      })()
+    ;(async () => {
+      const hasPaid = await PremiumValidatorService.isPremium()
+      const chosen = !hasPaid
+        ? 'premium'
+        : (userSettings?.starredScreen ?? 'trips')
+      if (mounted) setSecondTab(chosen)
+    })()
     return () => {
       mounted = false
     }

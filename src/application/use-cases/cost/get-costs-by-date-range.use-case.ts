@@ -6,7 +6,7 @@ export class GetCostsByDateRange {
   constructor(
     private readonly costRepository: ICostRepository,
     private readonly recurrenceService: RecurrenceService
-  ) { }
+  ) {}
 
   async execute(from: Date, to: Date): Promise<Cost[]> {
     const stored = await this.costRepository.findByDateRange(from, to)

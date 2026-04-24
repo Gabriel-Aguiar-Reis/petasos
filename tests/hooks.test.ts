@@ -367,14 +367,14 @@ beforeEach(() => {
   mockFileWrite.mockClear()
   mockStartSession.mockClear()
   mockEndSession.mockClear()
-    ; (Sharing.shareAsync as jest.Mock).mockClear()
-    // Set up the active-session store mock return value (called as a React hook)
-    ; (useActiveSessionStore as unknown as jest.Mock).mockReturnValue({
-      startSession: mockStartSession,
-      endSession: mockEndSession,
-      activeSessionId: null,
-      startedAt: null,
-    })
+  ;(Sharing.shareAsync as jest.Mock).mockClear()
+  // Set up the active-session store mock return value (called as a React hook)
+  ;(useActiveSessionStore as unknown as jest.Mock).mockReturnValue({
+    startSession: mockStartSession,
+    endSession: mockEndSession,
+    activeSessionId: null,
+    startedAt: null,
+  })
 })
 
 // ---------------------------------------------------------------------------

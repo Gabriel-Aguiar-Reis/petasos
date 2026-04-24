@@ -7,7 +7,7 @@ import {
 import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 export class UpdateProfit {
-  constructor(private readonly repo: IProfitRepository) { }
+  constructor(private readonly repo: IProfitRepository) {}
 
   async execute(id: string, input: UpdateProfitInput): Promise<Profit> {
     const parsed = UpdateProfitSchema.safeParse(input)

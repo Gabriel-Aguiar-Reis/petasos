@@ -8,7 +8,7 @@ import { ValidationError } from '@/src/lib/errors'
 import { v4 as uuidv4 } from 'uuid'
 
 export class CreateProfit {
-  constructor(private readonly repo: IProfitRepository) { }
+  constructor(private readonly repo: IProfitRepository) {}
 
   async execute(input: CreateProfitInput): Promise<Profit> {
     const parsed = CreateProfitSchema.safeParse(input)

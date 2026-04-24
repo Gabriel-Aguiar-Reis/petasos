@@ -12,7 +12,7 @@ import type { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite'
 type DB = ExpoSQLiteDatabase<typeof schema>
 
 export class DrizzleUserSettingsRepository implements IUserSettingsRepository {
-  constructor(private readonly db: DB) { }
+  constructor(private readonly db: DB) {}
 
   async get(): Promise<UserSettings> {
     try {

@@ -7,7 +7,7 @@ import {
 import { NotFoundError, ValidationError } from '@/src/lib/errors'
 
 export class UpdatePlatformProfitGoal {
-  constructor(private readonly repo: IPlatformProfitGoalRepository) { }
+  constructor(private readonly repo: IPlatformProfitGoalRepository) {}
 
   async execute(
     id: string,

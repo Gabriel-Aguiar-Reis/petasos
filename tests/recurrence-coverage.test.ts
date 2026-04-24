@@ -99,7 +99,7 @@ describe('RecurrenceService and GetCostsByDateRange', () => {
           // recurrence getter returns object once (for filter), then null (for loop)
           get recurrence() {
             if (!(this as any)._seen) {
-              ; (this as any)._seen = true
+              ;(this as any)._seen = true
               return { rule: 'FREQ=DAILY;COUNT=1' }
             }
             return null

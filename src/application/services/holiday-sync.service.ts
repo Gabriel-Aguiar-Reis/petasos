@@ -15,7 +15,7 @@ export type HolidaySyncResult = {
 }
 
 export class HolidaySyncService {
-  constructor(private readonly specialDayRepo: ISpecialDayRepository) { }
+  constructor(private readonly specialDayRepo: ISpecialDayRepository) {}
 
   async syncYear(year: number): Promise<HolidaySyncResult> {
     let holidays: BrasilApiHoliday[] = []
