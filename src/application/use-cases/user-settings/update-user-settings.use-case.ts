@@ -39,10 +39,10 @@ export class UpdateUserSettings {
             current.displayPreferences.showReminders,
         }
         : current.displayPreferences,
-      starredTool:
-        data.starredTool !== undefined
-          ? (data.starredTool ?? undefined)
-          : current.starredTool,
+      starredScreen:
+        data.starredScreen !== undefined
+          ? (data.starredScreen ?? undefined)
+          : current.starredScreen,
       tripOfferPill:
         data.tripOfferPill !== undefined
           ? (data.tripOfferPill ?? undefined)

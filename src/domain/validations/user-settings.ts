@@ -26,10 +26,7 @@ export const UpdateUserSettingsSchema = z.object({
     .min(3, 'currency must be at least 3 characters')
     .optional(),
   displayPreferences: DisplayPreferencesSchema.optional(),
-  starredTool: z
-    .enum(['costs', 'profits', 'maintenance', 'reminders', 'trips', 'fuel'])
-    .nullable()
-    .optional(),
+  starredScreen: z.string().nullable().optional(),
   tripOfferPill: TripOfferPillSchema.nullable().optional(),
 })
 

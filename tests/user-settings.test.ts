@@ -24,7 +24,7 @@ describe('UserSettings', () => {
       expect(settings.displayPreferences.showProfits).toBe(true)
       expect(settings.displayPreferences.showMaintenance).toBe(true)
       expect(settings.displayPreferences.showReminders).toBe(true)
-      expect(settings.starredTool).toBeUndefined()
+      expect(settings.starredScreen).toBeUndefined()
       expect(settings.tripOfferPill).toBeUndefined()
     })
   })
@@ -43,12 +43,12 @@ describe('UserSettings', () => {
       await updateUc.execute({
         preferredUnits: 'l/100km',
         currency: 'EUR',
-        starredTool: 'fuel',
+        starredScreen: 'fuel',
       })
       const settings = await getUc.execute()
       expect(settings.preferredUnits).toBe('l/100km')
       expect(settings.currency).toBe('EUR')
-      expect(settings.starredTool).toBe('fuel')
+      expect(settings.starredScreen).toBe('fuel')
     })
 
     it('throws ValidationError on invalid preferredUnits', async () => {
@@ -92,11 +92,11 @@ describe('UserSettings', () => {
       expect(settings.tripOfferPill?.ratingThresholds?.redBelow).toBe(3.5)
     })
 
-    it('clears starredTool when set to null', async () => {
-      await updateUc.execute({ starredTool: 'trips' })
-      await updateUc.execute({ starredTool: null })
+    it('clears starredScreen when set to null', async () => {
+      await updateUc.execute({ starredScreen: 'trips' })
+      await updateUc.execute({ starredScreen: null })
       const settings = await getUc.execute()
-      expect(settings.starredTool).toBeUndefined()
+      expect(settings.starredScreen).toBeUndefined()
     })
 
     it('clears tripOfferPill when set to null', async () => {

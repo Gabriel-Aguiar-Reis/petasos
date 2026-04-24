@@ -1,9 +1,13 @@
+import { useSecondTab } from '@/src/application/hooks/use-second-tab'
 import { Button } from '@/src/components/ui/button'
+import { iconFor, labelFor } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
 import { Tabs } from 'expo-router'
-import { Car, LayoutDashboard, Menu, Plus, Receipt } from 'lucide-react-native'
+import { Crown, Home, Menu, Plus, Star } from 'lucide-react-native'
 import { useColorScheme, useWindowDimensions, View } from 'react-native'
 import { SheetManager } from 'react-native-actions-sheet'
+
+const TOOL_TABS = ['premium', 'trips', 'costs', 'fuel'] as const
 
 export default function TabsLayout() {
   const colorScheme = useColorScheme()
@@ -15,6 +19,8 @@ export default function TabsLayout() {
   const tabBarLeft = Math.max((windowWidth - TAB_BAR_WIDTH) / 2, SAFE_EDGE)
   const fabLeft = tabBarLeft + TAB_BAR_WIDTH + 12
   const isOverflowing = fabLeft + BUTTON_SIZE > windowWidth - SAFE_EDGE
+
+  const secondTab = useSecondTab()
 
   const openCreateSheet = async () => {
     await SheetManager.show('create-action-sheet')
@@ -51,29 +57,28 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Dashboard',
-            tabBarIcon: ({ color }) => (
-              <LayoutDashboard size={20} color={color} />
-            ),
+            title: 'Tela Inicial',
+            tabBarIcon: ({ color }) => <Home size={20} color={color} />,
             animation: 'shift',
           }}
         />
-        <Tabs.Screen
-          name="trips"
-          options={{
-            title: 'Viagens',
-            tabBarIcon: ({ color }) => <Car size={20} color={color} />,
-            animation: 'shift',
-          }}
-        />
-        <Tabs.Screen
-          name="costs"
-          options={{
-            title: 'Custos',
-            tabBarIcon: ({ color }) => <Receipt size={20} color={color} />,
-            animation: 'shift',
-          }}
-        />
+        {TOOL_TABS.map((name) => (
+          <Tabs.Screen
+            key={name}
+            name={name}
+            options={{
+              href: secondTab === name ? undefined : null,
+              title: name === 'premium' ? 'Premium' : labelFor(name),
+              tabBarIcon: ({ color }) =>
+                name === 'premium' ? (
+                  <Crown size={20} color={color} />
+                ) : (
+                  iconFor(name, color, <Star size={20} color={color} />)
+                ),
+              animation: 'shift',
+            }}
+          />
+        ))}
         <Tabs.Screen
           name="more"
           options={{

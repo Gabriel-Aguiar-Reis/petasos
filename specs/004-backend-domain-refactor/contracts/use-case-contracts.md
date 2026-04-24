@@ -409,7 +409,7 @@ input: {
   preferredUnits?: 'km/l' | 'mpg' | 'l/100km'
   currency?: string
   displayPreferences?: { showCosts?: boolean; showProfits?: boolean; showMaintenance?: boolean; showReminders?: boolean }
-  starredTool?: 'costs' | 'profits' | 'maintenance' | 'reminders' | 'trips' | 'fuel' | null
+  starredScreen?: 'costs' | 'profits' | 'maintenance' | 'reminders' | 'trips' | 'fuel' | null
   tripOfferPill?: { orangeThresholdPct: number; blueThresholdPct: number; ratingThresholds?: { redBelow: number; orangeBelow: number; blueAbove: number } } | null
 }
 output: UserSettings

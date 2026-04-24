@@ -21,7 +21,7 @@ export const OPTIONS: { value: Period; label: string }[] = [
   { value: 'month', label: 'Mês' },
 ]
 
-export default function DashboardScreen() {
+export default function HomeScreen() {
   const [period, setPeriod] = useState<Period>('today')
   const dateRange = getDateRange(period)
   const { data, isLoading, isError } = useDashboardSummary(dateRange)
@@ -54,7 +54,7 @@ export default function DashboardScreen() {
     <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1" contentContainerStyle={{ padding: 16 }}>
         <Text className="text-2xl font-bold text-foreground mb-4">
-          Dashboard
+          Tela Inicial
         </Text>
         <Tabs
           value={period}

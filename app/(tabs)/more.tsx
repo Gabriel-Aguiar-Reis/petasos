@@ -1,8 +1,18 @@
+import { useSecondTab } from '@/src/application/hooks/use-second-tab'
 import { Text } from '@/src/components/ui/text'
+import { iconFor, labelFor } from '@/src/lib/format'
 import { useRouter } from 'expo-router'
-import { ChevronRight, Clock, Share2, Target } from 'lucide-react-native'
+import {
+  ChevronRight,
+  Clock,
+  LayoutDashboard,
+  Share2,
+  Target,
+} from 'lucide-react-native'
 import { Pressable, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+const TOOL_TABS = ['trips', 'costs', 'fuel'] as const
 
 type MenuRowProps = {
   label: string
@@ -27,12 +37,31 @@ function MenuRow({ label, icon, onPress }: MenuRowProps) {
 
 export default function MoreScreen() {
   const router = useRouter()
+  const secondTab = useSecondTab()
+  const toolsInMore =
+    secondTab !== null ? TOOL_TABS.filter((t) => t !== secondTab) : []
 
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2">
         <Text className="text-2xl font-bold text-foreground">Mais</Text>
       </View>
+      {toolsInMore.length > 0 && (
+        <View className="mt-2 rounded-lg overflow-hidden border border-border mx-4">
+          {toolsInMore.map((tool) => (
+            <MenuRow
+              key={tool}
+              label={labelFor(tool)}
+              icon={iconFor(
+                tool,
+                '#6b7280',
+                <LayoutDashboard size={20} color="#6b7280" />
+              )}
+              onPress={() => router.push(`/${tool}` as never)}
+            />
+          ))}
+        </View>
+      )}
       <View className="mt-2 rounded-lg overflow-hidden border border-border mx-4">
         <MenuRow
           label="Sessões de Trabalho"

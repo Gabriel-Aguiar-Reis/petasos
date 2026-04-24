@@ -3,7 +3,7 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 const config: JestConfigWithTsJest = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/tests/**/*.test.ts'],
+  testMatch: ['**/tests/**/*.test.ts', '**/tests/**/*.test.tsx'],
   collectCoverageFrom: [
     'src/application/**/*.ts',
     'src/domain/**/*.ts',
@@ -22,6 +22,9 @@ const config: JestConfigWithTsJest = {
     // Must come before the generic @/ mapper so it takes precedence
     '^@/src/lib/notifications$': '<rootDir>/tests/__mocks__/notifications.ts',
     '^expo-notifications$': '<rootDir>/tests/__mocks__/expo-notifications.ts',
+    // lucide-react-native → react-native-svg chain cannot run in Node;
+    // icons are only used in iconFor() which is not tested in unit tests
+    '^lucide-react-native$': '<rootDir>/tests/__mocks__/lucide-react-native.ts',
     '^@/(.*)$': '<rootDir>/$1',
     // uuid v13 is ESM-only; redirect to CJS-compatible stub for Jest
     '^uuid$': '<rootDir>/tests/__mocks__/uuid.ts',
@@ -30,7 +33,7 @@ const config: JestConfigWithTsJest = {
       '<rootDir>/tests/__mocks__/@react-navigation/native.ts',
   },
   transform: {
-    '^.+\\.tsx?$': ['ts-jest', { tsconfig: { strict: true } }],
+    '^.+\\.tsx?$': ['ts-jest', { tsconfig: { strict: true, jsx: 'react-jsx' } }],
   },
 }
 

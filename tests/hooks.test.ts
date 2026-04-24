@@ -262,6 +262,35 @@ jest.mock('@/src/lib/stores/active-session.store', () => ({
 const mockInvalidateQueries = jest.fn()
 const mockQueryClient = { invalidateQueries: mockInvalidateQueries }
 
+jest.mock('@/src/infra/repositories/user-settings.drizzle-repository', () => ({
+  DrizzleUserSettingsRepository: jest.fn().mockImplementation(() => ({})),
+}))
+
+const mockGetSettingsExecute = jest
+  .fn()
+  .mockResolvedValue({ id: 'default', currency: 'BRL' })
+const mockUpdateSettingsExecute = jest
+  .fn()
+  .mockResolvedValue({ id: 'default', currency: 'USD' })
+
+jest.mock(
+  '@/src/application/use-cases/user-settings/get-user-settings.use-case',
+  () => ({
+    GetUserSettings: jest
+      .fn()
+      .mockImplementation(() => ({ execute: mockGetSettingsExecute })),
+  })
+)
+
+jest.mock(
+  '@/src/application/use-cases/user-settings/update-user-settings.use-case',
+  () => ({
+    UpdateUserSettings: jest
+      .fn()
+      .mockImplementation(() => ({ execute: mockUpdateSettingsExecute })),
+  })
+)
+
 jest.mock('@tanstack/react-query', () => ({
   useQuery: jest.fn((config: unknown) => config),
   useMutation: jest.fn((config: unknown) => config),
@@ -298,6 +327,10 @@ import {
   useTrips,
   useUpdateTrip,
 } from '@/src/application/hooks/use-trips'
+import {
+  useUpdateUserSettings,
+  useUserSettings,
+} from '@/src/application/hooks/use-user-settings'
 import {
   useDeleteWorkSession,
   useEndWorkSession,
@@ -743,6 +776,42 @@ describe('useExportData', () => {
     )
     expect(Sharing.shareAsync).toHaveBeenCalledWith(mockFileUri, {
       mimeType: 'application/json',
+    })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// use-user-settings
+// ---------------------------------------------------------------------------
+
+describe('useUserSettings', () => {
+  it('passes correct queryKey', () => {
+    const cfg = useUserSettings() as unknown as QueryConfig
+    expect(cfg.queryKey).toEqual(['userSettings'])
+  })
+
+  it('queryFn calls getUC.execute()', async () => {
+    const cfg = useUserSettings() as unknown as QueryConfig
+    await cfg.queryFn()
+    expect(mockGetSettingsExecute).toHaveBeenCalled()
+  })
+})
+
+describe('useUpdateUserSettings', () => {
+  it('mutationFn calls updateUC.execute() stripping the id', async () => {
+    const cfg = useUpdateUserSettings() as unknown as MutationConfig
+    await cfg.mutationFn({ id: 'default', currency: 'USD' })
+    expect(mockUpdateSettingsExecute).toHaveBeenCalledWith({ currency: 'USD' })
+  })
+
+  it('onSuccess invalidates userSettings and dashboard', () => {
+    const cfg = useUpdateUserSettings() as unknown as MutationConfig
+    cfg.onSuccess!()
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['userSettings'],
+    })
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['dashboard'],
     })
   })
 })

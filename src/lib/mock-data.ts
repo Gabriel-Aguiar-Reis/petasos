@@ -4,6 +4,10 @@ import { Cost } from '@/src/domain/entities/cost'
 import { FuelLog } from '@/src/domain/entities/fuel-log'
 import { Goal } from '@/src/domain/entities/goal'
 import { Trip } from '@/src/domain/entities/trip'
+import {
+  DEFAULT_USER_SETTINGS,
+  UserSettings,
+} from '@/src/domain/entities/user-settings'
 import { WorkSession } from '@/src/domain/entities/work-session'
 import type { DashboardSummary } from '@/src/types/dashboard-summary.types'
 import type { DateRangeFilter } from '@/src/types/shared.types'
@@ -230,4 +234,12 @@ export const MOCK_DASHBOARD: DashboardSummary = {
   netProfit: 35.2,
   earningsByPlatform: [{ platform: 'Uber', earnings: 45.2 }],
   costPerKm: 1.29,
+}
+
+export const MOCK_USER_SETTINGS: UserSettings = {
+  ...DEFAULT_USER_SETTINGS,
+  id: 'default',
+  userId: 'user-1',
+  createdAt: dt(2026, 4, 1),
+  updatedAt: dt(2026, 4, 1),
 }

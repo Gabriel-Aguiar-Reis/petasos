@@ -171,6 +171,28 @@ jest.mock('@/src/lib/stores/active-session.store', () => ({
   }),
 }))
 
+jest.mock('@/src/infra/repositories/user-settings.drizzle-repository', () => ({
+  DrizzleUserSettingsRepository: jest.fn().mockImplementation(() => ({})),
+}))
+
+jest.mock(
+  '@/src/application/use-cases/user-settings/get-user-settings.use-case',
+  () => ({
+    GetUserSettings: jest
+      .fn()
+      .mockImplementation(() => ({ execute: jest.fn() })),
+  })
+)
+
+jest.mock(
+  '@/src/application/use-cases/user-settings/update-user-settings.use-case',
+  () => ({
+    UpdateUserSettings: jest
+      .fn()
+      .mockImplementation(() => ({ execute: jest.fn() })),
+  })
+)
+
 jest.mock('@tanstack/react-query', () => ({
   useQuery: jest.fn((config: unknown) => config),
   useMutation: jest.fn((config: unknown) => config),
@@ -207,6 +229,10 @@ import {
   useUpdateTrip,
 } from '@/src/application/hooks/use-trips'
 import {
+  useUpdateUserSettings,
+  useUserSettings,
+} from '@/src/application/hooks/use-user-settings'
+import {
   useDeleteWorkSession,
   useEndWorkSession,
   useStartWorkSession,
@@ -220,6 +246,7 @@ import {
   MOCK_GOAL_PROGRESS,
   MOCK_GOALS,
   MOCK_TRIPS,
+  MOCK_USER_SETTINGS,
   MOCK_WORK_SESSIONS,
 } from '@/src/lib/mock-data'
 
@@ -359,5 +386,17 @@ describe('hooks with USE_MOCK = true', () => {
   it('useDeleteWorkSession mutationFn resolves', async () => {
     const cfg = useDeleteWorkSession() as unknown as MutationConfig
     await expect(cfg.mutationFn('ws-1')).resolves.toBeUndefined()
+  })
+
+  it('useUserSettings queryFn returns MOCK_USER_SETTINGS', async () => {
+    const cfg = useUserSettings() as unknown as QueryConfig
+    await expect(cfg.queryFn()).resolves.toEqual(MOCK_USER_SETTINGS)
+  })
+
+  it('useUpdateUserSettings mutationFn returns MOCK_USER_SETTINGS', async () => {
+    const cfg = useUpdateUserSettings() as unknown as MutationConfig
+    await expect(
+      cfg.mutationFn({ id: 'default', currency: 'EUR' })
+    ).resolves.toEqual(MOCK_USER_SETTINGS)
   })
 })

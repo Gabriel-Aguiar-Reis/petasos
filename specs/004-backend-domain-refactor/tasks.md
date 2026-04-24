@@ -300,7 +300,7 @@
 **Independent Test**: Call `GetUserSettings` with empty DB, assert `DEFAULT_USER_SETTINGS` returned. Call `UpdateUserSettings` with custom units, assert persisted. Call `GetUserSettings` again, assert custom values.
 
 - [x] T120 [P] [US9] Create `src/domain/entities/user-settings.ts` — export `UserSettings` type and `DEFAULT_USER_SETTINGS` constant
-- [x] T121 [P] [US9] Create `src/domain/validations/user-settings.ts` — `UpdateUserSettingsSchema`: `preferredUnits` enum, `currency` min 3 chars, partial `displayPreferences`, optional `starredTool` enum, optional `tripOfferPill` object with threshold numbers
+- [x] T121 [P] [US9] Create `src/domain/validations/user-settings.ts` — `UpdateUserSettingsSchema`: `preferredUnits` enum, `currency` min 3 chars, partial `displayPreferences`, optional `starredScreen` enum, optional `tripOfferPill` object with threshold numbers
 - [x] T122 [P] [US9] Create `src/domain/repositories/user-settings.interface.repository.ts` with `IUserSettingsRepository` (get, upsert)
 - [x] T123 [P] [US9] Create `src/infra/db/schema/user-settings.drizzle-schema.ts` — `display_preferences` and `trip_offer_pill` as JSON text columns; `id` always `'default'`
 - [x] T124 [US9] Create `src/infra/repositories/user-settings.drizzle-repository.ts` implementing `IUserSettingsRepository` — `get()` returns `DEFAULT_USER_SETTINGS` if row absent; `upsert()` uses INSERT OR REPLACE by `id = 'default'`

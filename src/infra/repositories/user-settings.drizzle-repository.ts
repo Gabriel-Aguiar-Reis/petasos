@@ -46,7 +46,7 @@ export class DrizzleUserSettingsRepository implements IUserSettingsRepository {
           preferredUnits: settings.preferredUnits,
           currency: settings.currency,
           displayPreferences: JSON.stringify(settings.displayPreferences),
-          starredTool: settings.starredTool ?? null,
+          starredScreen: settings.starredScreen ?? null,
           tripOfferPill: settings.tripOfferPill
             ? JSON.stringify(settings.tripOfferPill)
             : null,
@@ -59,7 +59,7 @@ export class DrizzleUserSettingsRepository implements IUserSettingsRepository {
             preferredUnits: settings.preferredUnits,
             currency: settings.currency,
             displayPreferences: JSON.stringify(settings.displayPreferences),
-            starredTool: settings.starredTool ?? null,
+            starredScreen: settings.starredScreen ?? null,
             tripOfferPill: settings.tripOfferPill
               ? JSON.stringify(settings.tripOfferPill)
               : null,
@@ -81,7 +81,8 @@ export class DrizzleUserSettingsRepository implements IUserSettingsRepository {
       displayPreferences: JSON.parse(
         row.displayPreferences
       ) as UserSettings['displayPreferences'],
-      starredTool: (row.starredTool as UserSettings['starredTool']) ?? undefined,
+      starredScreen:
+        (row.starredScreen as UserSettings['starredScreen']) ?? undefined,
       tripOfferPill: row.tripOfferPill
         ? (JSON.parse(row.tripOfferPill) as UserSettings['tripOfferPill'])
         : undefined,

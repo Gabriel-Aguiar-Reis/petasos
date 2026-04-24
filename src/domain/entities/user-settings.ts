@@ -9,13 +9,7 @@ export type UserSettings = {
     showMaintenance: boolean
     showReminders: boolean
   }
-  starredTool?:
-  | 'costs'
-  | 'profits'
-  | 'maintenance'
-  | 'reminders'
-  | 'trips'
-  | 'fuel'
+  starredScreen?: string
   tripOfferPill?: {
     orangeThresholdPct: number
     blueThresholdPct: number
