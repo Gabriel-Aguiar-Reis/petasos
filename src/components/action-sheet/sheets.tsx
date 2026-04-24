@@ -1,13 +1,15 @@
-import { DashboardCreateButtonSheet } from '@/src/components/action-sheet/dashboard-create-button-sheet'
-import { registerSheet, SheetDefinition } from 'react-native-actions-sheet'
-
-registerSheet('dashboard-create-button-sheet', DashboardCreateButtonSheet)
+import { CreateActionSheet } from '@/src/components/action-sheet/create-action-sheet'
+import { SheetDefinition, SheetRegister } from 'react-native-actions-sheet'
 
 declare module 'react-native-actions-sheet' {
   interface Sheets {
     // 'sheet-name': SheetDefinition<{
     //   payload: sheet-specific-payload-type
     // }>
-    'dashboard-create-button-sheet': SheetDefinition
+    'create-action-sheet': SheetDefinition
   }
+}
+
+export const Sheets = () => {
+  return <SheetRegister sheets={{ 'create-action-sheet': CreateActionSheet }} />
 }
