@@ -90,7 +90,7 @@ export default function TabsLayout() {
         )}
         size="icon"
         style={isOverflowing ? undefined : { left: fabLeft }}
-        onPress={() => openCreateSheet()}
+        onPress={openCreateSheet}
       >
         <Plus size={28} />
       </Button>
