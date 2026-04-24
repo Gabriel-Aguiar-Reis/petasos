@@ -3,6 +3,7 @@ import { cn } from '@/src/lib/utils'
 import { Tabs } from 'expo-router'
 import { Car, LayoutDashboard, Menu, Plus, Receipt } from 'lucide-react-native'
 import { useColorScheme, useWindowDimensions, View } from 'react-native'
+import { SheetManager } from 'react-native-actions-sheet'
 
 export default function TabsLayout() {
   const colorScheme = useColorScheme()
@@ -14,6 +15,10 @@ export default function TabsLayout() {
   const tabBarLeft = Math.max((windowWidth - TAB_BAR_WIDTH) / 2, SAFE_EDGE)
   const fabLeft = tabBarLeft + TAB_BAR_WIDTH + 12
   const isOverflowing = fabLeft + BUTTON_SIZE > windowWidth - SAFE_EDGE
+
+  const openCreateSheet = async () => {
+    await SheetManager.show('dashboard-create-button-sheet')
+  }
 
   return (
     <View className="flex-1">
@@ -85,6 +90,7 @@ export default function TabsLayout() {
         )}
         size="icon"
         style={isOverflowing ? undefined : { left: fabLeft }}
+        onPress={openCreateSheet}
       >
         <Plus size={28} />
       </Button>

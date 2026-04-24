@@ -1,4 +1,5 @@
 import '@/global.css'
+import { Sheets } from '@/src/components/action-sheet/sheets'
 import { db } from '@/src/infra/db/client'
 import migrations from '@/src/infra/db/migrations/migrations'
 import { initializeNotifications } from '@/src/lib/notifications'
@@ -16,6 +17,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native'
+import { SheetProvider } from 'react-native-actions-sheet'
 import 'react-native-get-random-values'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -42,62 +44,65 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        <PortalHost />
-        <View className={`flex-1 ${isDark ? 'dark' : ''}`} style={{ flex: 1 }}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              headerTintColor: isDark
-                ? 'hsl(180 19.5% 98.1%)'
-                : 'hsl(200 14.1% 4.1%)',
-              headerStyle: {
-                backgroundColor: isDark
-                  ? 'hsl(200 14.1% 4.1%)'
-                  : 'hsl(0 0% 100%)',
-              },
-              headerTitleStyle: { fontWeight: '600' },
-            }}
-          >
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="work-sessions"
-              options={{ headerShown: true, title: 'Sessões de Trabalho' }}
-            />
-            <Stack.Screen
-              name="goals"
-              options={{ headerShown: true, title: 'Metas' }}
-            />
-            <Stack.Screen
-              name="export"
-              options={{ headerShown: true, title: 'Exportar Dados' }}
-            />
-            <Stack.Screen
-              name="floating-bubble"
-              options={{ headerShown: true, title: 'Bubble Flutuante' }}
-            />
-            <Stack.Screen
-              name="bubble-entry"
-              options={{ headerShown: true, title: 'Acesso Rápido' }}
-            />
-          </Stack>
-          {!dbReady && (
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                styles.loadingOverlay,
-                {
+      <SheetProvider context="global">
+        <SafeAreaProvider>
+          <Sheets />
+          <PortalHost />
+          <View className={`flex-1 ${isDark ? 'dark' : ''}`} style={{ flex: 1 }}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                headerTintColor: isDark
+                  ? 'hsl(180 19.5% 98.1%)'
+                  : 'hsl(200 14.1% 4.1%)',
+                headerStyle: {
                   backgroundColor: isDark
                     ? 'hsl(200 14.1% 4.1%)'
                     : 'hsl(0 0% 100%)',
                 },
-              ]}
+                headerTitleStyle: { fontWeight: '600' },
+              }}
             >
-              <ActivityIndicator />
-            </View>
-          )}
-        </View>
-      </SafeAreaProvider>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="work-sessions"
+                options={{ headerShown: true, title: 'Sessões de Trabalho' }}
+              />
+              <Stack.Screen
+                name="goals"
+                options={{ headerShown: true, title: 'Metas' }}
+              />
+              <Stack.Screen
+                name="export"
+                options={{ headerShown: true, title: 'Exportar Dados' }}
+              />
+              <Stack.Screen
+                name="floating-bubble"
+                options={{ headerShown: true, title: 'Bubble Flutuante' }}
+              />
+              <Stack.Screen
+                name="bubble-entry"
+                options={{ headerShown: true, title: 'Acesso Rápido' }}
+              />
+            </Stack>
+            {!dbReady && (
+              <View
+                style={[
+                  StyleSheet.absoluteFill,
+                  styles.loadingOverlay,
+                  {
+                    backgroundColor: isDark
+                      ? 'hsl(200 14.1% 4.1%)'
+                      : 'hsl(0 0% 100%)',
+                  },
+                ]}
+              >
+                <ActivityIndicator />
+              </View>
+            )}
+          </View>
+        </SafeAreaProvider>
+      </SheetProvider>
     </QueryClientProvider>
   )
 }

@@ -6,9 +6,7 @@ import { View } from 'react-native'
 import { SheetManager, SheetProps } from 'react-native-actions-sheet'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-export function DashboardCreateButtonSheet(
-  props: SheetProps<'dashboard-create-button-sheet'>
-) {
+export function CreateActionSheet(props: SheetProps<'create-action-sheet'>) {
   const router = useRouter()
   const insets = useSafeAreaInsets()
 
