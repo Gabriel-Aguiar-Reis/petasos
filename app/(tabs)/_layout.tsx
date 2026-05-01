@@ -4,6 +4,7 @@ import { iconFor, labelFor } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
 import { Tabs } from 'expo-router'
 import { Crown, Home, Menu, Plus, Star } from 'lucide-react-native'
+import { useState } from 'react'
 import { useColorScheme, useWindowDimensions, View } from 'react-native'
 import { SheetManager } from 'react-native-actions-sheet'
 
@@ -19,11 +20,19 @@ export default function TabsLayout() {
   const tabBarLeft = Math.max((windowWidth - TAB_BAR_WIDTH) / 2, SAFE_EDGE)
   const fabLeft = tabBarLeft + TAB_BAR_WIDTH + 12
   const isOverflowing = fabLeft + BUTTON_SIZE > windowWidth - SAFE_EDGE
+  const [isOpeningSheet, setIsOpeningSheet] = useState(false)
 
   const secondTab = useSecondTab()
 
   const openCreateSheet = async () => {
-    await SheetManager.show('create-action-sheet')
+    if (isOpeningSheet) return
+
+    setIsOpeningSheet(true)
+    try {
+      await SheetManager.show('create-action-sheet')
+    } finally {
+      setIsOpeningSheet(false)
+    }
   }
 
   return (
@@ -88,6 +97,7 @@ export default function TabsLayout() {
           }}
         />
       </Tabs>
+
       <Button
         className={cn(
           'absolute bottom-7 z-20 size-14 rounded-full',
@@ -96,6 +106,7 @@ export default function TabsLayout() {
         size="icon"
         style={isOverflowing ? undefined : { left: fabLeft }}
         onPress={openCreateSheet}
+        disabled={isOpeningSheet}
       >
         <Plus size={28} />
       </Button>

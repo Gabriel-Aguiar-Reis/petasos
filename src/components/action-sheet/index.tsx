@@ -16,9 +16,9 @@ export function DefaultActionSheet<T extends keyof Sheets>(
       id={props.sheetProps.sheetId}
       gestureEnabled={true}
       containerStyle={{
-        backgroundColor: colorScheme === 'dark' ? '#0a0a0a' : '#fff',
+        backgroundColor: colorScheme === 'dark' ? '#161b1d' : '#fff',
       }}
-      overlayColor={colorScheme === 'dark' ? '#4d4d4d' : '#000'}
+      overlayColor={colorScheme === 'dark' ? '#161b1d' : '#000'}
     >
       {props.children}
     </ActionSheet>

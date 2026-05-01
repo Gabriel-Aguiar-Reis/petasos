@@ -3,12 +3,12 @@ import { Button } from '@/src/components/ui/button'
 import { Icon } from '@/src/components/ui/icon'
 import { Text } from '@/src/components/ui/text'
 import {
-  Bell,
-  Car,
-  DollarSign,
-  Fuel,
-  MoreHorizontal,
-  Timer,
+  ArrowLeftIcon,
+  CalendarMinus,
+  CalendarPlus,
+  Gauge,
+  Target,
+  Wrench,
 } from 'lucide-react-native'
 import { ScrollView, View } from 'react-native'
 import { SheetManager, SheetProps } from 'react-native-actions-sheet'
@@ -17,20 +17,20 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 const ICON_SIZE = 22
 
 const actions = [
-  { key: 'trip', label: 'Corrida', Icon: Car },
-  { key: 'fuel-log', label: 'Abastecimento', Icon: Fuel },
-  { key: 'cost', label: 'Custo', Icon: DollarSign },
-  { key: 'reminder', label: 'Lembrete', Icon: Bell },
-  { key: 'work-session', label: 'Sessão de Trabalho', Icon: Timer },
-  { key: 'more', label: 'Mais Opções', Icon: MoreHorizontal },
+  { key: 'mileage-record', label: 'Quilometragem', Icon: Gauge },
+  { key: 'goal', label: 'Meta', Icon: Target },
+  { key: 'maintenance', label: 'Manutenção', Icon: Wrench },
+  { key: 'planned-absence', label: 'Ausência Planejada', Icon: CalendarMinus },
+  { key: 'special-day', label: 'Dia Especial', Icon: CalendarPlus },
+  { key: 'back', label: 'Voltar', Icon: ArrowLeftIcon },
 ] as const
 
-export function CreateActionSheet(props: SheetProps<'create-action-sheet'>) {
+export function MoreCreateActionSheet(props: SheetProps<'create-action-sheet'>) {
   const insets = useSafeAreaInsets()
 
   const handlePress = async (_key: string) => {
     await SheetManager.hide(props.sheetId)
-    if (_key === 'more') await SheetManager.show('more-create-action-sheet')
+    if (_key === 'cancel') await SheetManager.show('create-action-sheet')
 
     // TODO: navigate to the corresponding creation screen
   }
