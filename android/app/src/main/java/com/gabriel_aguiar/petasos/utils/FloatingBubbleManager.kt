@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.Gravity
@@ -17,7 +16,6 @@ import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
-import com.gabriel_aguiar.petasos.MainActivity
 import com.gabriel_aguiar.petasos.R
 import com.gabriel_aguiar.petasos.service.FloatingBubbleService
 import kotlin.math.abs
@@ -34,6 +32,7 @@ class FloatingBubbleManager(private val context: Context) {
   private var trashParams: WindowManager.LayoutParams? = null
   private var isOverTrash = false
   private var snapAnimator: ValueAnimator? = null
+  private val actionSheet = OverlayActionSheet(context)
 
   fun showBubble() {
     if (bubbleView != null) {
@@ -65,6 +64,7 @@ class FloatingBubbleManager(private val context: Context) {
 
   fun removeBubble() {
     snapAnimator?.cancel()
+    actionSheet.dismiss()
     val currentBubble = bubbleView ?: return
 
     try {
@@ -249,7 +249,11 @@ class FloatingBubbleManager(private val context: Context) {
               hideTrash()
               snapToEdge()
             } else {
-              openBubbleEntry()
+              if (actionSheet.isShowing()) {
+                actionSheet.dismiss()
+              } else {
+                actionSheet.show()
+              }
             }
             return true
           }
@@ -258,25 +262,6 @@ class FloatingBubbleManager(private val context: Context) {
         return false
       }
     }
-  }
-
-  private fun openBubbleEntry() {
-    Log.d(TAG, "Opening bubble entry route")
-
-    val intent = Intent(
-      Intent.ACTION_VIEW,
-      Uri.parse("petasos://bubble-entry"),
-      context,
-      MainActivity::class.java
-    ).apply {
-      addFlags(
-        Intent.FLAG_ACTIVITY_NEW_TASK or
-          Intent.FLAG_ACTIVITY_SINGLE_TOP or
-          Intent.FLAG_ACTIVITY_CLEAR_TOP
-      )
-    }
-
-    context.startActivity(intent)
   }
 
   private fun createLayoutParams(bubbleSize: Int): WindowManager.LayoutParams {
