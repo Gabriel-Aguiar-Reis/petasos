@@ -1,12 +1,12 @@
 import { useSecondTab } from '@/src/application/hooks/use-second-tab'
 import { Button } from '@/src/components/ui/button'
+import { showActionSheet } from '@/src/lib/floating-bubble-service-bridge'
 import { iconFor, labelFor } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
 import { Tabs } from 'expo-router'
 import { Crown, Home, Menu, Plus, Star } from 'lucide-react-native'
 import { useState } from 'react'
 import { useColorScheme, useWindowDimensions, View } from 'react-native'
-import { SheetManager } from 'react-native-actions-sheet'
 
 const TOOL_TABS = ['premium', 'trips', 'costs', 'fuel'] as const
 
@@ -29,7 +29,7 @@ export default function TabsLayout() {
 
     setIsOpeningSheet(true)
     try {
-      await SheetManager.show('create-action-sheet')
+      await showActionSheet()
     } finally {
       setIsOpeningSheet(false)
     }

@@ -1,5 +1,6 @@
 package com.gabriel_aguiar.petasos.modules
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -7,7 +8,9 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.UiThreadUtil
 import com.gabriel_aguiar.petasos.service.FloatingBubbleService
+import com.gabriel_aguiar.petasos.utils.OverlayActionSheet
 import com.gabriel_aguiar.petasos.utils.OverlayPermissionHelper
 
 class FloatingServiceModule(
@@ -82,6 +85,28 @@ class FloatingServiceModule(
   @ReactMethod
   fun isServiceRunning(promise: Promise) {
     promise.resolve(FloatingBubbleService.isRunning())
+  }
+
+  @ReactMethod
+  fun showActionSheet(promise: Promise) {
+    Log.d(TAG, "showActionSheet called")
+
+    val activity = reactApplicationContext.currentActivity
+    if (activity == null) {
+      promise.reject("NO_ACTIVITY", "No current activity available")
+      return
+    }
+
+    UiThreadUtil.runOnUiThread {
+      try {
+        val sheet = OverlayActionSheet(activity as Context)
+        sheet.show()
+        promise.resolve(true)
+      } catch (exception: Exception) {
+        Log.e(TAG, "Failed to show action sheet", exception)
+        promise.reject("SHOW_ACTION_SHEET_ERROR", exception)
+      }
+    }
   }
 
   companion object {

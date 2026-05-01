@@ -1,6 +1,10 @@
 package com.gabriel_aguiar.petasos.utils
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -20,7 +24,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -30,10 +37,12 @@ import com.gabriel_aguiar.petasos.MainActivity
 
 class OverlayActionSheet(private val context: Context) {
 
+  private val isActivityContext: Boolean = context is Activity
+
   val actionSheetBackgroundColor = Color.parseColor("#0C1417")
   val actionSheetOverlayColor = Color.parseColor("#80000000")
   val actionSheetPrimaryColor = Color.parseColor("#7ccf00")
-  val actionSheetHandleBarColor = Color.parseColor("#4d4d4d")
+  val actionSheetHandleBarColor = Color.parseColor("#f5f5f5")
   val actionSheetTextColor = Color.parseColor("#f5f5f5")
   val actionSheetButtonBorderColor = Color.parseColor("#2d3d40")
   val navBarColor = Color.parseColor("#0C1417")
@@ -78,9 +87,24 @@ class OverlayActionSheet(private val context: Context) {
   }
 
   fun dismiss() {
+    val s = sheetView
+    if (s != null) {
+      animateSlideDown(s) { removeOverlay() }
+    } else {
+      removeOverlay()
+    }
+  }
+
+  private fun removeOverlay() {
     slideAnimator?.cancel()
+    val view = overlayView ?: return
     try {
-      overlayView?.let { windowManager.removeView(it) }
+      if (isActivityContext) {
+        val activity = context as Activity
+        (activity.window.decorView as? ViewGroup)?.removeView(view)
+      } else {
+        windowManager.removeView(view)
+      }
     } catch (e: IllegalArgumentException) {
       Log.w(TAG, "Overlay already removed", e)
     }
@@ -91,7 +115,7 @@ class OverlayActionSheet(private val context: Context) {
   fun isShowing(): Boolean = overlayView != null
 
   private fun buildAndShow(actions: List<ActionItem>, title: String) {
-    dismiss()
+    removeOverlay()
 
     val screenWidth = getScreenWidth()
     val screenHeight = getScreenHeight()
@@ -111,7 +135,48 @@ class OverlayActionSheet(private val context: Context) {
     }
 
     // Bottom sheet card
-    val sheet = LinearLayout(context).apply {
+    val sheet = object : LinearLayout(context) {
+      private var dragDownY = 0f
+      private var dragging = false
+
+      override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+          MotionEvent.ACTION_DOWN -> {
+            dragDownY = ev.rawY
+            dragging = false
+          }
+          MotionEvent.ACTION_MOVE -> {
+            val dy = ev.rawY - dragDownY
+            if (!dragging && dy > dp(8f)) {
+              dragging = true
+              parent?.requestDisallowInterceptTouchEvent(true)
+              return true
+            }
+          }
+        }
+        return false
+      }
+
+      override fun onTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+          MotionEvent.ACTION_MOVE -> {
+            val dy = (ev.rawY - dragDownY).coerceAtLeast(0f)
+            translationY = dy
+            val progress = (dy / (height * 0.4f)).coerceIn(0f, 1f)
+            overlayView?.alpha = 1f - progress * 0.6f
+          }
+          MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+            if (translationY > height * 0.33f) {
+              dismiss()
+            } else {
+              snapBack()
+            }
+            dragging = false
+          }
+        }
+        return true
+      }
+    }.apply {
       orientation = LinearLayout.VERTICAL
       background = GradientDrawable().apply {
         setColor(actionSheetBackgroundColor)
@@ -122,9 +187,6 @@ class OverlayActionSheet(private val context: Context) {
       }
       setPadding(0, dp(16f).toInt(), 0, dp(24f).toInt())
       elevation = dp(16f)
-
-      // Prevent clicks on sheet from dismissing
-      setOnTouchListener { _, _ -> true }
     }
 
     // Handle bar
@@ -132,6 +194,10 @@ class OverlayActionSheet(private val context: Context) {
       background = GradientDrawable().apply {
         setColor(actionSheetHandleBarColor)
         cornerRadius = dp(2f)
+      }
+      setOnLongClickListener {
+        jiggle(sheet)
+        true
       }
     }
     val handleParams = LinearLayout.LayoutParams(dp(40f).toInt(), dp(4f).toInt()).apply {
@@ -187,26 +253,35 @@ class OverlayActionSheet(private val context: Context) {
       getNavigationBarHeight()
     ))
 
-    val params = WindowManager.LayoutParams(
-      screenWidth,
-      screenHeight + getNavigationBarHeight(),
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-      } else {
-        @Suppress("DEPRECATION")
-        WindowManager.LayoutParams.TYPE_PHONE
-      },
-      WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-      PixelFormat.TRANSLUCENT
-    ).apply {
-      gravity = Gravity.TOP or Gravity.START
-      x = 0
-      y = 0
-    }
+    if (isActivityContext) {
+      val activity = context as Activity
+      val decorView = activity.window.decorView as ViewGroup
+      decorView.addView(root, FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+      ))
+    } else {
+      val params = WindowManager.LayoutParams(
+        screenWidth,
+        screenHeight + getNavigationBarHeight(),
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+          @Suppress("DEPRECATION")
+          WindowManager.LayoutParams.TYPE_PHONE
+        },
+        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+          WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+          WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        PixelFormat.TRANSLUCENT
+      ).apply {
+        gravity = Gravity.TOP or Gravity.START
+        x = 0
+        y = 0
+      }
 
-    windowManager.addView(root, params)
+      windowManager.addView(root, params)
+    }
     overlayView = root
     sheetView = sheet
 
@@ -277,8 +352,17 @@ class OverlayActionSheet(private val context: Context) {
         buildAndShow(primaryActions, "Adicionar")
       }
       else -> {
-        dismiss()
-        openDeepLink(key)
+        val capturedKey = key
+        val s = sheetView
+        if (s != null) {
+          animateSlideDown(s) {
+            removeOverlay()
+            openDeepLink(capturedKey)
+          }
+        } else {
+          removeOverlay()
+          openDeepLink(capturedKey)
+        }
       }
     }
   }
@@ -302,14 +386,65 @@ class OverlayActionSheet(private val context: Context) {
     context.startActivity(intent)
   }
 
+  private fun jiggle(view: View) {
+    val d = dp(6f)
+    ObjectAnimator.ofFloat(view, "translationX", 0f, -d, d, -d * 0.7f, d * 0.7f, -d * 0.4f, d * 0.4f, 0f).apply {
+      duration = 350L
+      start()
+    }
+  }
+
   private fun animateSlideUp(sheet: View) {
+    overlayView?.alpha = 0f
     sheet.translationY = dp(400f)
     slideAnimator?.cancel()
-    slideAnimator = ValueAnimator.ofFloat(dp(400f), 0f).apply {
-      duration = 250L
+    slideAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+      duration = 280L
       interpolator = DecelerateInterpolator()
       addUpdateListener { animator ->
-        sheet.translationY = animator.animatedValue as Float
+        val progress = animator.animatedValue as Float
+        sheet.translationY = dp(400f) * (1f - progress)
+        overlayView?.alpha = progress
+      }
+      start()
+    }
+  }
+
+  private fun animateSlideDown(sheet: View, onComplete: () -> Unit) {
+    val startY = sheet.translationY
+    val startAlpha = overlayView?.alpha ?: 1f
+    val targetY = startY + dp(600f)
+    slideAnimator?.cancel()
+    slideAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+      duration = 220L
+      interpolator = AccelerateInterpolator()
+      addUpdateListener { animator ->
+        val progress = animator.animatedValue as Float
+        sheet.translationY = startY + (targetY - startY) * progress
+        overlayView?.alpha = startAlpha * (1f - progress)
+      }
+      addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          onComplete()
+        }
+      })
+      start()
+    }
+  }
+
+  private fun snapBack() {
+    val sheet = sheetView ?: return
+    val startY = sheet.translationY
+    if (startY == 0f) return
+    slideAnimator?.cancel()
+    slideAnimator = ValueAnimator.ofFloat(startY, 0f).apply {
+      duration = 300L
+      interpolator = OvershootInterpolator(1.5f)
+      addUpdateListener { animator ->
+        val current = animator.animatedValue as Float
+        sheet.translationY = current
+        val restoreProgress = (1f - current / startY).coerceIn(0f, 1f)
+        overlayView?.alpha = 0.5f + restoreProgress * 0.5f
       }
       start()
     }

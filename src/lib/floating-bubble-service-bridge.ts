@@ -6,6 +6,7 @@ type FloatingServiceNativeModule = {
   checkOverlayPermission: () => Promise<boolean>
   requestOverlayPermission: () => Promise<boolean>
   isServiceRunning: () => Promise<boolean>
+  showActionSheet: () => Promise<boolean>
 }
 
 const floatingServiceModule =
@@ -68,4 +69,13 @@ export async function isServiceRunning() {
   }
 
   return Boolean(await nativeModule.isServiceRunning())
+}
+
+export async function showActionSheet() {
+  const nativeModule = getNativeModule()
+  if (!nativeModule) {
+    return false
+  }
+
+  return Boolean(await nativeModule.showActionSheet())
 }
